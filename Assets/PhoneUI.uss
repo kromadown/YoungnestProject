@@ -1,0 +1,39 @@
+:root {
+}
+
+.app-button {
+    width: 110px;
+    height: 110px;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+    border-bottom-left-radius: 24px;
+    font-size: 36px;
+}
+
+.app-label {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.task-label {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.app-row {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.app-tile {
+    width: 48%;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-label {
+    font-size: 18px;
+}
