@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45293746be6dfd4393dc1d46671ef9a, type: 3}
+  m_Name: MomIntroduction
+  m_EditorClassIdentifier: Assembly-CSharp::PhoneMessageSequence
+  sender: {fileID: 11400000, guid: 8db665a70f31d0d42847a38ae78bcb24, type: 2}
+  canRepeat: 0
+  messages:
+  - delayBeforeMessage: 0.25
+    text: Omg, I'm so happy that you got accepted into the university! Are you exited?
+  - delayBeforeMessage: 2
+    text: I have sent you a gift of 15000 SEK to help you get settled.
+  - delayBeforeMessage: 1
+    text: Do you have a home insurance yet? It might be good to have in case something
+      would happen.
+  - delayBeforeMessage: 3
+    text: Anyway, good luck with your studies! Love you xxx
