@@ -5,37 +5,47 @@
             <ui:VisualElement name="PhoneScreen" style="flex-grow: 0; background-color: rgb(255, 255, 255); border-top-left-radius: 30px; border-top-right-radius: 30px; border-bottom-right-radius: 30px; border-bottom-left-radius: 30px; padding-top: 18px; padding-right: 18px; padding-bottom: 18px; padding-left: 18px; width: 100%; height: 100%; justify-content: flex-start;">
                 <ui:VisualElement name="Statusbar" style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
                     <ui:Label text="4:20&#10;" name="Time" class="status-label"/>
-                    <ui:Label text="Home" name="HomeTitle" class="status-label" style="font-size: 32px;"/>
                     <ui:Label text="67%" name="Battery" class="status-label"/>
                 </ui:VisualElement>
-                <ui:Label text="Apps" name="AppsTitle" style="font-size: 25px; padding-top: 0; padding-right: 0; padding-bottom: 22px; padding-left: 0; -unity-text-align: upper-left; align-content: flex-start; justify-content: flex-start; align-items: stretch; min-height: 35px;"/>
-                <ui:VisualElement name="AppsGrid" style="flex-grow: 1; width: 100%;">
-                    <ui:VisualElement name="AppRowTop" class="app-row">
-                        <ui:VisualElement name="MessagesTile" class="app-tile">
-                            <ui:Button text="M" name="MessagesButton" class="app-button"/>
-                            <ui:Label text="Messages" name="MessagesLabel" class="app-label"/>
-                        </ui:VisualElement>
-                        <ui:VisualElement name="CameraTile" class="app-tile">
-                            <ui:Button text="C" name="CameraButton" class="app-button" style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);"/>
-                            <ui:Label text="Camera" name="CameraLabel" class="app-label"/>
-                        </ui:VisualElement>
+                <ui:VisualElement name="MessagesScreen" style="flex-grow: 1; width: 100%; min-height: 0;">
+                    <ui:VisualElement name="MessagesHeader" style="flex-grow: 1;">
+                        <ui:Button text="Button" name="MessagesBackButton"/>
+                        <ui:Label text="Label" name="MessagesHeaderTitle"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="AppRowBottom" class="app-row">
-                        <ui:VisualElement name="ContractsTile" class="app-tile">
-                            <ui:Button text="C" name="ContractsButton" class="app-button" style="background-color: rgb(0, 146, 255);"/>
-                            <ui:Label text="Contracts" name="ContractsLabel" class="app-label"/>
-                        </ui:VisualElement>
-                        <ui:VisualElement name="BankTile" class="app-tile">
-                            <ui:Button text="B" name="BankButton" class="app-button" style="background-color: rgb(255, 113, 0);"/>
-                            <ui:Label text="Bank" name="BankLabel" class="app-label"/>
-                        </ui:VisualElement>
-                    </ui:VisualElement>
+                    <ui:ScrollView name="ContactsList"/>
+                    <ui:ScrollView name="ConversationList"/>
                 </ui:VisualElement>
-                <ui:VisualElement name="NotesPanel" style="flex-grow: 0; height: 33%; border-top-left-radius: 18px; border-top-right-radius: 18px; border-bottom-right-radius: 18px; border-bottom-left-radius: 18px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; margin-bottom: 10px; width: 100%; flex-shrink: 0;">
-                    <ui:Label text="Notes" name="NotesTitle" style="font-size: 30px;"/>
-                    <ui:Label text="- Do the thing" name="TaskLabel" class="task-label"/>
-                    <ui:Label text="- Just do it bruh" name="TaskLabel2" class="task-label"/>
-                    <ui:Label text="- Set neighbour on fire" name="TaskLabel3" class="task-label"/>
+                <ui:VisualElement name="HomeScreen" style="flex-grow: 1; width: 100%;">
+                    <ui:Label text="Home" name="HomeTitle" class="status-label" style="font-size: 32px;"/>
+                    <ui:Label text="Apps" name="AppsTitle" style="font-size: 25px; padding-top: 0; padding-right: 0; padding-bottom: 22px; padding-left: 0; -unity-text-align: upper-left; align-content: flex-start; justify-content: flex-start; align-items: stretch; min-height: 35px;"/>
+                    <ui:VisualElement name="AppsGrid" style="flex-grow: 1; width: 100%;">
+                        <ui:VisualElement name="AppRowTop" class="app-row">
+                            <ui:VisualElement name="MessagesTile" class="app-tile">
+                                <ui:Button text="M" name="MessagesButton" class="app-button"/>
+                                <ui:Label text="Messages" name="MessagesLabel" class="app-label"/>
+                            </ui:VisualElement>
+                            <ui:VisualElement name="CameraTile" class="app-tile">
+                                <ui:Button text="C" name="CameraButton" class="app-button" style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);"/>
+                                <ui:Label text="Camera" name="CameraLabel" class="app-label"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="AppRowBottom" class="app-row">
+                            <ui:VisualElement name="ContractsTile" class="app-tile">
+                                <ui:Button text="C" name="ContractsButton" class="app-button" style="background-color: rgb(0, 146, 255);"/>
+                                <ui:Label text="Contracts" name="ContractsLabel" class="app-label"/>
+                            </ui:VisualElement>
+                            <ui:VisualElement name="BankTile" class="app-tile">
+                                <ui:Button text="B" name="BankButton" class="app-button" style="background-color: rgb(255, 113, 0);"/>
+                                <ui:Label text="Bank" name="BankLabel" class="app-label"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="NotesPanel" style="flex-grow: 0; height: 33%; border-top-left-radius: 18px; border-top-right-radius: 18px; border-bottom-right-radius: 18px; border-bottom-left-radius: 18px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; margin-bottom: 10px; width: 100%; flex-shrink: 0;">
+                        <ui:Label text="Notes" name="NotesTitle" style="font-size: 30px;"/>
+                        <ui:Label text="- Do the thing" name="TaskLabel" class="task-label"/>
+                        <ui:Label text="- Just do it bruh" name="TaskLabel2" class="task-label"/>
+                        <ui:Label text="- Set neighbour on fire" name="TaskLabel3" class="task-label"/>
+                    </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="HomeIndicator" style="flex-grow: 0; width: 110px; height: 50px; background-color: rgb(0, 0, 0); border-top-left-radius: 6px; border-top-right-radius: 6px; border-bottom-right-radius: 6px; border-bottom-left-radius: 6px; align-self: center; margin-top: auto; padding-top: 0; margin-bottom: 12px; min-height: 0; flex-shrink: 0;"/>
             </ui:VisualElement>
