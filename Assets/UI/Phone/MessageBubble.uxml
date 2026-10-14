@@ -1,0 +1,7 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="MessageRow" style="flex-grow: 0; max-width: none; padding-top: 14px; padding-right: 14px; padding-bottom: 14px; padding-left: 14px; width: 100%; flex-direction: row; flex-shrink: 0;">
+        <ui:VisualElement name="BubbleBackground" style="flex-grow: 0; width: 85%; padding-top: 14px; padding-right: 14px; padding-bottom: 14px; padding-left: 14px; background-color: rgb(204, 204, 204); border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; border-bottom-left-radius: 14px;">
+            <ui:Label text="MessageText" name="MessageText" style="white-space: normal; width: 100%; font-size: 18px;"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

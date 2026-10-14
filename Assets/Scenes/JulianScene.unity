@@ -221,6 +221,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1737735007}
   - component: {fileID: 1737735006}
+  - component: {fileID: 1737735008}
   m_Layer: 5
   m_Name: PhoneUI
   m_TagString: Untagged
@@ -266,6 +267,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1737735008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737735005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf142278db048c14cb88671b3ceedf10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Phone.Messages.PhoneMessagesUI
+  messageManager: {fileID: 2116051811}
+  contactRowTemplate: {fileID: 9197481963319205126, guid: c9df6ec15d3bb8d4ba213e5e8b319ccf, type: 3}
+  messageBubbleTemplate: {fileID: 9197481963319205126, guid: 3c2bc40aa502cac4aa63dba33fb9a4b7, type: 3}
 --- !u!1 &2058274740
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,6 +409,51 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &2116051810
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2116051812}
+  - component: {fileID: 2116051811}
+  m_Layer: 0
+  m_Name: PhoneServices
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2116051811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2116051810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36708d557f4d7c4429303657afdd914b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Phone.Messages.MessageManager
+  testSequenceOnStart: {fileID: 11400000, guid: 8d166bcb9ff9e0146930a66cb21350f2, type: 2}
+--- !u!4 &2116051812
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2116051810}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: -0, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -400,3 +461,4 @@ SceneRoots:
   - {fileID: 194521977}
   - {fileID: 2058274742}
   - {fileID: 1737735007}
+  - {fileID: 2116051812}

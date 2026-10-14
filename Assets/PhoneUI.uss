@@ -9,6 +9,7 @@
     border-bottom-right-radius: 24px;
     border-bottom-left-radius: 24px;
     font-size: 36px;
+    flex-shrink: 0;
 }
 
 .app-label {
@@ -31,9 +32,16 @@
 .app-tile {
     width: 48%;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
 }
 
 .status-label {
     font-size: 18px;
+}
+
+.phone-screen {
+    width: 100%;
+    flex-grow: 1;
+    min-height: 0;
 }
