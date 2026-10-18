@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="MainMenuRoot" style="flex-grow: 1; justify-content: center; align-items: center; background-color: rgb(255, 255, 255);">
+        <ui:Label text="LUMOS" name="TitleLabel" style="font-size: 72px; -unity-font-style: bold; color: rgb(0, 0, 0); margin-bottom: 40px;"/>
+        <ui:Button text="New Game" name="NewGameButton" style="width: 300px; height: 60px; font-size: 28px; margin-bottom: 12px;"/>
+        <ui:Button text="Settings" name="SettingsButton" style="display: none; width: 300px; height: 60px; font-size: 28px; margin-bottom: 12px;"/>
+        <ui:Button text="Quit" name="QuitButton" style="width: 300px; height: 60px; font-size: 28px;"/>
+    </ui:VisualElement>
+</ui:UXML>
