@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 985cf5bdfcc6445d866bac4bd04e8ca6, type: 3}
+  m_Name: SubChapter_1_1
+  m_EditorClassIdentifier: Assembly-CSharp::MainMenu.SubChapterData
+  id: ch1_1
+  displayName: 1.1 First night
+  sceneName: JulianScene
+  screenshot: {fileID: 0}
+  description: 'Jessie just moved into a first apartment with an empty wallet and a laptop that barely works. Mom says to have fun, but the bills are already coming in.'
+  learningGoals:
+  - What a monthly budget is
+  - Needs vs. wants
+  - Tracking where your money goes
+  unlockedByDefault: 1

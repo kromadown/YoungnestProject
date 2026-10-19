@@ -376,7 +376,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4b2d7a1c3f4a5b8d6e0f1a2b3c4d51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameSceneName: JulianScene
+  chapters:
+  - {fileID: 11400000, guid: 0dbd7fa17d1d422484566baed20b06d6, type: 2}
+  - {fileID: 11400000, guid: 229925cdba9240f7891dcdc8a480dd11, type: 2}
+  unlockAllChapters: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
