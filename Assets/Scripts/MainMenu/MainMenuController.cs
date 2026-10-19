@@ -1,126 +1,107 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 namespace MainMenu
 {
-    [RequireComponent(typeof(UIDocument))]
     public class MainMenuController : MonoBehaviour
     {
         [Header("Chapters")]
         [SerializeField] private List<ChapterData> chapters = new();
 
-        [Header("Text")]
+        [Header("Row Text")]
         [Tooltip("{0} = chapter number, {1} = chapter name")]
         [SerializeField] private string chapterLabelFormat = "Chapter {0}: {1}";
         [SerializeField] private string lockedChapterName = "???";
         [SerializeField] private string lockedText = "Locked";
         [SerializeField] private string doneText = "Done";
-        [SerializeField] private string backToMenuText = "Back to menu";
-        [SerializeField] private string backToChaptersText = "Back to chapters";
-        [SerializeField] private string pickSubChapterText = "Pick a part to see what happens";
-        [SerializeField] private string playText = "Play";
-        [SerializeField] private string replayText = "Replay";
+        [SerializeField] private Color rowColor = new(0.91f, 0.91f, 0.91f);
+        [SerializeField] private Color selectedRowColor = new(0.81f, 0.88f, 0.96f);
+
+        [Header("Main Panel")]
+        [SerializeField] private GameObject mainPanel;
+        [SerializeField] private UnityEngine.UI.Button newGameButton;
+        [SerializeField] private UnityEngine.UI.Button settingsButton;
+        [SerializeField] private UnityEngine.UI.Button quitButton;
+
+        [Header("Chapter Panel")]
+        [SerializeField] private GameObject chapterPanel;
+        [SerializeField] private TMP_Text breadcrumbText;
+        [SerializeField] private TMP_Text listHeaderText;
+        [SerializeField] private RectTransform listContent;
+        [SerializeField] private UnityEngine.UI.Button listRowTemplate;
+        [SerializeField] private UnityEngine.UI.Button backToMenuButton;
+        [SerializeField] private UnityEngine.UI.Button backToChaptersButton;
+
+        [Header("Preview")]
+        [SerializeField] private GameObject emptyChaptersMessage;
+        [SerializeField] private GameObject emptySubChaptersMessage;
+        [SerializeField] private GameObject previewContent;
+        [SerializeField] private UnityEngine.UI.Image previewScreenshot;
+        [SerializeField] private GameObject screenshotPlaceholder;
+        [SerializeField] private TMP_Text previewNameText;
+        [SerializeField] private TMP_Text previewDescriptionText;
+        [SerializeField] private RectTransform learnListContent;
+        [SerializeField] private TMP_Text learnItemTemplate;
+        [SerializeField] private UnityEngine.UI.Button playButton;
+        [SerializeField] private UnityEngine.UI.Button replayButton;
 
         [Header("Debug")]
         [SerializeField] private bool unlockAllChapters;
 
-        private VisualElement _mainPanel;
-        private VisualElement _chapterPanel;
-
-        private Button _newGameButton;
-        private Button _settingsButton;
-        private Button _quitButton;
-
-        private Label _breadcrumbLabel;
-        private Label _listHeaderLabel;
-        private ScrollView _listScroll;
-        private Button _listBackButton;
-
-        private Label _previewEmptyLabel;
-        private VisualElement _previewContent;
-        private VisualElement _previewScreenshot;
-        private Label _screenshotPlaceholderLabel;
-        private Label _previewNameLabel;
-        private Label _previewDescriptionLabel;
-        private VisualElement _learnList;
-        private Button _playButton;
-
-        // Texts from the UXML, so edits made in UI Builder are kept.
+        // Texts set in the editor, restored when going back to the chapter list.
         private string _defaultBreadcrumbText;
         private string _defaultListHeaderText;
-        private string _defaultEmptyPreviewText;
+
+        private readonly List<GameObject> _spawnedRows = new();
+        private readonly List<GameObject> _spawnedLearnItems = new();
 
         private ChapterData _currentChapter;
         private SubChapterData _currentSubChapter;
 
-        private void OnEnable()
+        private void Awake()
         {
-            var root = GetComponent<UIDocument>().rootVisualElement;
+            _defaultBreadcrumbText = breadcrumbText.text;
+            _defaultListHeaderText = listHeaderText.text;
 
-            _mainPanel = root.Q<VisualElement>("MainPanel");
-            _chapterPanel = root.Q<VisualElement>("ChapterPanel");
+            listRowTemplate.gameObject.SetActive(false);
+            learnItemTemplate.gameObject.SetActive(false);
 
-            _newGameButton = root.Q<Button>("NewGameButton");
-            _settingsButton = root.Q<Button>("SettingsButton");
-            _quitButton = root.Q<Button>("QuitButton");
-
-            _breadcrumbLabel = root.Q<Label>("BreadcrumbLabel");
-            _listHeaderLabel = root.Q<Label>("ListHeaderLabel");
-            _listScroll = root.Q<ScrollView>("ListScroll");
-            _listBackButton = root.Q<Button>("ListBackButton");
-
-            _previewEmptyLabel = root.Q<Label>("PreviewEmptyLabel");
-            _previewContent = root.Q<VisualElement>("PreviewContent");
-            _previewScreenshot = root.Q<VisualElement>("PreviewScreenshot");
-            _screenshotPlaceholderLabel = root.Q<Label>("ScreenshotPlaceholderLabel");
-            _previewNameLabel = root.Q<Label>("PreviewNameLabel");
-            _previewDescriptionLabel = root.Q<Label>("PreviewDescriptionLabel");
-            _learnList = root.Q<VisualElement>("LearnList");
-            _playButton = root.Q<Button>("PlayButton");
-
-            _defaultBreadcrumbText = _breadcrumbLabel.text;
-            _defaultListHeaderText = _listHeaderLabel.text;
-            _defaultEmptyPreviewText = _previewEmptyLabel.text;
-
-            _newGameButton.clicked += OnNewGame;
-            _settingsButton.clicked += OnSettings;
-            _quitButton.clicked += OnQuit;
-            _listBackButton.clicked += OnListBack;
-            _playButton.clicked += OnPlay;
-
-            ShowMainPanel();
+            newGameButton.onClick.AddListener(OnNewGame);
+            settingsButton.onClick.AddListener(OnSettings);
+            quitButton.onClick.AddListener(OnQuit);
+            backToMenuButton.onClick.AddListener(ShowMainPanel);
+            backToChaptersButton.onClick.AddListener(ShowChapterList);
+            playButton.onClick.AddListener(OnPlay);
+            replayButton.onClick.AddListener(OnPlay);
         }
 
-        private void OnDisable()
+        private void Start()
         {
-            _newGameButton.clicked -= OnNewGame;
-            _settingsButton.clicked -= OnSettings;
-            _quitButton.clicked -= OnQuit;
-            _listBackButton.clicked -= OnListBack;
-            _playButton.clicked -= OnPlay;
+            ShowMainPanel();
         }
 
         private void ShowMainPanel()
         {
-            _mainPanel.style.display = DisplayStyle.Flex;
-            _chapterPanel.style.display = DisplayStyle.None;
+            mainPanel.SetActive(true);
+            chapterPanel.SetActive(false);
         }
 
         private void ShowChapterList()
         {
-            _mainPanel.style.display = DisplayStyle.None;
-            _chapterPanel.style.display = DisplayStyle.Flex;
+            mainPanel.SetActive(false);
+            chapterPanel.SetActive(true);
 
             _currentChapter = null;
             _currentSubChapter = null;
 
-            _breadcrumbLabel.text = _defaultBreadcrumbText;
-            _listHeaderLabel.text = _defaultListHeaderText;
-            _listBackButton.text = backToMenuText;
+            breadcrumbText.text = _defaultBreadcrumbText;
+            listHeaderText.text = _defaultListHeaderText;
+            backToMenuButton.gameObject.SetActive(true);
+            backToChaptersButton.gameObject.SetActive(false);
 
-            _listScroll.Clear();
+            ClearRows();
             for (var i = 0; i < chapters.Count; i++)
             {
                 var chapter = chapters[i];
@@ -130,10 +111,10 @@ namespace MainMenu
                 var label = string.Format(chapterLabelFormat, i + 1, unlocked ? chapter.DisplayName : lockedChapterName);
                 var status = unlocked ? $"{CountCompleted(chapter)}/{chapter.SubChapters.Count}" : lockedText;
 
-                _listScroll.Add(CreateListButton(label, status, unlocked, false, () => ShowSubChapterList(chapter)));
+                AddRow(label, status, unlocked, false, () => ShowSubChapterList(chapter));
             }
 
-            ShowEmptyPreview(_defaultEmptyPreviewText);
+            ShowEmptyPreview(emptyChaptersMessage);
         }
 
         private void ShowSubChapterList(ChapterData chapter)
@@ -141,11 +122,12 @@ namespace MainMenu
             _currentChapter = chapter;
 
             var chapterNumber = chapters.IndexOf(chapter) + 1;
-            _breadcrumbLabel.text = string.Format(chapterLabelFormat, chapterNumber, chapter.DisplayName);
-            _listHeaderLabel.text = chapter.DisplayName;
-            _listBackButton.text = backToChaptersText;
+            breadcrumbText.text = string.Format(chapterLabelFormat, chapterNumber, chapter.DisplayName);
+            listHeaderText.text = chapter.DisplayName;
+            backToMenuButton.gameObject.SetActive(false);
+            backToChaptersButton.gameObject.SetActive(true);
 
-            _listScroll.Clear();
+            ClearRows();
             foreach (var subChapter in chapter.SubChapters)
             {
                 if (subChapter == null) continue;
@@ -154,12 +136,12 @@ namespace MainMenu
                 var status = !unlocked ? lockedText : ChapterProgress.IsCompleted(subChapter) ? doneText : "";
                 var selected = subChapter == _currentSubChapter;
 
-                _listScroll.Add(CreateListButton(subChapter.DisplayName, status, unlocked, selected, () => SelectSubChapter(subChapter)));
+                AddRow(subChapter.DisplayName, status, unlocked, selected, () => SelectSubChapter(subChapter));
             }
 
             if (_currentSubChapter == null)
             {
-                ShowEmptyPreview(pickSubChapterText);
+                ShowEmptyPreview(emptySubChaptersMessage);
             }
         }
 
@@ -172,66 +154,67 @@ namespace MainMenu
             ShowPreview(subChapter);
         }
 
-        private void ShowEmptyPreview(string message)
+        private void ShowEmptyPreview(GameObject message)
         {
-            _previewEmptyLabel.text = message;
-            _previewEmptyLabel.style.display = DisplayStyle.Flex;
-            _previewContent.style.display = DisplayStyle.None;
+            emptyChaptersMessage.SetActive(message == emptyChaptersMessage);
+            emptySubChaptersMessage.SetActive(message == emptySubChaptersMessage);
+            previewContent.SetActive(false);
         }
 
         private void ShowPreview(SubChapterData subChapter)
         {
-            _previewEmptyLabel.style.display = DisplayStyle.None;
-            _previewContent.style.display = DisplayStyle.Flex;
+            emptyChaptersMessage.SetActive(false);
+            emptySubChaptersMessage.SetActive(false);
+            previewContent.SetActive(true);
 
             var hasScreenshot = subChapter.Screenshot != null;
-            _previewScreenshot.style.backgroundImage = hasScreenshot
-                ? new StyleBackground(subChapter.Screenshot)
-                : new StyleBackground(StyleKeyword.None);
-            _screenshotPlaceholderLabel.style.display = hasScreenshot ? DisplayStyle.None : DisplayStyle.Flex;
+            previewScreenshot.sprite = subChapter.Screenshot;
+            previewScreenshot.color = hasScreenshot ? Color.white : new Color(0.89f, 0.89f, 0.89f);
+            screenshotPlaceholder.SetActive(!hasScreenshot);
 
-            _previewNameLabel.text = subChapter.DisplayName;
-            _previewDescriptionLabel.text = subChapter.Description;
+            previewNameText.text = subChapter.DisplayName;
+            previewDescriptionText.text = subChapter.Description;
 
-            _learnList.Clear();
+            foreach (var item in _spawnedLearnItems) Destroy(item);
+            _spawnedLearnItems.Clear();
+
             foreach (var goal in subChapter.LearningGoals)
             {
-                var goalLabel = new Label($"• {goal}");
-                goalLabel.style.fontSize = 20;
-                goalLabel.style.whiteSpace = WhiteSpace.Normal;
-                _learnList.Add(goalLabel);
+                var item = Instantiate(learnItemTemplate, learnListContent);
+                item.text = $"• {goal}";
+                item.gameObject.SetActive(true);
+                _spawnedLearnItems.Add(item.gameObject);
             }
 
-            _playButton.text = ChapterProgress.IsCompleted(subChapter) ? replayText : playText;
+            var completed = ChapterProgress.IsCompleted(subChapter);
+            playButton.gameObject.SetActive(!completed);
+            replayButton.gameObject.SetActive(completed);
         }
 
-        private Button CreateListButton(string label, string status, bool enabled, bool selected, System.Action onClick)
+        private void AddRow(string label, string status, bool interactable, bool selected, UnityEngine.Events.UnityAction onClick)
         {
-            var button = new Button(onClick);
-            button.style.flexDirection = FlexDirection.Row;
-            button.style.justifyContent = Justify.SpaceBetween;
-            button.style.height = 56;
-            button.style.marginBottom = 8;
-            button.style.paddingLeft = 16;
-            button.style.paddingRight = 16;
-            button.style.fontSize = 22;
+            var row = Instantiate(listRowTemplate, listContent);
+            row.gameObject.SetActive(true);
+            row.interactable = interactable;
+            row.onClick.AddListener(onClick);
 
-            if (selected)
+            if (row.targetGraphic != null)
             {
-                button.style.backgroundColor = new Color(0.81f, 0.88f, 0.96f);
+                row.targetGraphic.color = selected ? selectedRowColor : rowColor;
             }
 
-            var nameLabel = new Label(label);
-            nameLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
-            button.Add(nameLabel);
+            // The template has two texts: the first is the name, the second the status.
+            var texts = row.GetComponentsInChildren<TMP_Text>(true);
+            if (texts.Length > 0) texts[0].text = label;
+            if (texts.Length > 1) texts[1].text = status;
 
-            var statusLabel = new Label(status);
-            statusLabel.style.unityTextAlign = TextAnchor.MiddleRight;
-            statusLabel.style.color = new Color(0.4f, 0.4f, 0.4f);
-            button.Add(statusLabel);
+            _spawnedRows.Add(row.gameObject);
+        }
 
-            button.SetEnabled(enabled);
-            return button;
+        private void ClearRows()
+        {
+            foreach (var row in _spawnedRows) Destroy(row);
+            _spawnedRows.Clear();
         }
 
         // A subchapter is unlocked if it's marked as unlocked by default
@@ -284,18 +267,6 @@ namespace MainMenu
         private void OnNewGame()
         {
             ShowChapterList();
-        }
-
-        private void OnListBack()
-        {
-            if (_currentChapter != null)
-            {
-                ShowChapterList();
-            }
-            else
-            {
-                ShowMainPanel();
-            }
         }
 
         private void OnPlay()
