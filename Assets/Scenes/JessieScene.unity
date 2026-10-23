@@ -279,6 +279,9 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 512
   player: {fileID: 1229022773}
   clickMarkerPrefab: {fileID: 1918960024058255162, guid: 80a2c97c46ac82c40a84c4f81c4b4455, type: 3}
 --- !u!4 &771854765
@@ -370,7 +373,7 @@ SpriteRenderer:
   m_Size: {x: 1.69, y: 1.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!4 &905996221
 Transform:
@@ -819,6 +822,7 @@ GameObject:
   - component: {fileID: 1620076668}
   - component: {fileID: 1620076667}
   - component: {fileID: 1620076669}
+  - component: {fileID: 1620076670}
   m_Layer: 9
   m_Name: Table
   m_TagString: Untagged
@@ -1005,6 +1009,21 @@ PolygonCollider2D:
       - {x: -0.21499999, y: -1.0699999}
       - {x: -0.21499999, y: -0.64}
   m_UseDelaunayMesh: 1
+--- !u!114 &1620076670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620076666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627d02fcd2bf7e143beae637da991cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.Interaction.Interactable
+  data: {fileID: 11400000, guid: 132d4b7c4ca4fef49ad265aafc7f717e, type: 2}
+  highlightColor: {r: 0.5, g: 1, b: 0.5, a: 1}
+  interactPoint: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
