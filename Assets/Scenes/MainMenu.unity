@@ -1433,6 +1433,7 @@ GameObject:
   - component: {fileID: 499603220}
   - component: {fileID: 499603219}
   - component: {fileID: 499603218}
+  - component: {fileID: 499603223}
   m_Layer: 5
   m_Name: MainMenuCanvas
   m_TagString: Untagged
@@ -1452,6 +1453,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4b2d7a1c3f4a5b8d6e0f1a2b3c4d51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu.MainMenuController
+  mainPanel: {fileID: 58422981}
+  newGameButton: {fileID: 1785534703}
+  settingsButton: {fileID: 2139957870}
+  quitButton: {fileID: 697389795}
+  chapterSelect: {fileID: 499603223}
+--- !u!114 &499603223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499603217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e62a8ba3e4845dea682b84f73d57b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainMenu.ChapterSelectScreen
   chapters:
   - {fileID: 11400000, guid: 0dbd7fa17d1d422484566baed20b06d6, type: 2}
   - {fileID: 11400000, guid: 229925cdba9240f7891dcdc8a480dd11, type: 2}
@@ -1461,10 +1479,6 @@ MonoBehaviour:
   doneText: Done
   rowColor: {r: 0.91, g: 0.91, b: 0.91, a: 1}
   selectedRowColor: {r: 0.81, g: 0.88, b: 0.96, a: 1}
-  mainPanel: {fileID: 58422981}
-  newGameButton: {fileID: 1785534703}
-  settingsButton: {fileID: 2139957870}
-  quitButton: {fileID: 697389795}
   chapterPanel: {fileID: 1952994170}
   breadcrumbText: {fileID: 1288567474}
   listHeaderText: {fileID: 19447976}
