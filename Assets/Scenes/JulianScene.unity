@@ -247,6 +247,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 4304889962779522918, guid: ba9d94b0093974647a11d0ec0472c9eb, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4576270054650995721, guid: ba9d94b0093974647a11d0ec0472c9eb, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -327,6 +331,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6623876912029649935, guid: ba9d94b0093974647a11d0ec0472c9eb, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623876912029649935, guid: ba9d94b0093974647a11d0ec0472c9eb, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b824aea31bc2f4243acd1eae6e9e851c, type: 3}
     - target: {fileID: 7535418577370226508, guid: ba9d94b0093974647a11d0ec0472c9eb, type: 3}
       propertyPath: m_Name
       value: DialogueBox
