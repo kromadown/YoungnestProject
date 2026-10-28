@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Phone.Camera
+namespace Phone.CameraApp
 {
     [RequireComponent(typeof(UIDocument))]
     public class PhoneCameraUI : MonoBehaviour
@@ -61,8 +61,15 @@ namespace Phone.Camera
 
         private void UnSubscribeEvents()
         {
-            _cameraButton.clicked -= OpenCamera;
-            _backButton.clicked -= GoBack;
+            if (_cameraButton != null)
+            {
+                _cameraButton.clicked -= OpenCamera;
+            }
+
+            if (_backButton != null)
+            {
+                _backButton.clicked -= GoBack;
+            }
         }
         
         private void OpenCamera()
