@@ -367,6 +367,7 @@ GameObject:
   - component: {fileID: 1737735007}
   - component: {fileID: 1737735006}
   - component: {fileID: 1737735008}
+  - component: {fileID: 1737735009}
   m_Layer: 5
   m_Name: PhoneUI
   m_TagString: Untagged
@@ -427,6 +428,18 @@ MonoBehaviour:
   messageManager: {fileID: 2116051811}
   contactRowTemplate: {fileID: 9197481963319205126, guid: c9df6ec15d3bb8d4ba213e5e8b319ccf, type: 3}
   messageBubbleTemplate: {fileID: 9197481963319205126, guid: 3c2bc40aa502cac4aa63dba33fb9a4b7, type: 3}
+--- !u!114 &1737735009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737735005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9838f4f22baf6a645a63e56aad02e0dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Phone.Camera.PhoneCameraUI
 --- !u!1 &2058274740
 GameObject:
   m_ObjectHideFlags: 0
