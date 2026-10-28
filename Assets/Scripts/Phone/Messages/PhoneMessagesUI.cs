@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.LowLevelPhysics2D;
 using UnityEngine.UIElements;
 using Debug = UnityEngine.Debug;
 
@@ -32,6 +31,21 @@ namespace Phone.Messages
 
         private void OnEnable()
         {
+            if (!TryAssignReferences())
+            {
+                enabled = false;
+                return;
+            }
+
+            SubscribeEvents();
+
+            UpdateHomeUnreadBadge();
+            
+            _messagesScreen.style.display = DisplayStyle.None;
+        }
+        
+        private bool TryAssignReferences()
+        {
             var root = GetComponent<UIDocument>().rootVisualElement;
 
             _homeScreen = root.Q<VisualElement>("HomeScreen");
@@ -45,7 +59,7 @@ namespace Phone.Messages
             _conversationList = root.Q<ScrollView>("ConversationList");
             
             _homeUnreadBadge = root.Q<Label>("HomeUnreadBadge");
-
+            
             if (messageManager == null ||
                 contactRowTemplate == null ||
                 messageBubbleTemplate == null ||
@@ -59,31 +73,51 @@ namespace Phone.Messages
                 _homeUnreadBadge == null)
             {
                 Debug.LogError("Phone Messages UI has missing references or UI elements.", this);
-                enabled = false;
-                return;
+                return false;
+            }
+            
+            return true;
+        }
+
+        private void SubscribeEvents()
+        {
+            if (_messagesButton != null)
+            {
+                _messagesButton.clicked += OpenMessages;
             }
 
-            _messagesButton.clicked += OpenMessages;
-            _backButton.clicked += GoBack;
-            messageManager.MessageReceived += OnMessageReceived;
+            if (_backButton != null)
+            {
+                _backButton.clicked += GoBack;
+            }
 
-            _messagesScreen.style.display = DisplayStyle.None;
-
-            UpdateHomeUnreadBadge();
+            if (messageManager != null)
+            {
+                messageManager.MessageReceived += OnMessageReceived;
+            }
         }
 
         private void OnDisable()
+        {
+            UnSubscribeEvents();
+        }
+
+        private void UnSubscribeEvents()
         {
             if (_messagesButton != null)
             {
                 _messagesButton.clicked -= OpenMessages;
             }
-            
-            if (_backButton != null)
-                _backButton.clicked -= GoBack;
 
+            if (_backButton != null)
+            {
+                _backButton.clicked -= GoBack;
+            }
+            
             if (messageManager != null)
+            {
                 messageManager.MessageReceived -= OnMessageReceived;
+            }
         }
 
         private void OpenMessages()
