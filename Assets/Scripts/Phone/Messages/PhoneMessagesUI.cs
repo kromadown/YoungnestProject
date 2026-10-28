@@ -1,5 +1,3 @@
-using System;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Debug = UnityEngine.Debug;
