@@ -309,8 +309,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4843985660080331436, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 379697064}
   m_SourcePrefab: {fileID: 100100000, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
+--- !u!1 &379697059 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4843985660080331436, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
+  m_PrefabInstance: {fileID: 358873513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &379697064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379697059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4efdcb5701cf85244907cf3fd0e57d53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Phone.CameraApp.PhoneCameraDragController
+  phoneCamera: {fileID: 1749747232}
+  cameraSensitivity: 0.01
 --- !u!1001 &540753880
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -547,8 +569,8 @@ Camera:
   m_GameObject: {fileID: 961739749}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -652,6 +674,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3270466239946617619, guid: e5db471e6d4f5a447b81f56e21e5fd84, type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3270466239946617619, guid: e5db471e6d4f5a447b81f56e21e5fd84, type: 3}
+      propertyPath: m_BackGroundColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3270466239946617619, guid: e5db471e6d4f5a447b81f56e21e5fd84, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3270466239946617619, guid: e5db471e6d4f5a447b81f56e21e5fd84, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3270466239946617619, guid: e5db471e6d4f5a447b81f56e21e5fd84, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6379169437454475898, guid: e5db471e6d4f5a447b81f56e21e5fd84, type: 3}
       propertyPath: m_Name
       value: PhoneCamera
@@ -711,7 +753,7 @@ GameObject:
   - component: {fileID: 1838121483}
   - component: {fileID: 1838121482}
   - component: {fileID: 1838121481}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -730,8 +772,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e45583b21a724bc181f9114e1c3e266a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Phone.CameraApp.PhotoTarget
-  cameraDetector: {fileID: 1591322236}
-  col: {fileID: 1838121482}
 --- !u!58 &1838121482
 CircleCollider2D:
   m_ObjectHideFlags: 0

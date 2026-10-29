@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1492373138460047542}
   - component: {fileID: 1848471164352838713}
   - component: {fileID: 4830273464749404032}
+  - component: {fileID: 184478324260926325}
   m_Layer: 5
   m_Name: PhoneUI
   m_TagString: Untagged
@@ -86,3 +87,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Phone.Camera.PhoneCameraUI
   cameraDetector: {fileID: 0}
   cameraRenderTexture: {fileID: 8400000, guid: d53a086ca18a94141b54988ba1f40ff6, type: 2}
+--- !u!114 &184478324260926325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4843985660080331436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4efdcb5701cf85244907cf3fd0e57d53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Phone.CameraApp.PhoneCameraDragController
+  mainCamera: {fileID: 0}
+  phoneCamera: {fileID: 0}

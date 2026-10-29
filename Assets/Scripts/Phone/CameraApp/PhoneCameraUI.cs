@@ -17,7 +17,7 @@ namespace Phone.CameraApp
         private Button _cameraShutterButton;
         private Button _backButton;
         
-        private Image _cameraPreview;
+        public Image CameraPreview;
         
 
         private void OnEnable()
@@ -30,7 +30,7 @@ namespace Phone.CameraApp
             
             SubscribeEvents();
             
-            _cameraPreview.image = cameraRenderTexture;
+            CameraPreview.image = cameraRenderTexture;
             _cameraScreen.style.display = DisplayStyle.None;
         }
 
@@ -45,14 +45,14 @@ namespace Phone.CameraApp
             _cameraShutterButton = root.Q<Button>("CameraShutterButton");
             _backButton = root.Q<Button>("CameraBackButton");
             
-            _cameraPreview = root.Q<Image>("CameraPreview");
+            CameraPreview = root.Q<Image>("CameraPreview");
             
             if (_homeScreen == null || 
                 _cameraScreen == null ||
                 _cameraButton == null ||
                 _cameraShutterButton == null ||
                 _backButton == null ||
-                _cameraPreview == null ||
+                CameraPreview == null ||
                 cameraRenderTexture == null ||
                 cameraDetector == null
                 )
