@@ -254,6 +254,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 184478324260926325, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 961739752}
+    - target: {fileID: 184478324260926325, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
+      propertyPath: phoneCamera
+      value: 
+      objectReference: {fileID: 1749747232}
     - target: {fileID: 1848471164352838713, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
       propertyPath: messageManager
       value: 
@@ -268,11 +276,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8935278889704327829, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 62.44571
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8935278889704327829, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 19.56511
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8935278889704327829, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
       propertyPath: m_LocalPosition.z
@@ -309,30 +317,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4843985660080331436, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 379697064}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
---- !u!1 &379697059 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4843985660080331436, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
-  m_PrefabInstance: {fileID: 358873513}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &379697064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 379697059}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4efdcb5701cf85244907cf3fd0e57d53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Phone.CameraApp.PhoneCameraDragController
-  phoneCamera: {fileID: 1749747232}
-  cameraSensitivity: 0.01
 --- !u!1001 &540753880
 PrefabInstance:
   m_ObjectHideFlags: 0
