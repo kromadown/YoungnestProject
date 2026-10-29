@@ -6,6 +6,8 @@ namespace Phone.CameraApp
     [RequireComponent(typeof(UIDocument))]
     public class PhoneCameraUI : MonoBehaviour
     {
+        [Header("References")]
+        [SerializeField] private PhoneCameraDetector cameraDetector;
         [SerializeField] private RenderTexture cameraRenderTexture;
         
         private VisualElement _homeScreen;
@@ -51,7 +53,8 @@ namespace Phone.CameraApp
                 _cameraShutterButton == null ||
                 _backButton == null ||
                 _cameraPreview == null ||
-                cameraRenderTexture == null
+                cameraRenderTexture == null ||
+                cameraDetector == null
                 )
             {
                 Debug.LogError("Phone Camera UI has missing references or UI elements.", this);
@@ -100,6 +103,7 @@ namespace Phone.CameraApp
         private void TakePicture()
         {
             Debug.Log("Picture Taken!");
+            cameraDetector.TakePicture();
         }
         
         private void GoBack()

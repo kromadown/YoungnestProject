@@ -84,3 +84,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9838f4f22baf6a645a63e56aad02e0dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Phone.Camera.PhoneCameraUI
+  cameraDetector: {fileID: 0}
+  cameraRenderTexture: {fileID: 8400000, guid: d53a086ca18a94141b54988ba1f40ff6, type: 2}
