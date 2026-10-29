@@ -6,11 +6,17 @@ namespace Phone.CameraApp
     [RequireComponent(typeof(UIDocument))]
     public class PhoneCameraUI : MonoBehaviour
     {
+        [SerializeField] private RenderTexture cameraRenderTexture;
+        
         private VisualElement _homeScreen;
         private VisualElement _cameraScreen;
 
         private Button _cameraButton;
+        private Button _cameraShutterButton;
         private Button _backButton;
+        
+        private Image _cameraPreview;
+        
 
         private void OnEnable()
         {
@@ -22,6 +28,7 @@ namespace Phone.CameraApp
             
             SubscribeEvents();
             
+            _cameraPreview.image = cameraRenderTexture;
             _cameraScreen.style.display = DisplayStyle.None;
         }
 
@@ -33,12 +40,18 @@ namespace Phone.CameraApp
             _cameraScreen = root.Q<VisualElement>("CameraScreen");
             
             _cameraButton = root.Q<Button>("CameraButton");
+            _cameraShutterButton = root.Q<Button>("CameraShutterButton");
             _backButton = root.Q<Button>("CameraBackButton");
+            
+            _cameraPreview = root.Q<Image>("CameraPreview");
             
             if (_homeScreen == null || 
                 _cameraScreen == null ||
                 _cameraButton == null ||
-                _backButton == null
+                _cameraShutterButton == null ||
+                _backButton == null ||
+                _cameraPreview == null ||
+                cameraRenderTexture == null
                 )
             {
                 Debug.LogError("Phone Camera UI has missing references or UI elements.", this);
@@ -51,6 +64,7 @@ namespace Phone.CameraApp
         private void SubscribeEvents()
         {
             _cameraButton.clicked += OpenCamera;
+            _cameraShutterButton.clicked += TakePicture;
             _backButton.clicked += GoBack;
         }
         
@@ -66,6 +80,11 @@ namespace Phone.CameraApp
                 _cameraButton.clicked -= OpenCamera;
             }
 
+            if (_cameraShutterButton != null)
+            {
+                _cameraShutterButton.clicked -= TakePicture;
+            }
+
             if (_backButton != null)
             {
                 _backButton.clicked -= GoBack;
@@ -76,6 +95,11 @@ namespace Phone.CameraApp
         {
             _homeScreen.style.display = DisplayStyle.None;
             _cameraScreen.style.display = DisplayStyle.Flex;
+        }
+
+        private void TakePicture()
+        {
+            Debug.Log("Picture Taken!");
         }
         
         private void GoBack()
