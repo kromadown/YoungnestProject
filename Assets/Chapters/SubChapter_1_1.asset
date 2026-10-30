@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: SubChapter_1_1
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu.SubChapterData
   id: ch1_1
-  displayName: 1.1 First night
+  displayName: 1. First night
   sceneName: JulianScene
   screenshot: {fileID: 0}
-  description: 'Jessie just moved into a first apartment with an empty wallet and a laptop that barely works. Mom says to have fun, but the bills are already coming in.'
+  description: Jessie just moved into a first apartment with an empty wallet and
+    a laptop that barely works. Mom says to have fun, but the bills are already coming
+    in.
   learningGoals:
   - What a monthly budget is
   - Needs vs. wants

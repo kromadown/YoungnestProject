@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: SubChapter_2_1
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu.SubChapterData
   id: ch2_1
-  displayName: 2.1 Interview
+  displayName: 2. Interview
   sceneName: 
   screenshot: {fileID: 0}
-  description: 'Jessie lands an interview for a part-time job. The offer looks good, until Jessie reads the fine print.'
+  description: Jessie lands an interview for a part-time job. The offer looks good,
+    until Jessie reads the fine print.
   learningGoals:
   - Gross vs. net pay
   - Reading a job offer

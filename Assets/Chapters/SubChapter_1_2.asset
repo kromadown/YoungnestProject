@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: SubChapter_1_2
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu.SubChapterData
   id: ch1_2
-  displayName: 1.2 Rent is due
+  displayName: 2. Rent is due
   sceneName: 
   screenshot: {fileID: 0}
-  description: 'The landlord texts a reminder: rent is due Friday. Jessie has to decide what to cut to pay on time.'
+  description: 'The landlord texts a reminder: rent is due Friday. Jessie has to
+    decide what to cut to pay on time.'
   learningGoals:
   - Fixed vs. variable expenses
   - Late fees and why they add up
