@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Room.Movement;
+using Dialogue;
 
 namespace Room.Interaction
 {
@@ -14,10 +15,21 @@ namespace Room.Interaction
 
         Interactable current;
 
+        void Awake()
+        {
+            if (cam == null) cam = Camera.main;
+        }
+
         void Update()
         {
             var pointer = Pointer.current;
             if (pointer == null) return;
+
+            if (DialogueManager.Instance != null && DialogueManager.Instance.IsPlaying)
+            {
+                SetCurrent(null);
+                return;
+            }
 
             Vector2 screenPos = pointer.position.ReadValue();
             Vector2 worldPos = cam.ScreenToWorldPoint(screenPos);
@@ -35,7 +47,7 @@ namespace Room.Interaction
 
             if (item != null)
             {
-                Debug.Log("點到物品：" + item.name);
+                item.Interact();
                 return;
             }
 
