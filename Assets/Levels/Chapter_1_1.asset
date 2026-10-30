@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 985cf5bdfcc6445d866bac4bd04e8ca6, type: 3}
-  m_Name: SubChapter_1_1
-  m_EditorClassIdentifier: Assembly-CSharp::MainMenu.SubChapterData
+  m_Name: Chapter_1_1
+  m_EditorClassIdentifier: Assembly-CSharp::MainMenu.ChapterData
   id: ch1_1
   displayName: 1. First night
-  sceneName: JulianScene
+  sceneName: Chapter 1
   screenshot: {fileID: 0}
   description: Jessie just moved into a first apartment with an empty wallet and
     a laptop that barely works. Mom says to have fun, but the bills are already coming

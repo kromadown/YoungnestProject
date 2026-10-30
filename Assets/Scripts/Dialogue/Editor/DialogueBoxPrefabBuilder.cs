@@ -5,12 +5,14 @@ using UnityEngine;
 
 namespace Dialogue.Editor
 {
-    // Creates Assets/UI/Dialogue/DialogueBox.prefab. Run once from Tools > Youngnest > Create Dialogue Box Prefab,
-    // then restyle the prefab by hand (swap in hand-drawn sprites, fonts, etc.).
+    // Creates Assets/UI/Dialogue/DialogueBox.prefab from Tools > Youngnest > Create Dialogue Box Prefab,
+    // including the (hidden) choice list. Restyle the prefab by hand afterwards.
+    // If the prefab already exists, "Update" adds anything missing (e.g. the choice list) and keeps your edits.
     public static class DialogueBoxPrefabBuilder
     {
         private const string Folder = "Assets/UI/Dialogue";
         private const string PrefabPath = Folder + "/DialogueBox.prefab";
+        private const string Title = "Create Dialogue Box Prefab";
         private const int UILayer = 5;
 
         [MenuItem("Tools/Youngnest/Create Dialogue Box Prefab")]
@@ -18,17 +20,27 @@ namespace Dialogue.Editor
         {
             if (Resources.Load<TMP_Settings>("TMP Settings") == null)
             {
-                EditorUtility.DisplayDialog("Create Dialogue Box Prefab",
+                EditorUtility.DisplayDialog(Title,
                     "TextMesh Pro Essentials are missing. Import them from Window > TextMeshPro > Import TMP Essential Resources, then run this again.", "OK");
                 return;
             }
 
-            if (File.Exists(PrefabPath) && !EditorUtility.DisplayDialog("Create Dialogue Box Prefab",
-                    $"{PrefabPath} already exists. Replace it? Any edits made to it will be lost.", "Replace", "Cancel"))
+            if (File.Exists(PrefabPath))
             {
-                return;
+                var answer = EditorUtility.DisplayDialogComplex(Title,
+                    $"{PrefabPath} already exists.\n\nUpdate: add anything missing (like the choice list) and keep your edits.\n" +
+                    "Replace: build a fresh box; your edits will be lost.",
+                    "Update", "Cancel", "Replace");
+
+                if (answer == 0) UpdateExisting();
+                if (answer != 2) return;
             }
 
+            CreateFresh();
+        }
+
+        private static void CreateFresh()
+        {
             Directory.CreateDirectory(Folder);
 
             var root = new GameObject("DialogueBox", typeof(RectTransform), typeof(Canvas),
@@ -103,6 +115,8 @@ namespace Dialogue.Editor
             so.FindProperty("advanceButton").objectReferenceValue = button;
             so.ApplyModifiedPropertiesWithoutUndo();
 
+            AddChoiceList(box.transform, manager);
+
             var prefab = PrefabUtility.SaveAsPrefabAsset(root, PrefabPath);
             Object.DestroyImmediate(root);
 
@@ -111,11 +125,111 @@ namespace Dialogue.Editor
             Debug.Log($"Created {PrefabPath}. Drag it into your scene to use it.");
         }
 
+        // Adds what's missing to the existing prefab, leaving everything else (art, fonts, layout) as is.
+        private static void UpdateExisting()
+        {
+            var root = PrefabUtility.LoadPrefabContents(PrefabPath);
+            try
+            {
+                var manager = root.GetComponent<DialogueManager>();
+                var box = root.transform.Find("DialogueRoot/Box");
+                if (manager == null || box == null)
+                {
+                    EditorUtility.DisplayDialog(Title,
+                        "Couldn't find DialogueManager or DialogueRoot/Box in the prefab. Use Replace to build a fresh one.", "OK");
+                    return;
+                }
+
+                if (box.Find("ChoicePanel") != null)
+                {
+                    EditorUtility.DisplayDialog(Title, "The DialogueBox prefab is already up to date.", "OK");
+                    return;
+                }
+
+                AddChoiceList(box, manager);
+                PrefabUtility.SaveAsPrefabAsset(root, PrefabPath);
+                Debug.Log($"Updated {PrefabPath}: added the choice list.");
+            }
+            finally
+            {
+                PrefabUtility.UnloadPrefabContents(root);
+            }
+        }
+
+        // The prompt and option buttons shown when a dialogue has choices. Hidden the rest of the time.
+        private static void AddChoiceList(Transform box, DialogueManager manager)
+        {
+            var panel = CreateUI("ChoicePanel", box);
+            var panelRect = panel.GetComponent<RectTransform>();
+            panelRect.anchorMin = Vector2.zero;
+            panelRect.anchorMax = Vector2.one;
+            panelRect.offsetMin = new Vector2(50, 20);
+            panelRect.offsetMax = new Vector2(-40, -20);
+            AddVerticalLayout(panel, 10);
+
+            var prompt = CreateText(panel.transform, "PromptText", "About the home insurance...", 30, false, TextAlignmentOptions.MidlineLeft);
+
+            var list = CreateUI("ChoiceList", panel.transform);
+            AddVerticalLayout(list, 6);
+
+            var template = CreateUI("ChoiceButtonTemplate", list.transform);
+            var image = template.AddComponent<UnityEngine.UI.Image>();
+            image.color = Color.white;
+            var button = template.AddComponent<UnityEngine.UI.Button>();
+            button.targetGraphic = image;
+            var colors = button.colors;
+            colors.highlightedColor = new Color(0.92f, 0.92f, 0.92f);
+            colors.selectedColor = Color.white;
+            colors.pressedColor = new Color(0.85f, 0.85f, 0.85f);
+            button.colors = colors;
+
+            var row = template.AddComponent<UnityEngine.UI.HorizontalLayoutGroup>();
+            row.padding = new RectOffset(8, 8, 4, 4);
+            row.spacing = 12;
+            row.childAlignment = TextAnchor.MiddleLeft;
+            row.childControlWidth = true;
+            row.childControlHeight = true;
+            row.childForceExpandWidth = false;
+            row.childForceExpandHeight = false;
+
+            var arrow = CreateText(template.transform, "Arrow", ">", 30, true, TextAlignmentOptions.Center);
+            var arrowLayout = arrow.gameObject.AddComponent<UnityEngine.UI.LayoutElement>();
+            arrowLayout.minWidth = 30;
+            arrowLayout.preferredWidth = 30;
+
+            var label = CreateText(template.transform, "Label", "Option text", 26, false, TextAlignmentOptions.MidlineLeft);
+            label.gameObject.AddComponent<UnityEngine.UI.LayoutElement>().flexibleWidth = 1;
+
+            template.SetActive(false);
+            panel.SetActive(false);
+
+            var so = new SerializedObject(manager);
+            so.FindProperty("choicePanel").objectReferenceValue = panel;
+            so.FindProperty("choicePromptText").objectReferenceValue = prompt;
+            so.FindProperty("choiceList").objectReferenceValue = list.GetComponent<RectTransform>();
+            so.FindProperty("choiceButtonTemplate").objectReferenceValue = button;
+            var nextIndicator = box.Find("NextIndicator");
+            so.FindProperty("nextIndicator").objectReferenceValue = nextIndicator != null ? nextIndicator.gameObject : null;
+            so.FindProperty("boxRect").objectReferenceValue = box as RectTransform;
+            so.ApplyModifiedPropertiesWithoutUndo();
+        }
+
         private static GameObject CreateUI(string name, Transform parent)
         {
             var go = new GameObject(name, typeof(RectTransform)) { layer = UILayer };
             go.transform.SetParent(parent, false);
             return go;
+        }
+
+        private static void AddVerticalLayout(GameObject go, float spacing)
+        {
+            var layout = go.AddComponent<UnityEngine.UI.VerticalLayoutGroup>();
+            layout.spacing = spacing;
+            layout.childAlignment = TextAnchor.UpperLeft;
+            layout.childControlWidth = true;
+            layout.childControlHeight = true;
+            layout.childForceExpandWidth = true;
+            layout.childForceExpandHeight = false;
         }
 
         private static UnityEngine.UI.Image AddOutlinedImage(GameObject go, bool raycastTarget)

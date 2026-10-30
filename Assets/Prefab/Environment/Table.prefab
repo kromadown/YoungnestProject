@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7586534137127865918}
   - component: {fileID: 1251794657103345728}
   - component: {fileID: 1424117482660075382}
+  - component: {fileID: 6200204318942925863}
   m_Layer: 9
   m_Name: Table
   m_TagString: Untagged
@@ -213,3 +214,27 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 132d4b7c4ca4fef49ad265aafc7f717e, type: 2}
   highlightColor: {r: 0.5, g: 1, b: 0.5, a: 1}
   interactPoint: {fileID: 0}
+  onClicked:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &6200204318942925863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5324917182564035753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0f801f5b78efd145adbf4733117af98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueTrigger
+  dialogue: {fileID: 0}
+  playOnStart: 0
+  delay: 0
+  playOnlyOnce: 0
+  onlyIfChoiceKey: 
+  onlyIfChoiceValue: 
+  onFinished:
+    m_PersistentCalls:
+      m_Calls: []

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Room.Interaction
 {
@@ -9,8 +10,12 @@ namespace Room.Interaction
         [SerializeField] Color highlightColor = new Color(0.5f, 1f, 0.5f);
         [SerializeField] Transform interactPoint;
 
+        [Tooltip("Runs when the player clicks this object, e.g. DialogueTrigger.Play.")]
+        [SerializeField] UnityEvent onClicked;
+
         SpriteRenderer sr;
         Color originalColor;
+        bool hasBeenClicked;
 
         public string PromptText => data != null ? data.promptText : "Click";
         public Vector3 InteractPosition =>
@@ -25,6 +30,16 @@ namespace Room.Interaction
         public void SetHighlight(bool on)
         {
             sr.color = on ? highlightColor : originalColor;
+        }
+
+        // Called by RoomClickController when the player clicks this object.
+        public void Click()
+        {
+            bool canRepeat = data == null || data.canRepeat;
+            if (hasBeenClicked && !canRepeat) return;
+
+            hasBeenClicked = true;
+            onClicked.Invoke();
         }
 
         void Reset()

@@ -16,11 +16,13 @@ MonoBehaviour:
   canRepeat: 0
   messages:
   - delayBeforeMessage: 0.25
-    text: Omg, I'm so happy that you got accepted into the university! Are you exited?
+    text: "It\u2019s your first day in school! Are you excited?"
   - delayBeforeMessage: 2
-    text: I have sent you a gift of 15000 SEK to help you get settled.
+    text: I have sent you $15000 SEK.
   - delayBeforeMessage: 1
-    text: Do you have a home insurance yet? It might be good to have in case something
-      would happen.
+    text: 'Did you include your new computer under your home insurance?
+
+      Just
+      in case anything happen.'
   - delayBeforeMessage: 3
     text: Anyway, good luck with your studies! Love you xxx

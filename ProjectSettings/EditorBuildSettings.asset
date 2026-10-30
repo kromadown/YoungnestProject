@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 0d6c6e02153438e45a2e76dea94e442f
   - enabled: 1
+    path: Assets/Scenes/Chapter 1.unity
+    guid: 94d73a26930c008428fb823b6537791b
+  - enabled: 1
     path: Assets/Scenes/JulianScene.unity
     guid: aeefb04362915bb49871d2a06fe68ae5
   - enabled: 1

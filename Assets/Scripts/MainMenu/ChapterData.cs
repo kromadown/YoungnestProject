@@ -3,13 +3,24 @@ using UnityEngine;
 
 namespace MainMenu
 {
-    [CreateAssetMenu(fileName = "NewChapter", menuName = "Chapters/Chapter")]
+    // A chapter inside a level: the scene it plays and what the preview shows.
+    [CreateAssetMenu(fileName = "NewChapter", menuName = "Levels/Chapter")]
     public class ChapterData : ScriptableObject
     {
+        [SerializeField] private string id;
         [SerializeField] private string displayName;
-        [SerializeField] private List<SubChapterData> subChapters = new();
+        [SerializeField] private string sceneName;
+        [SerializeField] private Sprite screenshot;
+        [SerializeField, TextArea(3, 6)] private string description;
+        [SerializeField] private List<string> learningGoals = new();
+        [SerializeField] private bool unlockedByDefault;
 
+        public string Id => string.IsNullOrEmpty(id) ? name : id;
         public string DisplayName => string.IsNullOrEmpty(displayName) ? name : displayName;
-        public IReadOnlyList<SubChapterData> SubChapters => subChapters;
+        public string SceneName => sceneName;
+        public Sprite Screenshot => screenshot;
+        public string Description => description;
+        public IReadOnlyList<string> LearningGoals => learningGoals;
+        public bool UnlockedByDefault => unlockedByDefault;
     }
 }

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfee7d51b81b45718b74b1d814266ae9, type: 3}
+  m_Name: Example_Insurance_Ask
+  m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueData
+  lines:
+  - speaker: Mom
+    text: '{player}, did you look at the home insurance I sent you?'
+    cue: 
+  choicePrompt:
+    speaker: '{player}'
+    text: About the home insurance...
+    cue: 
+  choices:
+  - text: Mom's right, I should take a look at it. The insurance premium is $1000
+      per month, and my laptop is worth SEK 12000...
+    nextDialogue: {fileID: 11400000, guid: eccbead9d7f545cabf546a0728c34226, type: 2}
+    rememberKey: insurance
+    rememberValue: taken
+  - text: I don't think I need it.
+    nextDialogue: {fileID: 11400000, guid: a40abbfa7238428894bddfc44de284a9, type: 2}
+    rememberKey: insurance
+    rememberValue: skipped

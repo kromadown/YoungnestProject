@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 985cf5bdfcc6445d866bac4bd04e8ca6, type: 3}
-  m_Name: SubChapter_1_2
-  m_EditorClassIdentifier: Assembly-CSharp::MainMenu.SubChapterData
-  id: ch1_2
-  displayName: 2. Rent is due
+  m_Name: Chapter_2_1
+  m_EditorClassIdentifier: Assembly-CSharp::MainMenu.ChapterData
+  id: ch2_1
+  displayName: 2. Interview
   sceneName: 
   screenshot: {fileID: 0}
-  description: 'The landlord texts a reminder: rent is due Friday. Jessie has to
-    decide what to cut to pay on time.'
+  description: Jessie lands an interview for a part-time job. The offer looks good,
+    until Jessie reads the fine print.
   learningGoals:
-  - Fixed vs. variable expenses
-  - Late fees and why they add up
-  - Prioritising bills
+  - Gross vs. net pay
+  - Reading a job offer
+  - What gets taken out of a paycheck
   unlockedByDefault: 0
