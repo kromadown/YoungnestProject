@@ -1,4 +1,5 @@
 using System.Collections;
+using Story;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,6 +16,11 @@ namespace Dialogue
         [SerializeField, Min(0)] private float delay;
         [SerializeField] private bool playOnlyOnce = true;
 
+        [Header("Only If (optional)")]
+        [Tooltip("Only plays if this remembered choice matches, e.g. key 'insurance', value 'skipped'. Leave empty to always play.")]
+        [SerializeField] private string onlyIfChoiceKey;
+        [SerializeField] private string onlyIfChoiceValue;
+
         [Header("After")]
         [Tooltip("Runs when the dialogue ends, e.g. send a phone message or play the next dialogue.")]
         [SerializeField] private UnityEvent onFinished;
@@ -29,6 +35,7 @@ namespace Dialogue
         public void Play()
         {
             if (playOnlyOnce && _hasPlayed) return;
+            if (!string.IsNullOrEmpty(onlyIfChoiceKey) && !StoryChoices.Is(onlyIfChoiceKey, onlyIfChoiceValue)) return;
             _hasPlayed = true;
 
             StartCoroutine(PlayAfterDelay());

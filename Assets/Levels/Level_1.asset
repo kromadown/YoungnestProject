@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d25faab08a0b4f8e918e721a3f5f68b9, type: 3}
-  m_Name: Chapter_2
-  m_EditorClassIdentifier: Assembly-CSharp::MainMenu.ChapterData
-  displayName: First job
-  subChapters:
-  - {fileID: 11400000, guid: cf2f0ae50d6d428786a10367d4912faa, type: 2}
+  m_Name: Level_1
+  m_EditorClassIdentifier: Assembly-CSharp::MainMenu.LevelData
+  displayName: Moving out
+  chapters:
+  - {fileID: 11400000, guid: fb2735e7b6874154876c652b1e2d54e5, type: 2}
+  - {fileID: 11400000, guid: 549dc3c407884b2ba1898eb97697237d, type: 2}

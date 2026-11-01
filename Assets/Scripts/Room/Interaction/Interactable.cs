@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Dialogue;
 
 namespace Room.Interaction
@@ -13,10 +14,13 @@ namespace Room.Interaction
         [SerializeField] Transform interactPoint;
         [SerializeField, TextArea(2, 5)] string clickText;
 
+        [Tooltip("Runs when the player clicks this object, e.g. DialogueTrigger.Play.")]
+        [SerializeField] UnityEvent onClicked;
+
         SpriteRenderer sr;
         Color originalColor;
         DialogueData dialogue;
-        bool hasInteracted;
+        bool hasBeenClicked;
 
         public string PromptText => data != null ? data.promptText : "Click";
         public Vector3 InteractPosition =>
@@ -38,10 +42,20 @@ namespace Room.Interaction
             sr.color = on ? highlightColor : originalColor;
         }
 
-        public void Interact()
+        // Called by RoomClickController when the player clicks this object.
+        public void Click()
+        {
+            bool canRepeat = data == null || data.canRepeat;
+            if (hasBeenClicked && !canRepeat) return;
+
+            hasBeenClicked = true;
+            ShowClickText();
+            onClicked.Invoke();
+        }
+
+        void ShowClickText()
         {
             if (string.IsNullOrWhiteSpace(clickText)) return;
-            if (hasInteracted && data != null && !data.canRepeat) return;
 
             var manager = DialogueManager.Instance;
             if (manager == null)
@@ -50,7 +64,6 @@ namespace Room.Interaction
                 return;
             }
 
-            hasInteracted = true;
             if (dialogue == null) dialogue = CreateDialogue(clickText);
             manager.Play(dialogue);
         }

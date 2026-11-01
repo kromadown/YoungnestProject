@@ -13,11 +13,20 @@ MonoBehaviour:
   m_Name: Example_Day1_Coffee
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueData
   lines:
-  - speaker: Jessie
-    text: Nooooooo!
-  - speaker: Jessie
-    text: Coffee all over the laptop... on the very first day.
+  - speaker: '{player}'
+    text: Today is my first day moving here.
+    cue: 
+  - speaker: '{player}'
+    text: I hope everything goes smoothly from here.
+    cue: 
   - speaker: 
-    text: The screen flickers once, then goes dark.
-  - speaker: Jessie
-    text: Okay. Don't panic. Maybe Mom knows what to do.
+    text: 'Phone notification: A message from Mom'
+    cue: 
+  - speaker: '{player}'
+    text: Mom's message?
+    cue: 
+  choicePrompt:
+    speaker: 
+    text: 
+    cue: 
+  choices: []

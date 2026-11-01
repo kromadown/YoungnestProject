@@ -9,7 +9,6 @@ namespace Room.UI
         [SerializeField] TMP_Text nameText;
         [SerializeField] TMP_Text moneyText;
         [SerializeField] string moneyFormat = "$ {0}";
-        [SerializeField] string fallbackName = "Player";
 
         void OnEnable()
         {
@@ -28,7 +27,7 @@ namespace Room.UI
         void ShowName(string playerName)
         {
             if (nameText == null) return;
-            nameText.text = string.IsNullOrEmpty(playerName) ? fallbackName : playerName;
+            nameText.text = string.IsNullOrWhiteSpace(playerName) ? PlayerProfile.DefaultName : playerName;
         }
 
         void ShowMoney(int amount)
