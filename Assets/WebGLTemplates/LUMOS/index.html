@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>{{{ PRODUCT_NAME }}}</title>
+  <link rel="stylesheet" href="TemplateData/style.css">
+</head>
+<body>
+  <div id="game">
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
+
+    <div id="loading">
+      Loading...
+      <div id="loading-bar"><div id="loading-fill"></div></div>
+    </div>
+
+    <!-- Phones only: fill the screen and hide the browser bars. -->
+    <button id="fullscreen-button" class="lumos-button" aria-label="Play fullscreen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4"/>
+      </svg>
+    </button>
+
+    <!-- Phones only, when the game is embedded in another site. -->
+    <div id="play-fullscreen">
+      <button class="lumos-button" id="play-fullscreen-button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4"/>
+        </svg>
+        <span id="play-fullscreen-label">Play fullscreen</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Shown by the browser whenever the screen is taller than it is wide (see style.css). -->
+  <div id="rotate-screen">
+    <svg class="phone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 17h2"/>
+    </svg>
+    <svg class="wide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/>
+    </svg>
+    <div id="rotate-title">Turn your phone sideways</div>
+    <div id="rotate-text">LUMOS is played in landscape. If nothing happens, check that rotation lock is off.</div>
+  </div>
+
+  <script>
+    var canvas = document.getElementById("unity-canvas");
+    var loading = document.getElementById("loading");
+    var loadingFill = document.getElementById("loading-fill");
+    var fullscreenButton = document.getElementById("fullscreen-button");
+    var playFullscreen = document.getElementById("play-fullscreen");
+    var playFullscreenButton = document.getElementById("play-fullscreen-button");
+    var playFullscreenLabel = document.getElementById("play-fullscreen-label");
+
+    // ---------- What kind of device and page is this? ----------
+
+    // Touch-first devices (phones, tablets) have a "coarse" pointer.
+    var isPhone = window.matchMedia("(pointer: coarse)").matches;
+
+    // True when another site shows this page inside an iframe (e.g. itch.io, a school site).
+    var isEmbedded = false;
+    try { isEmbedded = window.self !== window.top; } catch (e) { isEmbedded = true; }
+
+    // iPhones don't support fullscreen for web pages; there we open the game in its own tab instead.
+    var canFullscreen = !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
+
+    if (!isPhone) {
+      document.body.classList.add("desktop");
+      document.getElementById("rotate-title").textContent = "Make the window wider";
+      document.getElementById("rotate-text").textContent = "LUMOS is played in a wide window.";
+    }
+
+    // ---------- Fullscreen ----------
+
+    function isFullscreen() {
+      return !!(document.fullscreenElement || document.webkitFullscreenElement);
+    }
+
+    function enterFullscreen() {
+      if (!canFullscreen) {
+        // Fallback (iPhone): open the game on its own page, where the rotate screen works normally.
+        window.open(window.location.href, "_blank");
+        return;
+      }
+
+      // Fullscreen the whole page (not just the canvas) so the rotate screen still shows.
+      var page = document.documentElement;
+      var request = page.requestFullscreen || page.webkitRequestFullscreen;
+      var result = request.call(page);
+
+      // Android Chrome can also lock landscape once in fullscreen; other browsers just ignore this.
+      Promise.resolve(result).then(function () {
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock("landscape").catch(function () {});
+        }
+      }).catch(function () {});
+    }
+
+    function updateButtons() {
+      var full = isFullscreen();
+      // Embedded on a phone: offer a big "Play fullscreen" (the game is tiny inside the other site).
+      playFullscreen.style.display = isPhone && isEmbedded && !full ? "flex" : "none";
+      // Own page on a phone: a small corner button to hide the browser bars.
+      fullscreenButton.style.display = isPhone && !isEmbedded && !full && canFullscreen ? "flex" : "none";
+    }
+
+    if (!canFullscreen) playFullscreenLabel.textContent = "Open game";
+    fullscreenButton.addEventListener("click", enterFullscreen);
+    playFullscreenButton.addEventListener("click", enterFullscreen);
+    document.addEventListener("fullscreenchange", updateButtons);
+    document.addEventListener("webkitfullscreenchange", updateButtons);
+    updateButtons();
+
+    // ---------- Load the game ----------
+
+    var buildUrl = "Build";
+    var loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";
+    var config = {
+      arguments: [],
+      dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
+      frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
+#if USE_THREADS
+      workerUrl: buildUrl + "/{{{ WORKER_FILENAME }}}",
+#endif
+#if USE_WASM
+      codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
+#endif
+#if MEMORY_FILENAME
+      memoryUrl: buildUrl + "/{{{ MEMORY_FILENAME }}}",
+#endif
+#if SYMBOLS_FILENAME
+      symbolsUrl: buildUrl + "/{{{ SYMBOLS_FILENAME }}}",
+#endif
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+      productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+      productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}},
+    };
+
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = function () {
+      createUnityInstance(canvas, config, function (progress) {
+        loadingFill.style.width = (100 * progress) + "%";
+      }).then(function () {
+        loading.style.display = "none";
+      }).catch(function (message) {
+        loading.textContent = "The game couldn't load: " + message;
+      });
+    };
+    document.body.appendChild(script);
+  </script>
+</body>
+</html>
