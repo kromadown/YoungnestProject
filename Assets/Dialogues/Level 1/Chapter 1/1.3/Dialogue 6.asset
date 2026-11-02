@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfee7d51b81b45718b74b1d814266ae9, type: 3}
+  m_Name: Dialogue 6
+  m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueData
+  lines:
+  - speaker: Friend
+    text: "So, you\u2019re an influencer now?"
+    cue: 
+  - speaker: '{player}'
+    text: Haha, no. I just want to record the beautiful things in my life.
+    cue: 
+  - speaker: Friend
+    text: 'Haha, cool. '
+    cue: 
+  - speaker: Friend
+    text: "You\u2019ve even got a new computer, looks like things are going well
+      for you!"
+    cue: 
+  - speaker: '{player}'
+    text: Thanks! I hope so.
+    cue: 
+  choicePrompt:
+    speaker: 
+    text: 
+    cue: 
+  choices: []

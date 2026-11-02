@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfee7d51b81b45718b74b1d814266ae9, type: 3}
+  m_Name: Dialogue 4
+  m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueData
+  lines:
+  - speaker: '{player}'
+    text: Hey, friend!
+    cue: 
+  - speaker: Friend
+    text: Long time no see!
+    cue: 
+  - speaker: Friend
+    text: "I heard you\u2019ve come to this area, so I brought you a cup of coffee."
+    cue: 
+  - speaker: '{player}'
+    text: Come on in!
+    cue: 
+  choicePrompt:
+    speaker: 
+    text: 
+    cue: 
+  choices: []
