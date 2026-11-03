@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfee7d51b81b45718b74b1d814266ae9, type: 3}
+  m_Name: Dialogue 2
+  m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueData
+  lines:
+  - speaker: '{player}'
+    text: My mom reminded me to get insurance for my new computer, but I haven't
+      bought any yet.
+    cue: 
+  choicePrompt:
+    speaker: '{player}'
+    text: 
+    cue: 
+  choices:
+  - text: Just in case, buy one. ($1,500)
+    nextDialogue: {fileID: 0}
+    rememberKey: insurance
+    rememberValue: bought
+  - text: "Nothing\u2019s going to happen. I\u2019m not buying it."
+    nextDialogue: {fileID: 0}
+    rememberKey: insurance
+    rememberValue: none
+  - text: Learn more about home insurance.
+    nextDialogue: {fileID: 0}
+    rememberKey: insurance_learn
+    rememberValue: true

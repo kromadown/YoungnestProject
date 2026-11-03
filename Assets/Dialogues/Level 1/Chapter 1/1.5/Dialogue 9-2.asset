@@ -10,20 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dfee7d51b81b45718b74b1d814266ae9, type: 3}
-  m_Name: Example_Day1_Coffee
+  m_Name: Dialogue 9-2
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueData
   lines:
   - speaker: '{player}'
-    text: Today is my first day moving here.
-    cue: 
-  - speaker: '{player}'
-    text: I hope everything goes smoothly from here.
-    cue: 
-  - speaker: 
-    text: 'Phone notification: A message from Mom'
-    cue: 
-  - speaker: '{player}'
-    text: Mom's message?
+    text: Damn coffee!
     cue: 
   choicePrompt:
     speaker: 
