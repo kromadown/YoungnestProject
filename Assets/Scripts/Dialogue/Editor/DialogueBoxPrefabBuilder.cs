@@ -52,7 +52,7 @@ namespace Dialogue.Editor
             var scaler = root.GetComponent<UnityEngine.UI.CanvasScaler>();
             scaler.uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1920, 1080);
-            scaler.matchWidthOrHeight = 0.5f;
+            scaler.matchWidthOrHeight = 1f;
 
             var dialogueRoot = CreateUI("DialogueRoot", root.transform);
             var rootRect = dialogueRoot.GetComponent<RectTransform>();
@@ -60,6 +60,7 @@ namespace Dialogue.Editor
             rootRect.anchorMax = Vector2.one;
             rootRect.offsetMin = Vector2.zero;
             rootRect.offsetMax = Vector2.zero;
+            dialogueRoot.AddComponent<Room.UI.SafeArea>();
 
             // Main box along the bottom, left of the phone.
             var box = CreateUI("Box", dialogueRoot.transform);
