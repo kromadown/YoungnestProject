@@ -49,7 +49,8 @@ namespace Room.Interaction
             Interactable item = itemHit != null
                 ? itemHit.GetComponentInParent<Interactable>()
                 : null;
-            SetCurrent(item);
+            bool touchReleased = pointer is Touchscreen && !pointer.press.isPressed;
+            SetCurrent(touchReleased ? null : item);
 
             if (!pointer.press.wasPressedThisFrame) return;
 
