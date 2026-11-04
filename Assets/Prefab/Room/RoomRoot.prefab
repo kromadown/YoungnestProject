@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7297927866754165929}
   - component: {fileID: 6650869664998671319}
   - component: {fileID: 1733963847980294690}
+  - component: {fileID: 3307361735671613609}
   m_Layer: 9
   m_Name: Bed
   m_TagString: Untagged
@@ -81,7 +82,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 414
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: e1682730bdcadaf498501699f6ea891f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -207,6 +208,21 @@ PolygonCollider2D:
       - {x: 3.1499999, y: -3.8049998}
       - {x: 5.3199997, y: -2.725}
   m_UseDelaunayMesh: 1
+--- !u!114 &3307361735671613609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71124986158692571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a73eed28e475419daf3c3da078c2e8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.Rendering.YSort
+  sortWith: {fileID: 0}
+  offset: 0
+  precision: 100
 --- !u!1 &313491257193819732
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,6 +515,7 @@ GameObject:
   - component: {fileID: 606665933172884911}
   - component: {fileID: 778244969849704930}
   - component: {fileID: 1360824047627928844}
+  - component: {fileID: 8053136052454849030}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -516,7 +533,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.8829858, y: -1.5296524, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.143, y: 0.143, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6361804903730874519}
@@ -568,9 +585,9 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 216
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 4aeb867bdb72c644795ce834af72f221, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7a7a10f7fe795ff40b814cf2786a6533, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -594,6 +611,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Room.Movement.PlayerMover
   speed: 3
   grid: {fileID: 0}
+--- !u!114 &8053136052454849030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343649219958677249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a73eed28e475419daf3c3da078c2e8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.Rendering.YSort
+  sortWith: {fileID: 0}
+  offset: 0
+  precision: 100
 --- !u!1 &1452690145402971538
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,6 +638,7 @@ GameObject:
   - component: {fileID: 7294360231852930107}
   - component: {fileID: 4674669459395647832}
   - component: {fileID: 1125748185021995452}
+  - component: {fileID: 47668163372279922}
   m_Layer: 9
   m_Name: Hanger
   m_TagString: Untagged
@@ -675,7 +708,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 34
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: c0aa0e054e0c32f43a5dbf244b77a335, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -853,6 +886,21 @@ PolygonCollider2D:
       - {x: 0.555, y: -5.455}
       - {x: 0.765, y: -5.415}
   m_UseDelaunayMesh: 1
+--- !u!114 &47668163372279922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1452690145402971538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a73eed28e475419daf3c3da078c2e8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.Rendering.YSort
+  sortWith: {fileID: 0}
+  offset: 0
+  precision: 100
 --- !u!1 &2250974057063265874
 GameObject:
   m_ObjectHideFlags: 0
@@ -931,8 +979,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1764169135
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: c240cfcce664aa04bb04af48d159f5c2, type: 3}
@@ -1563,8 +1611,8 @@ PolygonCollider2D:
     m_Paths:
     - - {x: -3.036834, y: -2.14057}
       - {x: -4.4836555, y: -2.867421}
-      - {x: -1.8538533, y: -4.160156}
-      - {x: -0.5733017, y: -3.525725}
+      - {x: -1.6873548, y: -4.244624}
+      - {x: -0.43351668, y: -3.5546565}
       - {x: -2.0738704, y: -2.770233}
   m_UseDelaunayMesh: 1
 --- !u!1 &3970599675889872616
@@ -1577,6 +1625,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5549450273528371609}
   - component: {fileID: 8691645857100077326}
+  - component: {fileID: 7763007586945772256}
   m_Layer: 0
   m_Name: Chair
   m_TagString: Untagged
@@ -1646,7 +1695,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 123
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: a3deef07a3cd085478fcdc29b023897e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1658,6 +1707,21 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &7763007586945772256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3970599675889872616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a73eed28e475419daf3c3da078c2e8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.Rendering.YSort
+  sortWith: {fileID: 0}
+  offset: 0
+  precision: 100
 --- !u!1 &4831790828967040646
 GameObject:
   m_ObjectHideFlags: 0
@@ -1670,6 +1734,7 @@ GameObject:
   - component: {fileID: 8820825846385922482}
   - component: {fileID: 6324389276705071748}
   - component: {fileID: 4165658039059103616}
+  - component: {fileID: 665007783435414635}
   m_Layer: 9
   m_Name: Coffe_fall
   m_TagString: Untagged
@@ -1867,6 +1932,21 @@ PolygonCollider2D:
       - {x: -0.78, y: -0.75}
       - {x: -0.69, y: -0.69}
   m_UseDelaunayMesh: 1
+--- !u!114 &665007783435414635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4831790828967040646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a73eed28e475419daf3c3da078c2e8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.Rendering.YSort
+  sortWith: {fileID: 7467562560260668405}
+  offset: 0
+  precision: 100
 --- !u!1 &5065351886896082079
 GameObject:
   m_ObjectHideFlags: 0
@@ -2028,8 +2108,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1764169135
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 702b85b4fa5442e47869ea95d4d119df, type: 3}
@@ -2207,8 +2287,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1764169135
+  m_SortingLayer: -1
   m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: fa5b4977f9bcba64f8d3654fc60f2117, type: 3}
@@ -2603,8 +2683,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1764169135
+  m_SortingLayer: -1
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: b60e80545d52288499950785816abf81, type: 3}
@@ -2870,8 +2950,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1764169135
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 29ca09c4cd9931c49bd9e94371545e3c, type: 3}
@@ -2961,6 +3041,7 @@ GameObject:
   - component: {fileID: 7467562560260668405}
   - component: {fileID: 3682022677538626808}
   - component: {fileID: 756068111443739788}
+  - component: {fileID: 4242754561478806358}
   m_Layer: 9
   m_Name: Desk
   m_TagString: Untagged
@@ -3030,7 +3111,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 171
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 1e3bca7a6ca63aa47a4243ddf26a827f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3138,6 +3219,21 @@ PolygonCollider2D:
       - {x: -2.355, y: -1.4549999}
       - {x: 2.2649999, y: 0.92499995}
   m_UseDelaunayMesh: 1
+--- !u!114 &4242754561478806358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8287042475949039379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a73eed28e475419daf3c3da078c2e8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.Rendering.YSort
+  sortWith: {fileID: 0}
+  offset: 0
+  precision: 100
 --- !u!1 &8376277241879075776
 GameObject:
   m_ObjectHideFlags: 0
@@ -3150,6 +3246,7 @@ GameObject:
   - component: {fileID: 5347758459784508769}
   - component: {fileID: 2277979535890713851}
   - component: {fileID: 3211623066570330529}
+  - component: {fileID: 1274997125322232136}
   m_Layer: 9
   m_Name: Laptop
   m_TagString: Untagged
@@ -3219,7 +3316,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 172
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 9310cc5abd2b97b47869473257b9fa9e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3331,6 +3428,21 @@ PolygonCollider2D:
       - {x: 0.13499999, y: -1.985}
       - {x: 1.905, y: -1.095}
   m_UseDelaunayMesh: 1
+--- !u!114 &1274997125322232136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8376277241879075776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a73eed28e475419daf3c3da078c2e8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.Rendering.YSort
+  sortWith: {fileID: 7467562560260668405}
+  offset: 1
+  precision: 100
 --- !u!1 &8562395598679316682
 GameObject:
   m_ObjectHideFlags: 0
@@ -3408,8 +3520,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1764169135
+  m_SortingLayer: -1
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 19ac86d82458e8b43a32cb46c07c4ac1, type: 3}
@@ -3549,8 +3661,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1764169135
+  m_SortingLayer: -1
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 0169ba74346e200448268cc49b04ce70, type: 3}
