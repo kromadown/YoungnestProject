@@ -23,6 +23,7 @@ namespace Room.Interaction
         bool hasBeenClicked;
 
         public string PromptText => data != null ? data.promptText : "Click";
+        public bool HasInteractPoint => interactPoint != null;
         public Vector3 InteractPosition =>
             interactPoint != null ? interactPoint.position : transform.position;
 

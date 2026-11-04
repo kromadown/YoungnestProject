@@ -45,10 +45,7 @@ namespace Room.Interaction
             Vector2 screenPos = pointer.position.ReadValue();
             Vector2 worldPos = cam.ScreenToWorldPoint(screenPos);
 
-            Collider2D itemHit = Physics2D.OverlapPoint(worldPos, interactableMask);
-            Interactable item = itemHit != null
-                ? itemHit.GetComponentInParent<Interactable>()
-                : null;
+            Interactable item = TopInteractableAt(worldPos);
             bool touchReleased = pointer is Touchscreen && !pointer.press.isPressed;
             SetCurrent(touchReleased ? null : item);
 
@@ -59,12 +56,37 @@ namespace Room.Interaction
 
             if (item != null)
             {
-                item.Click();
+                if (item.HasInteractPoint) player.MoveTo(item.InteractPosition, item.Click);
+                else item.Click();
                 return;
             }
 
             if (Physics2D.OverlapPoint(worldPos, groundMask) != null)
                 player.MoveTo(worldPos);
+        }
+
+        Interactable TopInteractableAt(Vector2 worldPos)
+        {
+            Interactable top = null;
+            int topLayer = int.MinValue;
+            int topOrder = int.MinValue;
+
+            foreach (Collider2D hit in Physics2D.OverlapPointAll(worldPos, interactableMask))
+            {
+                Interactable item = hit.GetComponentInParent<Interactable>();
+                if (item == null) continue;
+
+                var sr = item.GetComponent<SpriteRenderer>();
+                int layer = SortingLayer.GetLayerValueFromID(sr.sortingLayerID);
+                int order = sr.sortingOrder;
+                if (layer < topLayer || (layer == topLayer && order <= topOrder)) continue;
+
+                top = item;
+                topLayer = layer;
+                topOrder = order;
+            }
+
+            return top;
         }
 
         void SetCurrent(Interactable item)
