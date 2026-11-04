@@ -1071,6 +1071,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4831790828967040646, guid: 15aad6e2fad544f5693141b28de56901, type: 3}
   m_PrefabInstance: {fileID: 766166168}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1900000004 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1016794412225195687, guid: 15aad6e2fad544f5693141b28de56901, type: 3}
+  m_PrefabInstance: {fileID: 766166168}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627d02fcd2bf7e143beae637da991cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.Interaction.Interactable
 --- !u!1 &1900000010
 GameObject:
   m_ObjectHideFlags: 0
@@ -1123,7 +1134,7 @@ MonoBehaviour:
   insurancePrice: 1500
   knockDelay: 3
   knock: {fileID: 11400000, guid: 3531f54fcef80044d9ad4d4d9fc11860, type: 2}
-  door: {fileID: 0}
+  door: {fileID: 1900000004}
   doorRenderer: {fileID: 1900000001}
   doorOpenSprite: {fileID: 21300000, guid: fd8080be73275c54a9463a38fbaf2520, type: 3}
   friend: {fileID: 0}
