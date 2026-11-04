@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,17 +9,24 @@ namespace Phone.CameraApp
         [Header("References")]
         [SerializeField] private Camera mainCamera;
         [SerializeField] private Camera phoneCamera;
+
+        [Header("Settings")]
+        [SerializeField, Min(0.01f)] private float returnDuration = 0.5f;
         
         private VisualElement _phoneFrame;
         private VisualElement _cameraScreen;
         private Image _cameraPreview;
-        
         
         private bool _isDragging;
         private Vector2 _lastPointerPosition;
         private int _activePointerId = -1;
 
         private Vector2 _phoneOffset;
+        private Vector2 _returnStartOffset;
+
+        private bool _isReturning;
+
+        private float _returnElapsedTime = 0f;
         
         private void OnEnable()
         {
@@ -90,11 +96,34 @@ namespace Phone.CameraApp
             _cameraPreview.UnregisterCallback<PointerCaptureOutEvent>(OnLostPointer);
         }
 
+        private void Update()
+        {
+            if (!_isReturning) return;
+            
+            _returnElapsedTime += Time.deltaTime;
+            
+            var t = _returnElapsedTime / returnDuration;
+            var smoothedT = Mathf.SmoothStep(0, 1, t);
+            _phoneOffset = Vector2.Lerp(_returnStartOffset, Vector2.zero, smoothedT);
+            
+            _phoneFrame.style.translate = new Translate(_phoneOffset.x, _phoneOffset.y);
+
+            if (t >= 1)
+            {
+                _isReturning = false;
+            }
+        }
+
         private void LateUpdate()
         {
             if (_cameraPreview == null || _cameraPreview.panel == null) return;
             if (_cameraScreen.resolvedStyle.display == DisplayStyle.None) return;
 
+            UpdateCameraPosition();
+        }
+
+        private void UpdateCameraPosition()
+        {
             var panelBounds = _cameraPreview.panel.visualTree.worldBound;
             var previewBounds = _cameraPreview.worldBound;
 
@@ -113,7 +142,7 @@ namespace Phone.CameraApp
             phoneCamera.transform.SetPositionAndRotation(
                 mainCamera.transform.position + worldOffset, 
                 mainCamera.transform.rotation
-                );
+            );
 
             phoneCamera.orthographic = true;
             phoneCamera.orthographicSize = mainCamera.orthographicSize * (previewBounds.height / panelBounds.height);
@@ -124,6 +153,8 @@ namespace Phone.CameraApp
         {
             if (evt.button != 0) return;
             
+            CancelReturn(false);
+            
             _isDragging = true;
             
             _lastPointerPosition = new Vector2(evt.position.x, evt.position.y);
@@ -131,8 +162,6 @@ namespace Phone.CameraApp
             _activePointerId = evt.pointerId;
             
             _cameraPreview.CapturePointer(evt.pointerId);
-            
-            Debug.Log("Drag started!");
         }
 
         private void OnPointerMove(PointerMoveEvent evt)
@@ -162,8 +191,6 @@ namespace Phone.CameraApp
             _activePointerId = -1;
             
             _cameraPreview.ReleasePointer(evt.pointerId);
-            
-            Debug.Log("Drag stopped!");
         }
 
         private void OnLostPointer(PointerCaptureOutEvent evt)
@@ -172,6 +199,24 @@ namespace Phone.CameraApp
             
             _isDragging = false;
             _activePointerId = -1;
+        }
+        
+        public void ResetPhonePosition()
+        {
+            _returnStartOffset = _phoneOffset;
+            _returnElapsedTime = 0f;
+            _isReturning = true;
+        }
+
+        public void CancelReturn(bool resetPosition = true)
+        {
+            if (resetPosition)
+            {
+                _phoneOffset = Vector2.zero;
+                _phoneFrame.style.translate = new Translate(_phoneOffset.x,  _phoneOffset.y);
+            }
+            
+            _isReturning = false;
         }
     }
 }

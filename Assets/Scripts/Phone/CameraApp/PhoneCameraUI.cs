@@ -4,11 +4,13 @@ using UnityEngine.UIElements;
 namespace Phone.CameraApp
 {
     [RequireComponent(typeof(UIDocument))]
+    [RequireComponent(typeof(PhoneCameraDragController))]
     public class PhoneCameraUI : MonoBehaviour
     {
         [Header("References")]
         [SerializeField] private PhoneCameraDetector cameraDetector;
         [SerializeField] private RenderTexture cameraRenderTexture;
+        [SerializeField] private PhoneCameraDragController  dragController;
         
         private VisualElement _homeScreen;
         private VisualElement _cameraScreen;
@@ -46,6 +48,8 @@ namespace Phone.CameraApp
             _backButton = root.Q<Button>("CameraBackButton");
             
             CameraPreview = root.Q<Image>("CameraPreview");
+
+            dragController = GetComponent<PhoneCameraDragController>();
             
             if (_homeScreen == null || 
                 _cameraScreen == null ||
@@ -54,7 +58,8 @@ namespace Phone.CameraApp
                 _backButton == null ||
                 CameraPreview == null ||
                 cameraRenderTexture == null ||
-                cameraDetector == null
+                cameraDetector == null ||
+                dragController == null
                 )
             {
                 Debug.LogError("Phone Camera UI has missing references or UI elements.", this);
@@ -98,6 +103,7 @@ namespace Phone.CameraApp
         {
             _homeScreen.style.display = DisplayStyle.None;
             _cameraScreen.style.display = DisplayStyle.Flex;
+            dragController.CancelReturn();
         }
 
         private void TakePicture()
@@ -110,6 +116,7 @@ namespace Phone.CameraApp
         {
             _cameraScreen.style.display = DisplayStyle.None;
             _homeScreen.style.display = DisplayStyle.Flex;
+            dragController.ResetPhonePosition();
         }
     }
 }
