@@ -18,7 +18,7 @@ MonoBehaviour:
   - delayBeforeMessage: 0.25
     text: "It\u2019s your first day in school! Are you excited?"
   - delayBeforeMessage: 2
-    text: I have sent you $15000 SEK.
+    text: I have sent you 15 000 SEK.
   - delayBeforeMessage: 1
     text: 'Did you include your new computer under your home insurance?
 
