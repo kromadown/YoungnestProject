@@ -19,7 +19,7 @@ MonoBehaviour:
   - speaker: 
     text: Friend was walking forward, but then tripped in front of the computer,
       spilling coffee all over it.
-    cue: 
+    cue: coffee_spill
   - speaker: Friend
     text: Ouchhh!
     cue: 

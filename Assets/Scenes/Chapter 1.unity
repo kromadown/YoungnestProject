@@ -424,6 +424,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2821836483937604781, guid: 5851acc2cb5cb3a4e8fbc1545b2cf1b5, type: 3}
+      propertyPath: testSequenceOnStart
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6825903687111388003, guid: 5851acc2cb5cb3a4e8fbc1545b2cf1b5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 62.44571
@@ -526,7 +530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueTrigger
   dialogue: {fileID: 11400000, guid: d9c228d07bbc4c6585ef841f64111cfc, type: 2}
-  playOnStart: 1
+  playOnStart: 0
   delay: 1
   playOnlyOnce: 1
   onlyIfChoiceKey: 
@@ -1052,6 +1056,90 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15aad6e2fad544f5693141b28de56901, type: 3}
+--- !u!212 &1900000001 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5043156558340499938, guid: 15aad6e2fad544f5693141b28de56901, type: 3}
+  m_PrefabInstance: {fileID: 766166168}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1900000002 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5347758459784508769, guid: 15aad6e2fad544f5693141b28de56901, type: 3}
+  m_PrefabInstance: {fileID: 766166168}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1900000003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4831790828967040646, guid: 15aad6e2fad544f5693141b28de56901, type: 3}
+  m_PrefabInstance: {fileID: 766166168}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1900000010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1900000011}
+  - component: {fileID: 1900000012}
+  m_Layer: 0
+  m_Name: Chapter 1 Flow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1900000011
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900000010}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1900000012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900000010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2590380a51d4c619dd46752cebcfb3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Story.Chapter1Flow
+  startDelay: 1
+  arrival: {fileID: 11400000, guid: d9c228d07bbc4c6585ef841f64111cfc, type: 2}
+  messageManager: {fileID: 1591322234}
+  momMessage: {fileID: 11400000, guid: 8d166bcb9ff9e0146930a66cb21350f2, type: 2}
+  insuranceChoice: {fileID: 11400000, guid: 3d22bf9c39627f24c9ac30c2c3901888, type: 2}
+  insurancePrice: 1500
+  knockDelay: 3
+  knock: {fileID: 11400000, guid: 3531f54fcef80044d9ad4d4d9fc11860, type: 2}
+  door: {fileID: 0}
+  doorRenderer: {fileID: 1900000001}
+  doorOpenSprite: {fileID: 21300000, guid: fd8080be73275c54a9463a38fbaf2520, type: 3}
+  friend: {fileID: 0}
+  friendArrives: {fileID: 11400000, guid: d452db78ef4bb484a9200ed1b84c5866, type: 2}
+  lookForCamera: {fileID: 11400000, guid: 58915273bb5bc3f44b7b2a54c7af5875, type: 2}
+  vlogCamera: {fileID: 0}
+  chat: {fileID: 11400000, guid: e4537ae92098b024d91fa6a9d5e648be, type: 2}
+  spill: {fileID: 11400000, guid: a79b96d51e51f9a438192505df1daab0, type: 2}
+  spillCue: coffee_spill
+  spilledCoffee: {fileID: 1900000003}
+  laptopRenderer: {fileID: 1900000002}
+  brokenLaptopSprite: {fileID: 21300000, guid: 188daa99f01533744b3e85a3302b36db, type: 3}
+  insuredOutcome: {fileID: 11400000, guid: 519bcb9a084393f46b97e6bfff472007, type: 2}
+  uninsuredOutcome: {fileID: 11400000, guid: dc81a5bb9b8b54e40825b9cc7b8024b0, type: 2}
+  insuredEnding: {fileID: 11400000, guid: bc1485eab507155449a73f5bb28f2856, type: 2}
+  uninsuredEnding: {fileID: 11400000, guid: 9d529878650c4014a955397cbfe7ebe5, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1066,3 +1154,4 @@ SceneRoots:
   - {fileID: 390918481}
   - {fileID: 446214624}
   - {fileID: 766166168}
+  - {fileID: 1900000011}

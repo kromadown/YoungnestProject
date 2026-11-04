@@ -17,6 +17,8 @@ namespace Room.Interaction
         [Tooltip("Runs when the player clicks this object, e.g. DialogueTrigger.Play.")]
         [SerializeField] UnityEvent onClicked;
 
+        public event Action Clicked;
+
         SpriteRenderer sr;
         Color originalColor;
         DialogueData dialogue;
@@ -52,6 +54,7 @@ namespace Room.Interaction
             hasBeenClicked = true;
             ShowClickText();
             onClicked.Invoke();
+            Clicked?.Invoke();
         }
 
         void ShowClickText()
