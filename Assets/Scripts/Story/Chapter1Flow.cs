@@ -93,6 +93,9 @@ namespace Story
             yield return Play(_insured ? insuredEnding : uninsuredEnding);
 
             StoryChoices.Set("chapter1", "done");
+
+            // Counts this chapter as finished (Level Select unlocks the next one) and shows the Chapter Complete screen.
+            ChapterCompleteScreen.Finish();
         }
 
         private IEnumerator AskInsurance()

@@ -25,6 +25,10 @@ namespace MainMenu
         [SerializeField] private NameEntryScreen nameEntry;
         [SerializeField] private LevelSelectScreen levelSelect;
 
+        // Set before loading this scene to open level select instead of the title screen
+        // (e.g. "Back to level select" on the Chapter Complete screen).
+        public static bool OpenLevelSelectOnLoad { get; set; }
+
         private bool HasConfirmUI => newGameConfirmPanel != null && confirmDeleteButton != null && confirmCancelButton != null;
 
         private void Awake()
@@ -63,6 +67,13 @@ namespace MainMenu
         private void Start()
         {
             ShowMainPanel();
+
+            if (OpenLevelSelectOnLoad)
+            {
+                OpenLevelSelectOnLoad = false;
+                mainPanel.SetActive(false);
+                levelSelect.Show(openAtProgress: true);
+            }
         }
 
         private void ShowMainPanel()

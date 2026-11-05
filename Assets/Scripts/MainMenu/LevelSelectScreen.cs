@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using Transitions;
 
 namespace MainMenu
 {
@@ -16,6 +16,8 @@ namespace MainMenu
         [Header("Row Text")]
         [Tooltip("{0} = level number, {1} = level name")]
         [SerializeField] private string levelLabelFormat = "Level {0}: {1}";
+        [Tooltip("{0} = chapter number in its level, {1} = chapter name")]
+        [SerializeField] private string chapterLabelFormat = "{0}. {1}";
         [SerializeField] private string lockedLevelName = "???";
         [SerializeField] private string lockedText = "Locked";
         [SerializeField] private string doneText = "Done";
@@ -28,7 +30,6 @@ namespace MainMenu
         [Header("Level Panel")]
         [SerializeField] private GameObject levelPanel;
         [SerializeField] private TMP_Text breadcrumbText;
-        [SerializeField] private TMP_Text listHeaderText;
         [SerializeField] private RectTransform listContent;
         [SerializeField] private UnityEngine.UI.Button listRowTemplate;
         [SerializeField] private UnityEngine.UI.Button backToMenuButton;
@@ -50,9 +51,8 @@ namespace MainMenu
         [Header("Debug")]
         [SerializeField] private bool unlockAllLevels;
 
-        // Texts set in the editor, restored when going back to the level list.
+        // Heading text set in the editor, restored when going back to the level list.
         private string _defaultBreadcrumbText;
-        private string _defaultListHeaderText;
 
         private readonly List<GameObject> _spawnedRows = new();
         private readonly List<GameObject> _spawnedLearnItems = new();
@@ -70,7 +70,6 @@ namespace MainMenu
         private void Awake()
         {
             _defaultBreadcrumbText = breadcrumbText.text;
-            _defaultListHeaderText = listHeaderText.text;
 
             listRowTemplate.gameObject.SetActive(false);
             learnItemTemplate.gameObject.SetActive(false);
@@ -81,16 +80,23 @@ namespace MainMenu
             replayButton.onClick.AddListener(OnPlay);
         }
 
-        // openAtProgress: jump straight to the chapter the player is up to (used by Continue).
+        // openAtProgress: jump straight to where the player is (used by Continue):
+        // the chapter they started but didn't finish, or else the next chapter to play.
         public void Show(bool openAtProgress = false)
         {
             levelPanel.SetActive(true);
             ShowLevelList();
 
-            if (openAtProgress && _progressChapter != null && IsUnlocked(_progressChapter))
+            if (!openAtProgress) return;
+
+            var level = _progressLevel;
+            var chapter = _progressChapter;
+            if (chapter == null) ChapterProgress.TryFindNextToPlay(levels, out level, out chapter);
+
+            if (chapter != null && IsUnlocked(chapter))
             {
-                ShowChapterList(_progressLevel);
-                SelectChapter(_progressChapter);
+                ShowChapterList(level);
+                SelectChapter(chapter);
             }
         }
 
@@ -106,7 +112,6 @@ namespace MainMenu
             ChapterProgress.TryFindInProgress(levels, out _progressLevel, out _progressChapter);
 
             breadcrumbText.text = _defaultBreadcrumbText;
-            listHeaderText.text = _defaultListHeaderText;
             backToMenuButton.gameObject.SetActive(true);
             backToLevelsButton.gameObject.SetActive(false);
 
@@ -134,7 +139,6 @@ namespace MainMenu
 
             var levelNumber = levels.IndexOf(level) + 1;
             breadcrumbText.text = string.Format(levelLabelFormat, levelNumber, level.DisplayName);
-            listHeaderText.text = level.DisplayName;
             backToMenuButton.gameObject.SetActive(false);
             backToLevelsButton.gameObject.SetActive(true);
 
@@ -151,7 +155,7 @@ namespace MainMenu
                     : "";
                 var selected = chapter == _selectedChapter;
 
-                AddRow(chapter.DisplayName, status, unlocked, selected, inProgress, () => SelectChapter(chapter));
+                AddRow(ChapterLabel(chapter), status, unlocked, selected, inProgress, () => SelectChapter(chapter));
             }
 
             if (_selectedChapter == null)
@@ -176,6 +180,12 @@ namespace MainMenu
             previewContent.SetActive(false);
         }
 
+        // e.g. "1. First night": the number comes from the chapter's position in its level.
+        private string ChapterLabel(ChapterData chapter)
+        {
+            return string.Format(chapterLabelFormat, ChapterProgress.GetChapterNumber(chapter, levels), chapter.DisplayName);
+        }
+
         private void ShowPreview(ChapterData chapter)
         {
             emptyLevelsMessage.SetActive(false);
@@ -187,7 +197,7 @@ namespace MainMenu
             previewScreenshot.color = hasScreenshot ? Color.white : new Color(0.89f, 0.89f, 0.89f);
             screenshotPlaceholder.SetActive(!hasScreenshot);
 
-            previewNameText.text = chapter.DisplayName;
+            previewNameText.text = ChapterLabel(chapter);
             previewDescriptionText.text = chapter.Description;
 
             foreach (var item in _spawnedLearnItems) Destroy(item);
@@ -253,8 +263,8 @@ namespace MainMenu
                 return;
             }
 
-            ChapterProgress.StartChapter(_selectedChapter);
-            SceneManager.LoadScene(_selectedChapter.SceneName);
+            ChapterProgress.StartChapter(_selectedChapter, levels);
+            SceneFader.LoadScene(_selectedChapter.SceneName);
         }
     }
 }
