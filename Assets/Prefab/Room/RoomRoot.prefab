@@ -685,6 +685,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Room.Movement.PlayerMover
   speed: 3
   grid: {fileID: 0}
+  body: {fileID: 778244969849704930}
+  frontSprite: {fileID: 21300000, guid: 7a7a10f7fe795ff40b814cf2786a6533, type: 3}
+  backSprite: {fileID: 21300000, guid: 6b990ce3f2e637845b074c2ca7d8003f, type: 3}
 --- !u!114 &8053136052454849030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1247,6 +1250,7 @@ Transform:
   - {fileID: 3305230427523630499}
   - {fileID: 8959459793810550284}
   - {fileID: 5168079746517020686}
+  - {fileID: 7834578477953611319}
   m_Father: {fileID: 6361804903730874519}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &3747310658101159056
@@ -1905,7 +1909,7 @@ MonoBehaviour:
   data: {fileID: 0}
   highlightColor: {r: 0.5, g: 1, b: 0.5, a: 1}
   interactPoint: {fileID: 0}
-  clickText: 
+  clickText: 'Note to self: no more drinks near the laptop.'
   onClicked:
     m_PersistentCalls:
       m_Calls: []
@@ -2019,7 +2023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room.Rendering.YSort
   sortWith: {fileID: 7467562560260668405}
-  offset: 0
+  offset: 2
   precision: 100
 --- !u!1 &5065351886896082079
 GameObject:
@@ -3813,3 +3817,223 @@ MonoBehaviour:
     m_Bits: 1024
   cellSize: 0.15
   clearance: 0.1
+--- !u!1 &1357712838864643782
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7834578477953611319}
+  - component: {fileID: 8376281899174467278}
+  - component: {fileID: 4237922084991711658}
+  - component: {fileID: 4915294541049550496}
+  - component: {fileID: 4110664269443258744}
+  m_Layer: 9
+  m_Name: Dophine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7834578477953611319
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357712838864643782}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.4, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 386653703414142353}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &8376281899174467278
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357712838864643782}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 173
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 21300000, guid: be0e29115c8205e47a4db85ebf833d4d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 3.15, y: 2.87}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+--- !u!114 &4237922084991711658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357712838864643782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627d02fcd2bf7e143beae637da991cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.Interaction.Interactable
+  data: {fileID: 0}
+  highlightColor: {r: 0.5, g: 1, b: 0.5, a: 1}
+  interactPoint: {fileID: 0}
+  clickText: A little YoungNest dolphin. So cute!
+  onClicked:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!60 &4915294541049550496
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357712838864643782}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.15, y: 2.87}
+    newSize: {x: 3.15, y: 2.87}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -1.575, y: 0.735}
+      - {x: -1.495, y: 0.855}
+      - {x: -1.355, y: 0.995}
+      - {x: -1.295, y: 1.035}
+      - {x: -1.135, y: 1.115}
+      - {x: -0.535, y: 1.355}
+      - {x: -0.355, y: 1.415}
+      - {x: -0.235, y: 1.435}
+      - {x: -0.035, y: 1.435}
+      - {x: 0.065, y: 1.415}
+      - {x: 0.945, y: 1.215}
+      - {x: 0.985, y: 1.195}
+      - {x: 1.025, y: 1.155}
+      - {x: 1.465, y: 0.555}
+      - {x: 1.505, y: 0.495}
+      - {x: 1.525, y: 0.455}
+      - {x: 1.545, y: 0.395}
+      - {x: 1.565, y: 0.295}
+      - {x: 1.565, y: 0.235}
+      - {x: 1.545, y: 0.155}
+      - {x: 1.525, y: 0.095}
+      - {x: 1.045, y: -0.805}
+      - {x: 1.005, y: -0.865}
+      - {x: 0.945, y: -0.945}
+      - {x: 0.745, y: -1.145}
+      - {x: 0.565, y: -1.265}
+      - {x: 0.485, y: -1.305}
+      - {x: 0.385, y: -1.345}
+      - {x: 0.325, y: -1.365}
+      - {x: 0.165, y: -1.405}
+      - {x: -0.035, y: -1.425}
+      - {x: -0.095, y: -1.425}
+      - {x: -0.295, y: -1.405}
+      - {x: -0.455, y: -1.365}
+      - {x: -0.555, y: -1.325}
+      - {x: -0.715, y: -1.245}
+      - {x: -0.775, y: -1.205}
+      - {x: -0.855, y: -1.145}
+      - {x: -0.995, y: -1.005}
+      - {x: -1.075, y: -0.905}
+      - {x: -1.155, y: -0.785}
+      - {x: -1.255, y: -0.585}
+      - {x: -1.315, y: -0.405}
+      - {x: -1.355, y: -0.245}
+      - {x: -1.575, y: 0.675}
+  m_UseDelaunayMesh: 1
+--- !u!114 &4110664269443258744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357712838864643782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a73eed28e475419daf3c3da078c2e8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.Rendering.YSort
+  sortWith: {fileID: 5347758459784508769}
+  offset: 1
+  precision: 100
