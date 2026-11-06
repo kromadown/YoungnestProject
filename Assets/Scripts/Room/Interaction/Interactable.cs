@@ -66,8 +66,7 @@ namespace Room.Interaction
         public void AppendClickText(string extra)
         {
             clickText = string.IsNullOrWhiteSpace(clickText) ? extra : $"{clickText.TrimEnd()} {extra}";
-            if (dialogue != null) Destroy(dialogue);
-            dialogue = null;
+            if (dialogue != null) SetText(dialogue, clickText);
         }
 
         // Called by RoomClickController when the player clicks this object.
@@ -100,10 +99,15 @@ namespace Room.Interaction
         static DialogueData CreateDialogue(string text)
         {
             var created = ScriptableObject.CreateInstance<DialogueData>();
+            SetText(created, text);
+            return created;
+        }
+
+        static void SetText(DialogueData target, string text)
+        {
             var lines = new DialogueLines();
             lines.lines.Add(new DialogueLine { text = text });
-            JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(lines), created);
-            return created;
+            JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(lines), target);
         }
 
         [Serializable]
