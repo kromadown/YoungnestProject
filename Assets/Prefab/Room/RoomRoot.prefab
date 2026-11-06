@@ -3926,7 +3926,7 @@ MonoBehaviour:
   data: {fileID: 0}
   highlightColor: {r: 0.5, g: 1, b: 0.5, a: 1}
   interactPoint: {fileID: 0}
-  clickText: A little YoungNest dolphin. So cute!
+  clickText: A dolphin-shaped camera from YoungNest.
   onClicked:
     m_PersistentCalls:
       m_Calls: []

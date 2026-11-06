@@ -3,6 +3,7 @@ using Dialogue;
 using Phone.Messages;
 using Player;
 using Room.Interaction;
+using Room.Rendering;
 using UnityEngine;
 
 namespace Story
@@ -38,6 +39,7 @@ namespace Story
         [Header("1.3 The Vlog Camera Turns On")]
         [SerializeField] private DialogueData lookForCamera;
         [SerializeField] private Interactable vlogCamera;
+        [SerializeField] private string recordingText = "It's still recording.";
         [SerializeField] private DialogueData chat;
 
         [Header("1.4 The Coffee Spills on the Laptop")]
@@ -98,8 +100,9 @@ namespace Story
             yield return Play(friendArrives);
 
             yield return Play(lookForCamera);
+            if (vlogCamera != null) vlogCamera.SetPulse(true);
             yield return WaitForClick(vlogCamera);
-            StoryChoices.Set("vlog_recording", "true");
+            StartRecording();
             yield return Play(chat);
 
             DialogueManager.CueFired += OnCue;
@@ -173,6 +176,17 @@ namespace Story
 
             _momMessageSent = true;
             messageManager.DeliverSequence(momMessage);
+        }
+
+        private void StartRecording()
+        {
+            StoryChoices.Set("vlog_recording", "true");
+            if (vlogCamera == null) return;
+
+            vlogCamera.SetPulse(false);
+            vlogCamera.AppendClickText(recordingText);
+            if (vlogCamera.GetComponent<RecordingLight>() == null)
+                vlogCamera.gameObject.AddComponent<RecordingLight>();
         }
 
         private void FriendLeaves()
