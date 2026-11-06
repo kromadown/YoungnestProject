@@ -48,6 +48,7 @@ namespace Story
         [SerializeField] private Sprite brokenLaptopSprite;
         [SerializeField] private DialogueData insuredOutcome;
         [SerializeField] private DialogueData uninsuredOutcome;
+        [SerializeField] private string friendLeavesCue = "friend_leaves";
 
         [Header("1.5 The Reveal")]
         [SerializeField] private DialogueData insuredEnding;
@@ -55,6 +56,7 @@ namespace Story
 
         private bool _insured;
         private bool _momMessageSent;
+        private Sprite _doorClosedSprite;
 
         private void Start()
         {
@@ -87,7 +89,11 @@ namespace Story
             yield return new WaitForSeconds(knockDelay);
             yield return Play(knock);
             yield return WaitForClick(door);
-            if (doorRenderer != null && doorOpenSprite != null) doorRenderer.sprite = doorOpenSprite;
+            if (doorRenderer != null && doorOpenSprite != null)
+            {
+                _doorClosedSprite = doorRenderer.sprite;
+                doorRenderer.sprite = doorOpenSprite;
+            }
             if (friend != null) friend.SetActive(true);
             yield return Play(friendArrives);
 
@@ -101,7 +107,9 @@ namespace Story
             DialogueManager.CueFired -= OnCue;
             BreakLaptop();
 
+            DialogueManager.CueFired += OnCue;
             yield return Play(_insured ? insuredOutcome : uninsuredOutcome);
+            DialogueManager.CueFired -= OnCue;
             yield return Play(_insured ? insuredEnding : uninsuredEnding);
 
             StoryChoices.Set("chapter1", "done");
@@ -156,6 +164,7 @@ namespace Story
         {
             if (cue == momMessageCue) SendMomMessage();
             else if (cue == spillCue) BreakLaptop();
+            else if (cue == friendLeavesCue) FriendLeaves();
         }
 
         private void SendMomMessage()
@@ -164,6 +173,12 @@ namespace Story
 
             _momMessageSent = true;
             messageManager.DeliverSequence(momMessage);
+        }
+
+        private void FriendLeaves()
+        {
+            if (friend != null) friend.SetActive(false);
+            if (doorRenderer != null && _doorClosedSprite != null) doorRenderer.sprite = _doorClosedSprite;
         }
 
         private void BreakLaptop()
