@@ -17,6 +17,9 @@ namespace Story
         [SerializeField] private DialogueData arrival;
         [SerializeField] private MessageManager messageManager;
         [SerializeField] private PhoneMessageSequence momMessage;
+        [SerializeField] private string momMessageCue = "mom_message";
+        [SerializeField] private DialogueData momReply;
+        [SerializeField, Min(0)] private int momAllowance = 15000;
         [SerializeField] private DialogueData insuranceChoice;
         [SerializeField, Min(0)] private int insurancePrice = 1500;
 
@@ -48,6 +51,7 @@ namespace Story
         [SerializeField] private DialogueData uninsuredEnding;
 
         private bool _insured;
+        private bool _momMessageSent;
 
         private void Start()
         {
@@ -62,13 +66,18 @@ namespace Story
         private IEnumerator Run()
         {
             yield return new WaitForSeconds(startDelay);
+            DialogueManager.CueFired += OnCue;
             yield return Play(arrival);
+            DialogueManager.CueFired -= OnCue;
 
             if (messageManager != null && momMessage != null)
             {
-                messageManager.DeliverSequence(momMessage);
+                SendMomMessage();
                 yield return new WaitUntil(MomMessageRead);
             }
+
+            yield return Play(momReply);
+            PlayerProfile.AddMoney(momAllowance);
 
             yield return AskInsurance();
 
@@ -127,7 +136,16 @@ namespace Story
 
         private void OnCue(string cue)
         {
-            if (cue == spillCue) BreakLaptop();
+            if (cue == momMessageCue) SendMomMessage();
+            else if (cue == spillCue) BreakLaptop();
+        }
+
+        private void SendMomMessage()
+        {
+            if (_momMessageSent || messageManager == null || momMessage == null) return;
+
+            _momMessageSent = true;
+            messageManager.DeliverSequence(momMessage);
         }
 
         private void BreakLaptop()

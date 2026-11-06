@@ -940,6 +940,9 @@ MonoBehaviour:
   arrival: {fileID: 11400000, guid: d9c228d07bbc4c6585ef841f64111cfc, type: 2}
   messageManager: {fileID: 1591322234}
   momMessage: {fileID: 11400000, guid: 8d166bcb9ff9e0146930a66cb21350f2, type: 2}
+  momMessageCue: mom_message
+  momReply: {fileID: 11400000, guid: 403d913080e143d58ff1b917f3a83942, type: 2}
+  momAllowance: 15000
   insuranceChoice: {fileID: 11400000, guid: 3d22bf9c39627f24c9ac30c2c3901888, type: 2}
   insurancePrice: 1500
   knockDelay: 3

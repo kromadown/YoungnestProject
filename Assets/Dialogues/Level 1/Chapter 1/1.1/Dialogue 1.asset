@@ -21,7 +21,7 @@ MonoBehaviour:
     cue: 
   - speaker: 
     text: 'Phone notification: A message from Mom'
-    cue: 
+    cue: mom_message
   - speaker: '{player}'
     text: Mom's message?
     cue: 
