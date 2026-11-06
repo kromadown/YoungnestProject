@@ -11,6 +11,7 @@ namespace Story
     {
         private const string InsuranceKey = "insurance";
         private const string Bought = "bought";
+        private const string LearnMoreKey = "insurance_learn";
 
         [Header("1.1 A Message from Mom")]
         [SerializeField, Min(0)] private float startDelay = 1f;
@@ -22,6 +23,8 @@ namespace Story
         [SerializeField, Min(0)] private int momAllowance = 15000;
         [SerializeField] private DialogueData insuranceChoice;
         [SerializeField, Min(0)] private int insurancePrice = 1500;
+        [SerializeField] private DialogueData insuranceBought;
+        [SerializeField] private string learnMoreUrl = "https://www.google.com";
 
         [Header("1.2 A Friend Arrives with Coffee")]
         [SerializeField, Min(0)] private float knockDelay = 3f;
@@ -116,15 +119,30 @@ namespace Story
             void OnChoice(DialogueChoice choice)
             {
                 if (choice.rememberKey == InsuranceKey) picked = choice.rememberValue;
+                else if (choice.rememberKey == LearnMoreKey && !string.IsNullOrWhiteSpace(learnMoreUrl))
+                    Application.OpenURL(learnMoreUrl);
             }
 
+            var choicesOnly = ChoicesOnly(insuranceChoice);
             manager.ChoiceMade += OnChoice;
-            while (picked == null) yield return Play(insuranceChoice);
+            yield return Play(insuranceChoice);
+            while (picked == null) yield return Play(choicesOnly);
             manager.ChoiceMade -= OnChoice;
+            Destroy(choicesOnly);
 
             _insured = picked == Bought;
-            if (_insured && !PlayerProfile.TrySpend(insurancePrice))
+            if (!_insured) yield break;
+
+            if (!PlayerProfile.TrySpend(insurancePrice))
                 Debug.LogWarning($"Bought insurance but the wallet has only {PlayerProfile.Money}.", this);
+            yield return Play(insuranceBought);
+        }
+
+        private static DialogueData ChoicesOnly(DialogueData dialogue)
+        {
+            var copy = Instantiate(dialogue);
+            JsonUtility.FromJsonOverwrite("{\"lines\":[]}", copy);
+            return copy;
         }
 
         private bool MomMessageRead()
