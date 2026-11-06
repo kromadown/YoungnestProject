@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Phone.CameraApp
 {
+    [DefaultExecutionOrder(100)]
     public class PhoneCameraDetector : MonoBehaviour
     {
         [Header("References")]
@@ -10,29 +11,70 @@ namespace Phone.CameraApp
         [Header("Detection")]
         [SerializeField] private LayerMask detectionLayer;
 
+        private PhotoTarget _currentTarget;
+        private bool _isCameraActive;
+
+        private void LateUpdate()
+        {
+            if (!_isCameraActive) return;
+
+            SetCurrentTarget(DetectPhotoTarget());
+        }
+
+        public void SetCameraActive(bool active)
+        {
+            _isCameraActive = active;
+
+            if (!active) SetCurrentTarget(null);
+        }
+
         public void TakePicture()
         {
-            var hit = DetectedPhotoObject().collider;
-            if (hit == null)
+            var target = DetectPhotoTarget();
+            
+            if (target == null)
             {
                 Debug.Log("Took a picture of nothing!");
                 return;
             }
-
-            var photoTarget = hit.GetComponentInParent<PhotoTarget>();
-            if (photoTarget == null)
-            {
-                Debug.LogWarning("Took a picture of object but couldn't find PhotoTarget!");
-                return;
-            }
             
-            photoTarget.OnPhotographed();
+            target.OnPhotographed();
+        }
+
+        private PhotoTarget DetectPhotoTarget()
+        {
+            var hit = DetectedPhotoObject().collider;
+            if (hit == null) return null;
+
+            return hit.GetComponentInParent<PhotoTarget>();
+        }
+
+        private void SetCurrentTarget(PhotoTarget target)
+        {
+            if (_currentTarget == target) return;
+
+            if (_currentTarget != null)
+            {
+                _currentTarget.SetHighlighted(false);
+            }
+
+            _currentTarget = target;
+
+            if (_currentTarget != null)
+            {
+                _currentTarget.SetHighlighted(true);
+            }
         }
 
         private RaycastHit2D DetectedPhotoObject()
         {
             var ray = phoneCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             return Physics2D.GetRayIntersection(ray, Mathf.Infinity, detectionLayer);
+        }
+
+        private void OnDisable()
+        {
+            SetCameraActive(false);
         }
     }
 }
