@@ -957,7 +957,7 @@ MonoBehaviour:
   insuranceChoice: {fileID: 11400000, guid: 3d22bf9c39627f24c9ac30c2c3901888, type: 2}
   insurancePrice: 1500
   insuranceBought: {fileID: 11400000, guid: c2564ac9c70b48bfa0a862c5a4226985, type: 2}
-  learnMoreUrl: https://www.google.com
+  learnMoreUrl: https://jessiehungyolo.github.io/youngnest-docs/home-insurance.html
   knockDelay: 3
   knock: {fileID: 11400000, guid: 3531f54fcef80044d9ad4d4d9fc11860, type: 2}
   door: {fileID: 1900000004}

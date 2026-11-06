@@ -25,7 +25,7 @@ namespace Story
         [SerializeField] private DialogueData insuranceChoice;
         [SerializeField, Min(0)] private int insurancePrice = 1500;
         [SerializeField] private DialogueData insuranceBought;
-        [SerializeField] private string learnMoreUrl = "https://www.google.com";
+        [SerializeField] private string learnMoreUrl = "https://jessiehungyolo.github.io/youngnest-docs/home-insurance.html";
 
         [Header("1.2 A Friend Arrives with Coffee")]
         [SerializeField, Min(0)] private float knockDelay = 3f;
