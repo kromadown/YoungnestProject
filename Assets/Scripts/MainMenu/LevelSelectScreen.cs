@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Player;
 using TMPro;
 using UnityEngine;
 using Transitions;
@@ -41,6 +42,7 @@ namespace MainMenu
         [SerializeField] private GameObject previewContent;
         [SerializeField] private UnityEngine.UI.Image previewScreenshot;
         [SerializeField] private GameObject screenshotPlaceholder;
+        [Tooltip("Optional: shows the chapter name above the description.")]
         [SerializeField] private TMP_Text previewNameText;
         [SerializeField] private TMP_Text previewDescriptionText;
         [SerializeField] private RectTransform learnListContent;
@@ -197,8 +199,8 @@ namespace MainMenu
             previewScreenshot.color = hasScreenshot ? Color.white : new Color(0.89f, 0.89f, 0.89f);
             screenshotPlaceholder.SetActive(!hasScreenshot);
 
-            previewNameText.text = ChapterLabel(chapter);
-            previewDescriptionText.text = chapter.Description;
+            if (previewNameText != null) previewNameText.text = ChapterLabel(chapter);
+            previewDescriptionText.text = PlayerProfile.FillName(chapter.Description);
 
             foreach (var item in _spawnedLearnItems) Destroy(item);
             _spawnedLearnItems.Clear();
@@ -206,7 +208,7 @@ namespace MainMenu
             foreach (var goal in chapter.LearningGoals)
             {
                 var item = Instantiate(learnItemTemplate, learnListContent);
-                item.text = $"• {goal}";
+                item.text = $"• {PlayerProfile.FillName(goal)}";
                 item.gameObject.SetActive(true);
                 _spawnedLearnItems.Add(item.gameObject);
             }

@@ -105,7 +105,7 @@ namespace Story
                 foreach (var goal in chapter.LearningGoals)
                 {
                     var learnItem = Instantiate(learnItemTemplate, learnList);
-                    learnItem.text = $"• {goal}";
+                    learnItem.text = $"• {PlayerProfile.FillName(goal)}";
                     learnItem.gameObject.SetActive(true);
                     _spawned.Add(learnItem.gameObject);
                 }

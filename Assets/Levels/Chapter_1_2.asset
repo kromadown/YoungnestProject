@@ -16,8 +16,8 @@ MonoBehaviour:
   displayName: Rent is due
   sceneName: 
   screenshot: {fileID: 0}
-  description: 'The landlord texts a reminder: rent is due Friday. Jessie has to
-    decide what to cut to pay on time.'
+  description: 'The landlord texts a reminder: rent is due Friday. {player} has
+    to decide what to cut to pay on time.'
   learningGoals:
   - Fixed vs. variable expenses
   - Late fees and why they add up

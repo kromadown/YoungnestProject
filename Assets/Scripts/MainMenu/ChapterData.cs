@@ -42,6 +42,7 @@ namespace MainMenu
         [SerializeField] private string displayName;
         [SerializeField] private string sceneName;
         [SerializeField] private Sprite screenshot;
+        [Tooltip("Write {player} where the player's name should go.")]
         [SerializeField, TextArea(3, 6)] private string description;
         [SerializeField] private List<string> learningGoals = new();
         [SerializeField] private bool unlockedByDefault;
