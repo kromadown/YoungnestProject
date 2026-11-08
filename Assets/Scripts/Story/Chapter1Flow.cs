@@ -3,6 +3,7 @@ using Dialogue;
 using Phone.Messages;
 using Player;
 using Room.Interaction;
+using Room.Rendering;
 using UnityEngine;
 
 namespace Story
@@ -11,14 +12,20 @@ namespace Story
     {
         private const string InsuranceKey = "insurance";
         private const string Bought = "bought";
+        private const string LearnMoreKey = "insurance_learn";
 
         [Header("1.1 A Message from Mom")]
         [SerializeField, Min(0)] private float startDelay = 1f;
         [SerializeField] private DialogueData arrival;
         [SerializeField] private MessageManager messageManager;
         [SerializeField] private PhoneMessageSequence momMessage;
+        [SerializeField] private string momMessageCue = "mom_message";
+        [SerializeField] private DialogueData momReply;
+        [SerializeField, Min(0)] private int momAllowance = 15000;
         [SerializeField] private DialogueData insuranceChoice;
         [SerializeField, Min(0)] private int insurancePrice = 1500;
+        [SerializeField] private DialogueData insuranceBought;
+        [SerializeField] private string learnMoreUrl = "https://jessiehungyolo.github.io/youngnest-docs/home-insurance.html";
 
         [Header("1.2 A Friend Arrives with Coffee")]
         [SerializeField, Min(0)] private float knockDelay = 3f;
@@ -32,6 +39,7 @@ namespace Story
         [Header("1.3 The Vlog Camera Turns On")]
         [SerializeField] private DialogueData lookForCamera;
         [SerializeField] private Interactable vlogCamera;
+        [SerializeField] private string recordingText = "It's still recording.";
         [SerializeField] private DialogueData chat;
 
         [Header("1.4 The Coffee Spills on the Laptop")]
@@ -42,12 +50,15 @@ namespace Story
         [SerializeField] private Sprite brokenLaptopSprite;
         [SerializeField] private DialogueData insuredOutcome;
         [SerializeField] private DialogueData uninsuredOutcome;
+        [SerializeField] private string friendLeavesCue = "friend_leaves";
 
         [Header("1.5 The Reveal")]
         [SerializeField] private DialogueData insuredEnding;
         [SerializeField] private DialogueData uninsuredEnding;
 
         private bool _insured;
+        private bool _momMessageSent;
+        private Sprite _doorClosedSprite;
 
         private void Start()
         {
@@ -62,26 +73,36 @@ namespace Story
         private IEnumerator Run()
         {
             yield return new WaitForSeconds(startDelay);
+            DialogueManager.CueFired += OnCue;
             yield return Play(arrival);
+            DialogueManager.CueFired -= OnCue;
 
             if (messageManager != null && momMessage != null)
             {
-                messageManager.DeliverSequence(momMessage);
+                SendMomMessage();
                 yield return new WaitUntil(MomMessageRead);
             }
+
+            yield return Play(momReply);
+            PlayerProfile.AddMoney(momAllowance);
 
             yield return AskInsurance();
 
             yield return new WaitForSeconds(knockDelay);
             yield return Play(knock);
             yield return WaitForClick(door);
-            if (doorRenderer != null && doorOpenSprite != null) doorRenderer.sprite = doorOpenSprite;
+            if (doorRenderer != null && doorOpenSprite != null)
+            {
+                _doorClosedSprite = doorRenderer.sprite;
+                doorRenderer.sprite = doorOpenSprite;
+            }
             if (friend != null) friend.SetActive(true);
             yield return Play(friendArrives);
 
             yield return Play(lookForCamera);
+            if (vlogCamera != null) vlogCamera.SetPulse(true);
             yield return WaitForClick(vlogCamera);
-            StoryChoices.Set("vlog_recording", "true");
+            StartRecording();
             yield return Play(chat);
 
             DialogueManager.CueFired += OnCue;
@@ -89,7 +110,9 @@ namespace Story
             DialogueManager.CueFired -= OnCue;
             BreakLaptop();
 
+            DialogueManager.CueFired += OnCue;
             yield return Play(_insured ? insuredOutcome : uninsuredOutcome);
+            DialogueManager.CueFired -= OnCue;
             yield return Play(_insured ? insuredEnding : uninsuredEnding);
 
             StoryChoices.Set("chapter1", "done");
@@ -107,15 +130,30 @@ namespace Story
             void OnChoice(DialogueChoice choice)
             {
                 if (choice.rememberKey == InsuranceKey) picked = choice.rememberValue;
+                else if (choice.rememberKey == LearnMoreKey && !string.IsNullOrWhiteSpace(learnMoreUrl))
+                    Application.OpenURL(learnMoreUrl);
             }
 
+            var choicesOnly = ChoicesOnly(insuranceChoice);
             manager.ChoiceMade += OnChoice;
-            while (picked == null) yield return Play(insuranceChoice);
+            yield return Play(insuranceChoice);
+            while (picked == null) yield return Play(choicesOnly);
             manager.ChoiceMade -= OnChoice;
+            Destroy(choicesOnly);
 
             _insured = picked == Bought;
-            if (_insured && !PlayerProfile.TrySpend(insurancePrice))
+            if (!_insured) yield break;
+
+            if (!PlayerProfile.TrySpend(insurancePrice))
                 Debug.LogWarning($"Bought insurance but the wallet has only {PlayerProfile.Money}.", this);
+            yield return Play(insuranceBought);
+        }
+
+        private static DialogueData ChoicesOnly(DialogueData dialogue)
+        {
+            var copy = Instantiate(dialogue);
+            JsonUtility.FromJsonOverwrite("{\"lines\":[]}", copy);
+            return copy;
         }
 
         private bool MomMessageRead()
@@ -127,7 +165,34 @@ namespace Story
 
         private void OnCue(string cue)
         {
-            if (cue == spillCue) BreakLaptop();
+            if (cue == momMessageCue) SendMomMessage();
+            else if (cue == spillCue) BreakLaptop();
+            else if (cue == friendLeavesCue) FriendLeaves();
+        }
+
+        private void SendMomMessage()
+        {
+            if (_momMessageSent || messageManager == null || momMessage == null) return;
+
+            _momMessageSent = true;
+            messageManager.DeliverSequence(momMessage);
+        }
+
+        private void StartRecording()
+        {
+            StoryChoices.Set("vlog_recording", "true");
+            if (vlogCamera == null) return;
+
+            vlogCamera.SetPulse(false);
+            vlogCamera.AppendClickText(recordingText);
+            if (vlogCamera.GetComponent<RecordingLight>() == null)
+                vlogCamera.gameObject.AddComponent<RecordingLight>();
+        }
+
+        private void FriendLeaves()
+        {
+            if (friend != null) friend.SetActive(false);
+            if (doorRenderer != null && _doorClosedSprite != null) doorRenderer.sprite = _doorClosedSprite;
         }
 
         private void BreakLaptop()

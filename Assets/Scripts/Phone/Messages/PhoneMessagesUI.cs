@@ -214,16 +214,17 @@ namespace Phone.Messages
         
         private void OnMessageReceived(PhoneContact sender)
         {
-            if (!_isMessagesOpen) return;
-
-            if (_currentContact == sender)
+            if (_isMessagesOpen)
             {
-                messageManager.MarkAsRead(sender);
-                RenderConversation();
-            }
-            else if (_currentContact == null)
-            {
-                ShowContacts();
+                if (_currentContact == sender)
+                {
+                    messageManager.MarkAsRead(sender);
+                    RenderConversation();
+                }
+                else if (_currentContact == null)
+                {
+                    ShowContacts();
+                }
             }
             
             UpdateHomeUnreadBadge();

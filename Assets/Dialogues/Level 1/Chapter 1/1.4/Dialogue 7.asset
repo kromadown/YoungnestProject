@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueData
   lines:
   - speaker: Friend
-    text: " I\u2019m really happy for you. Here\u2019s your coffee."
+    text: "I\u2019m really happy for you. Here\u2019s your coffee."
     cue: 
   - speaker: 
     text: Friend was walking forward, but then tripped in front of the computer,

@@ -17,9 +17,6 @@ MonoBehaviour:
     text: "Alright, it\u2019s done. Don\u2019t worry about it, just buy me another
       coffee."
     cue: 
-  - speaker: Friend
-    text: ...damn it.
-    cue: 
   choicePrompt:
     speaker: 
     text: 

@@ -25,6 +25,9 @@ MonoBehaviour:
   - speaker: '{player}'
     text: Come on in!
     cue: 
+  - speaker: 
+    text: The friend walked into the house.
+    cue: 
   choicePrompt:
     speaker: 
     text: 

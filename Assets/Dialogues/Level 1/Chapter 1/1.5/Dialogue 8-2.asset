@@ -16,12 +16,12 @@ MonoBehaviour:
   - speaker: '{player}'
     text: Noooo, my new computer.
     cue: 
-  - speaker: '{player}'
+  - speaker: Friend
     text: "I\u2019m sorry, but I have something to do, so I\u2019ll be leaving now."
     cue: 
   - speaker: 
     text: The friend walked away quickly.
-    cue: 
+    cue: friend_leaves
   - speaker: '{player}'
     text: "How could I be so unlucky? I\u2019m definitely getting home insurance
       next time."

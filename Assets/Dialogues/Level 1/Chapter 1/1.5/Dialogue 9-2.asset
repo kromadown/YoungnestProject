@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueData
   lines:
   - speaker: '{player}'
-    text: Damn coffee!
+    text: Oh noooooo!
     cue: 
   choicePrompt:
     speaker: 

@@ -13,6 +13,7 @@ namespace Room.Interaction
         [SerializeField] Color highlightColor = new Color(0.5f, 1f, 0.5f);
         [SerializeField] Transform interactPoint;
         [SerializeField, TextArea(2, 5)] string clickText;
+        [SerializeField, Min(0.1f)] float pulseSpeed = 2f;
 
         [Tooltip("Runs when the player clicks this object, e.g. DialogueTrigger.Play.")]
         [SerializeField] UnityEvent onClicked;
@@ -23,6 +24,8 @@ namespace Room.Interaction
         Color originalColor;
         DialogueData dialogue;
         bool hasBeenClicked;
+        bool pulsing;
+        bool hovered;
 
         public string PromptText => data != null ? data.promptText : "Click";
         public bool HasInteractPoint => interactPoint != null;
@@ -40,9 +43,30 @@ namespace Room.Interaction
             if (dialogue != null) Destroy(dialogue);
         }
 
+        void Update()
+        {
+            if (!pulsing || hovered) return;
+
+            float t = Mathf.PingPong(Time.time * pulseSpeed, 1f);
+            sr.color = Color.Lerp(originalColor, highlightColor, t);
+        }
+
         public void SetHighlight(bool on)
         {
+            hovered = on;
             sr.color = on ? highlightColor : originalColor;
+        }
+
+        public void SetPulse(bool on)
+        {
+            pulsing = on;
+            if (!on && !hovered) sr.color = originalColor;
+        }
+
+        public void AppendClickText(string extra)
+        {
+            clickText = string.IsNullOrWhiteSpace(clickText) ? extra : $"{clickText.TrimEnd()} {extra}";
+            if (dialogue != null) SetText(dialogue, clickText);
         }
 
         // Called by RoomClickController when the player clicks this object.
@@ -75,10 +99,15 @@ namespace Room.Interaction
         static DialogueData CreateDialogue(string text)
         {
             var created = ScriptableObject.CreateInstance<DialogueData>();
+            SetText(created, text);
+            return created;
+        }
+
+        static void SetText(DialogueData target, string text)
+        {
             var lines = new DialogueLines();
             lines.lines.Add(new DialogueLine { text = text });
-            JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(lines), created);
-            return created;
+            JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(lines), target);
         }
 
         [Serializable]

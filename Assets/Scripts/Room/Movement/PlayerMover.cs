@@ -8,6 +8,9 @@ namespace Room.Movement
     {
         [SerializeField] float speed = 3f;
         [SerializeField] FloorGrid grid;
+        [SerializeField] SpriteRenderer body;
+        [SerializeField] Sprite frontSprite;
+        [SerializeField] Sprite backSprite;
 
         readonly Queue<Vector3> waypoints = new();
         Action onArrived;
@@ -15,6 +18,7 @@ namespace Room.Movement
         void Awake()
         {
             if (grid == null) grid = FindFirstObjectByType<FloorGrid>();
+            if (body == null) body = GetComponentInChildren<SpriteRenderer>();
         }
 
         public void MoveTo(Vector3 point, Action arrived = null)
@@ -36,6 +40,7 @@ namespace Room.Movement
             if (waypoints.Count == 0) return;
 
             Vector3 target = waypoints.Peek();
+            Face(target - transform.position);
             transform.position = Vector3.MoveTowards(
                 transform.position, target, speed * Time.deltaTime);
 
@@ -50,6 +55,16 @@ namespace Room.Movement
             var done = onArrived;
             onArrived = null;
             done?.Invoke();
+        }
+
+        void Face(Vector3 direction)
+        {
+            if (body == null || direction.sqrMagnitude < 0.0001f) return;
+
+            bool up = direction.y > 0f;
+            Sprite sprite = up ? backSprite : frontSprite;
+            if (sprite != null) body.sprite = sprite;
+            body.flipX = direction.x > 0f;
         }
 
         Vector3 Flat(Vector3 p) => new(p.x, p.y, transform.position.z);

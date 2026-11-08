@@ -34,6 +34,7 @@ namespace Phone.CameraApp
             
             CameraPreview.image = cameraRenderTexture;
             _cameraScreen.style.display = DisplayStyle.None;
+            cameraDetector.SetCameraActive(false);
         }
 
         private bool TryAssignReferences()
@@ -78,6 +79,7 @@ namespace Phone.CameraApp
         
         private void OnDisable()
         {
+            cameraDetector?.SetCameraActive(false);
             UnSubscribeEvents();
         }
 
@@ -103,7 +105,10 @@ namespace Phone.CameraApp
         {
             _homeScreen.style.display = DisplayStyle.None;
             _cameraScreen.style.display = DisplayStyle.Flex;
+            
             dragController.CancelReturn();
+            
+            cameraDetector.SetCameraActive(true);
         }
 
         private void TakePicture()
@@ -114,8 +119,11 @@ namespace Phone.CameraApp
         
         private void GoBack()
         {
+            cameraDetector.SetCameraActive(false);
+            
             _cameraScreen.style.display = DisplayStyle.None;
             _homeScreen.style.display = DisplayStyle.Flex;
+            
             dragController.ResetPhonePosition();
         }
     }
