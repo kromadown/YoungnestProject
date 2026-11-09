@@ -22,14 +22,14 @@ namespace Dialogue
         [SerializeField] private UnityEngine.UI.Button advanceButton;
 
         [Header("Choices")]
-        [Tooltip("Run Tools > Youngnest > Create Dialogue Box Prefab > Update to create these.")]
+        [Tooltip("The big option buttons, centred over the room above the dialogue box. " +
+                 "Tools > Youngnest > Create Dialogue Box Prefab > Update creates them if missing.")]
         [SerializeField] private GameObject choicePanel;
+        [Tooltip("Optional, old layout: the question now shows in the dialogue box itself.")]
         [SerializeField] private TMP_Text choicePromptText;
         [SerializeField] private RectTransform choiceList;
         [SerializeField] private UnityEngine.UI.Button choiceButtonTemplate;
         [SerializeField] private GameObject nextIndicator;
-        [Tooltip("The box that grows taller when the options don't fit.")]
-        [SerializeField] private RectTransform boxRect;
 
         [Header("Typing")]
         [Tooltip("Letters per second. 0 shows the whole line at once.")]
@@ -44,8 +44,6 @@ namespace Dialogue
         private Coroutine _typing;
         private bool _choosing;
 
-        private Vector2 _baseBoxSize;
-        private Vector2 _baseNameTagPosition;
 
         public static DialogueManager Instance { get; private set; }
 
@@ -70,8 +68,6 @@ namespace Dialogue
 
             advanceButton.onClick.AddListener(OnAdvanceClicked);
 
-            if (boxRect != null) _baseBoxSize = boxRect.sizeDelta;
-            _baseNameTagPosition = ((RectTransform)nameTag.transform).anchoredPosition;
 
             if (HasChoiceUI)
             {
@@ -262,14 +258,18 @@ namespace Dialogue
 
             _choosing = true;
 
+            // The question goes in the dialogue box; the options float above it, big enough to tap on a phone.
+            // With no prompt text, the last line stays in the box (it usually asks the question).
             var prompt = _current.ChoicePrompt;
-            ShowSpeaker(prompt.speaker);
             FireCue(prompt.cue);
-            var hasPrompt = !string.IsNullOrWhiteSpace(prompt.text);
-            choicePromptText.gameObject.SetActive(hasPrompt);
-            choicePromptText.text = PlayerProfile.FillName(prompt.text);
+            if (choicePromptText != null) choicePromptText.gameObject.SetActive(false);
+            if (!string.IsNullOrWhiteSpace(prompt.text))
+            {
+                ShowSpeaker(prompt.speaker);
+                bodyText.text = PlayerProfile.FillName(prompt.text);
+            }
+            bodyText.maxVisibleCharacters = int.MaxValue;
 
-            bodyText.gameObject.SetActive(false);
             if (nextIndicator != null) nextIndicator.SetActive(false);
             choicePanel.SetActive(true);
 
@@ -286,8 +286,6 @@ namespace Dialogue
                 button.onClick.AddListener(() => Choose(picked));
                 _spawnedChoices.Add(button.gameObject);
             }
-
-            FitBoxToChoices();
         }
 
         private void Choose(DialogueChoice choice)
@@ -324,25 +322,6 @@ namespace Dialogue
             if (HasChoiceUI) choicePanel.SetActive(false);
             bodyText.gameObject.SetActive(true);
             if (nextIndicator != null) nextIndicator.SetActive(true);
-
-            if (boxRect != null) boxRect.sizeDelta = _baseBoxSize;
-            ((RectTransform)nameTag.transform).anchoredPosition = _baseNameTagPosition;
-        }
-
-        // Makes the box taller (and lifts the name tag) when the options don't fit.
-        private void FitBoxToChoices()
-        {
-            if (boxRect == null) return;
-
-            var panelRect = (RectTransform)choicePanel.transform;
-            UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(panelRect);
-
-            var padding = boxRect.rect.height - panelRect.rect.height;
-            var needed = UnityEngine.UI.LayoutUtility.GetPreferredHeight(panelRect) + padding;
-            var extra = Mathf.Max(0f, needed - _baseBoxSize.y);
-
-            boxRect.sizeDelta = new Vector2(_baseBoxSize.x, _baseBoxSize.y + extra);
-            ((RectTransform)nameTag.transform).anchoredPosition = _baseNameTagPosition + Vector2.up * extra;
         }
 
         private void EndDialogue()
