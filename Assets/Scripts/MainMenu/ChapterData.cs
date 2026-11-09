@@ -12,7 +12,8 @@ namespace MainMenu
         [Tooltip("The remembered choice to read, e.g. 'insurance'.")]
         public string choiceKey;
 
-        [Tooltip("One sentence per answer. Use <b>...</b> for the bold part, e.g. You <b>bought the home insurance</b>.")]
+        [Tooltip("One sentence per answer. Use <b>...</b> for the bold part, e.g. You <b>bought the home insurance</b>. " +
+                 "{player} is the player's name; any other {key} shows that remembered value, e.g. {laptop_cost}.")]
         public List<ChapterSummarySentence> sentences = new();
 
         [Tooltip("Shown when the player never made this choice. Leave empty to hide the card.")]

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using MainMenu;
 using Player;
 using TMPro;
@@ -38,6 +39,9 @@ namespace Story
         [SerializeField] private ChapterData previewChapter;
 
         private static ChapterCompleteScreen _instance;
+
+        // True while the end screen is up (the pause menu stays closed then).
+        public static bool IsShowing => _instance != null && _instance.panel.activeSelf;
 
         private readonly List<GameObject> _spawned = new();
         private ChapterData _nextChapter;
@@ -128,14 +132,26 @@ namespace Story
             var sub = card.transform.Find("SubText")?.GetComponent<TMP_Text>();
             if (main == null) main = card.GetComponentInChildren<TMP_Text>(true);
 
-            main.text = PlayerProfile.FillName(sentence);
+            main.text = FillText(sentence);
 
             if (sub != null)
             {
                 var hasOther = !string.IsNullOrWhiteSpace(otherOption);
                 sub.gameObject.SetActive(hasOther);
-                sub.text = hasOther ? PlayerProfile.FillName(otherOption) : "";
+                sub.text = hasOther ? FillText(otherOption) : "";
             }
+        }
+
+        // {player} becomes the player's name; any other {key} becomes that remembered value,
+        // e.g. {laptop_cost} -> "12,000" (set by the chapter flow).
+        private static string FillText(string text)
+        {
+            text = PlayerProfile.FillName(text);
+            return Regex.Replace(text, @"\{([A-Za-z0-9_]+)\}", match =>
+            {
+                var value = StoryChoices.Get(match.Groups[1].Value);
+                return string.IsNullOrEmpty(value) ? match.Value : value;
+            });
         }
 
         // The sentence (and other-option line) for the answer the player gave, or the "not chosen" ones.
