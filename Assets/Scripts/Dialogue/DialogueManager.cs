@@ -90,7 +90,8 @@ namespace Dialogue
 
         private void Update()
         {
-            if (!IsPlaying) return;
+            // Paused (time stopped by the pause menu): keys don't advance the dialogue.
+            if (!IsPlaying || Time.timeScale == 0f) return;
 
 #if ENABLE_INPUT_SYSTEM
             var keyboard = UnityEngine.InputSystem.Keyboard.current;

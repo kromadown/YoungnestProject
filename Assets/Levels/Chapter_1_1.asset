@@ -48,7 +48,7 @@ MonoBehaviour:
       sentence: Insurance <b>paid for your broken laptop</b>.
       otherOption: Without insurance, the repair would have cost you SEK 12,000.
     - value: none
-      sentence: You <b>paid for the broken laptop yourself</b>.
+      sentence: You <b>paid SEK {laptop_cost} for the broken laptop yourself</b>.
       otherOption: With insurance, the repair would have been covered.
     sentenceIfNotChosen: 
     otherOptionIfNotChosen: 

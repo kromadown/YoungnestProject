@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Globalization;
 using Dialogue;
 using Phone.Messages;
 using Player;
@@ -50,6 +51,8 @@ namespace Story
         [SerializeField] private Sprite brokenLaptopSprite;
         [SerializeField] private DialogueData insuredOutcome;
         [SerializeField] private DialogueData uninsuredOutcome;
+        [Tooltip("Paid from the wallet when the player has no insurance. Shown on the Chapter Complete screen as {laptop_cost}.")]
+        [SerializeField, Min(0)] private int laptopRepairCost = 12000;
         [SerializeField] private string friendLeavesCue = "friend_leaves";
 
         [Header("1.5 The Reveal")]
@@ -113,6 +116,7 @@ namespace Story
             DialogueManager.CueFired += OnCue;
             yield return Play(_insured ? insuredOutcome : uninsuredOutcome);
             DialogueManager.CueFired -= OnCue;
+            if (!_insured) PayForLaptop();
             yield return Play(_insured ? insuredEnding : uninsuredEnding);
 
             StoryChoices.Set("chapter1", "done");
@@ -187,6 +191,16 @@ namespace Story
             vlogCamera.AppendClickText(recordingText);
             if (vlogCamera.GetComponent<RecordingLight>() == null)
                 vlogCamera.gameObject.AddComponent<RecordingLight>();
+        }
+
+        // No insurance: the player pays for the broken laptop themselves.
+        // The amount is remembered so the Chapter Complete screen can show it.
+        private void PayForLaptop()
+        {
+            if (!PlayerProfile.TrySpend(laptopRepairCost))
+                Debug.LogWarning($"Laptop costs {laptopRepairCost} but the wallet has only {PlayerProfile.Money}.", this);
+
+            StoryChoices.Set("laptop_cost", laptopRepairCost.ToString("N0", CultureInfo.InvariantCulture));
         }
 
         private void FriendLeaves()

@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>{{{ PRODUCT_NAME }}}</title>
   <link rel="stylesheet" href="TemplateData/style.css">
+
+  <!-- "Add to Home Screen": opens like an app with no browser bars (the only way to get full screen on iPhone).
+       Swap the placeholder icons in TemplateData for the real ones later. -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="TemplateData/icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="LUMOS">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
   <div id="game">
@@ -15,12 +24,20 @@
       <div id="loading-bar"><div id="loading-fill"></div></div>
     </div>
 
-    <!-- Phones only: fill the screen and hide the browser bars. -->
-    <button id="fullscreen-button" class="lumos-button" aria-label="Play fullscreen">
+    <!-- iPhone/iPad only, shown once: how to get full screen (see the script below). -->
+    <div id="home-screen-hint">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4"/>
+        <rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 17h2"/>
       </svg>
-    </button>
+      <span>For full screen, tap <b>Share</b>
+        <svg class="inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="(the box with an arrow)">
+          <path d="M12 3v12M8 7l4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/>
+        </svg>
+        then <b>Add to Home Screen</b></span>
+      <button id="home-screen-hint-close" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
 
     <!-- Phones only, when the game is embedded in another site. -->
     <div id="play-fullscreen">
@@ -49,7 +66,6 @@
     var canvas = document.getElementById("unity-canvas");
     var loading = document.getElementById("loading");
     var loadingFill = document.getElementById("loading-fill");
-    var fullscreenButton = document.getElementById("fullscreen-button");
     var playFullscreen = document.getElementById("play-fullscreen");
     var playFullscreenButton = document.getElementById("play-fullscreen-button");
     var playFullscreenLabel = document.getElementById("play-fullscreen-label");
@@ -98,16 +114,47 @@
       }).catch(function () {});
     }
 
-    function updateButtons() {
-      var full = isFullscreen();
-      // Embedded on a phone: offer a big "Play fullscreen" (the game is tiny inside the other site).
-      playFullscreen.style.display = isPhone && isEmbedded && !full ? "flex" : "none";
-      // Own page on a phone: a small corner button to hide the browser bars.
-      fullscreenButton.style.display = isPhone && !isEmbedded && !full && canFullscreen ? "flex" : "none";
+    // Own page on a phone (Android; iPhones can't): any tap goes fullscreen to hide the browser bars.
+    // Browsers only allow fullscreen right after a tap, so the player's first tap (e.g. on Continue) does it,
+    // and if they leave fullscreen, their next tap brings it back.
+    if (isPhone && !isEmbedded && canFullscreen) {
+      document.addEventListener("pointerup", function () {
+        if (!isFullscreen()) enterFullscreen();
+      }, true);
     }
 
+    function updateButtons() {
+      // Embedded on a phone: offer a big "Play fullscreen" (the game is tiny inside the other site).
+      playFullscreen.style.display = isPhone && isEmbedded && !isFullscreen() ? "flex" : "none";
+    }
+
+    // ---------- iPhone: "Add to Home Screen" hint ----------
+
+    // iPhones and iPads (newer iPads say they're a Mac, but have a touch screen).
+    var isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+                (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    // Already opened from the home screen icon: no browser bars, nothing to tell.
+    var isHomeScreenApp = window.navigator.standalone === true ||
+                          window.matchMedia("(display-mode: standalone)").matches ||
+                          window.matchMedia("(display-mode: fullscreen)").matches;
+
+    var hint = document.getElementById("home-screen-hint");
+    var hintKey = "lumos_home_screen_hint_closed";
+
+    function hintWasClosed() {
+      try { return localStorage.getItem(hintKey) === "1"; } catch (e) { return false; }
+    }
+
+    function showHomeScreenHint() {
+      if (isIOS && !isEmbedded && !isHomeScreenApp && !hintWasClosed()) hint.style.display = "flex";
+    }
+
+    document.getElementById("home-screen-hint-close").addEventListener("click", function () {
+      hint.style.display = "none";
+      try { localStorage.setItem(hintKey, "1"); } catch (e) {}
+    });
+
     if (!canFullscreen) playFullscreenLabel.textContent = "Open game";
-    fullscreenButton.addEventListener("click", enterFullscreen);
     playFullscreenButton.addEventListener("click", enterFullscreen);
     document.addEventListener("fullscreenchange", updateButtons);
     document.addEventListener("webkitfullscreenchange", updateButtons);
@@ -146,6 +193,7 @@
         loadingFill.style.width = (100 * progress) + "%";
       }).then(function () {
         loading.style.display = "none";
+        showHomeScreenHint();
       }).catch(function (message) {
         loading.textContent = "The game couldn't load: " + message;
       });
