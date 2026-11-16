@@ -1,17 +1,19 @@
-# Builds the web (WebGL) version of the game whenever main changes and publishes it to GitHub Pages:
+# Builds the web (WebGL) version of the game when you ask for it and publishes it to GitHub Pages:
 #   https://kromadown.github.io/YoungnestProject/
 #
 # One-time setup (repo Settings):
 #   - Secrets and variables > Actions: UNITY_LICENSE (contents of C:\ProgramData\Unity\Unity_lic.ulf),
 #     UNITY_EMAIL and UNITY_PASSWORD (the Unity account the license belongs to).
 #   - Pages > Source: GitHub Actions.
-# Builds use GameCI (https://game.ci). The Actions tab also has a "Run workflow" button to build by hand.
+# Builds use GameCI (https://game.ci).
 
 name: Build web version
 
+# Only builds when someone presses Actions > Build web version > Run workflow.
+# To build automatically on every push to main again, add back:
+#   push:
+#     branches: [main]
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
