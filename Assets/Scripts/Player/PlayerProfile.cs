@@ -15,8 +15,27 @@ namespace Player
 
         private const string NameKey = "player_name";
         private const string MoneyKey = "player_money";
+        private const string CharacterKey = "player_character";
 
         public static event Action<string> NameChanged;
+
+        // Which character the player picked on the character select screen (0 = first in the list).
+        public static int CharacterIndex => PlayerPrefs.GetInt(CharacterKey, 0);
+
+        // False until the player has picked a character (e.g. right after New Game).
+        public static bool HasCharacter => PlayerPrefs.HasKey(CharacterKey);
+
+        public static void SetCharacter(int index)
+        {
+            PlayerPrefs.SetInt(CharacterKey, Mathf.Max(0, index));
+            PlayerPrefs.Save();
+        }
+
+        public static void ClearCharacter()
+        {
+            PlayerPrefs.DeleteKey(CharacterKey);
+            PlayerPrefs.Save();
+        }
         public static event Action<int> MoneyChanged;
 
         public static string Name => PlayerPrefs.GetString(NameKey, "");

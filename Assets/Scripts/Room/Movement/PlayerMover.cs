@@ -21,6 +21,15 @@ namespace Room.Movement
             if (body == null) body = GetComponentInChildren<SpriteRenderer>();
         }
 
+        // Swaps the character's look (used by PlayerAppearance for the picked character).
+        public void SetSprites(Sprite front, Sprite back)
+        {
+            frontSprite = front;
+            backSprite = back;
+            if (body == null) body = GetComponentInChildren<SpriteRenderer>();
+            if (body != null && front != null) body.sprite = front;
+        }
+
         public void MoveTo(Vector3 point, Action arrived = null)
         {
             waypoints.Clear();

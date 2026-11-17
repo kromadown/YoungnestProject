@@ -21,6 +21,8 @@ namespace Story
         [SerializeField] private MessageManager messageManager;
         [SerializeField] private PhoneMessageSequence momMessage;
         [SerializeField] private string momMessageCue = "mom_message";
+        [Tooltip("Seconds to wait after the player has opened Mom's chat (and all her messages are in) before Mom Reply plays, so they can read it.")]
+        [SerializeField, Min(0)] private float momReplyDelay = 4f;
         [SerializeField] private DialogueData momReply;
         [SerializeField, Min(0)] private int momAllowance = 15000;
         [SerializeField] private DialogueData insuranceChoice;
@@ -84,6 +86,7 @@ namespace Story
             {
                 SendMomMessage();
                 yield return new WaitUntil(MomMessageRead);
+                yield return new WaitForSeconds(momReplyDelay);
             }
 
             yield return Play(momReply);

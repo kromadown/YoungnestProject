@@ -3,7 +3,7 @@ using Story;
 
 namespace Player
 {
-    // The player's whole save: name, finished chapters and remembered story choices.
+    // The player's whole save: name, character, money, finished chapters and remembered story choices.
     public static class SaveData
     {
         // A save exists once the player has entered a name.
@@ -13,6 +13,7 @@ namespace Player
         public static void DeleteAll()
         {
             PlayerProfile.ClearName();
+            PlayerProfile.ClearCharacter();
             PlayerProfile.ClearMoney();
             ChapterProgress.ClearAll();
             StoryChoices.ClearAll();
