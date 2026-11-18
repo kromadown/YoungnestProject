@@ -18,7 +18,9 @@ namespace Phone
         
         private bool? _currentMobileMode;
         private bool _isPhoneOpen;
+        
         public bool IsMobilePhoneOpen => _currentMobileMode == true && _isPhoneOpen;
+        public bool IsMobileLayout => _currentMobileMode == true;
 
         private void OnEnable()
         {

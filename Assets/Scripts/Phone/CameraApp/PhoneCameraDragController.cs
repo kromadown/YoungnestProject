@@ -9,22 +9,30 @@ namespace Phone.CameraApp
         [Header("References")]
         [SerializeField] private Camera mainCamera;
         [SerializeField] private Camera phoneCamera;
+        [SerializeField] private PhoneUIController phoneUIController;
 
-        [Header("Settings")]
+        [Header("Animation")]
         [SerializeField, Min(0.01f)] private float returnDuration = 0.5f;
+
+        [Header("Mobile Version Camera")] 
+        [SerializeField, Range(1f, 5f)] private float mobileZoom = 1.75f;
         
         private VisualElement _phoneFrame;
         private VisualElement _cameraScreen;
-        private Image _cameraPreview;
         
-        private bool _isDragging;
-        private Vector2 _lastPointerPosition;
-        private int _activePointerId = -1;
+        private Image _cameraPreview;
 
         private Vector2 _phoneOffset;
         private Vector2 _returnStartOffset;
+        private Vector2 _lastPointerPosition;
+
+        private Vector3 _mobilePanOffset;
 
         private bool _isReturning;
+        private bool _isDragging;
+        private bool IsMobile => phoneUIController.IsMobileLayout;
+        
+        private int _activePointerId = -1;
 
         private float _returnElapsedTime = 0f;
         
@@ -41,6 +49,7 @@ namespace Phone.CameraApp
 
         private bool TryAssignReferences()
         {
+            
             var root = GetComponent<UIDocument>().rootVisualElement;
             
             _phoneFrame = root.Q<VisualElement>("PhoneFrame");
@@ -52,7 +61,8 @@ namespace Phone.CameraApp
                 _cameraScreen == null || 
                 _cameraPreview == null || 
                 mainCamera == null ||
-                phoneCamera == null)
+                phoneCamera == null ||
+                phoneUIController == null)
             {
                 Debug.LogError("Phone Camera Drag Controller has missing references or UI elements.", this);
                 return false;
@@ -138,22 +148,35 @@ namespace Phone.CameraApp
             var worldAtPhoneCenter = mainCamera.ViewportToWorldPoint(new Vector3(viewPortX, viewPortY, depth));
 
             var worldOffset = worldAtPhoneCenter - worldAtScreenCenter;
+
+            var cameraPosition = mainCamera.transform.position;
+
+            if (IsMobile)
+            {
+                cameraPosition += _mobilePanOffset;
+            }
+            else
+            {
+                cameraPosition += worldOffset;
+            }
             
-            phoneCamera.transform.SetPositionAndRotation(
-                mainCamera.transform.position + worldOffset, 
-                mainCamera.transform.rotation
-            );
+            phoneCamera.transform.SetPositionAndRotation(cameraPosition, mainCamera.transform.rotation);
 
             phoneCamera.orthographic = true;
-            phoneCamera.orthographicSize = mainCamera.orthographicSize * (previewBounds.height / panelBounds.height);
+
+            var baseSize = mainCamera.orthographicSize * (previewBounds.height / panelBounds.height);
+            phoneCamera.orthographicSize = IsMobile ? baseSize / mobileZoom : baseSize;
             phoneCamera.aspect = previewBounds.width / previewBounds.height;
         }
 
         private void OnPointerDown(PointerDownEvent evt)
         {
             if (evt.button != 0) return;
-            
-            CancelReturn(false);
+
+            if (!IsMobile)
+            {
+                CancelReturn(false);
+            }
             
             _isDragging = true;
             
@@ -174,6 +197,12 @@ namespace Phone.CameraApp
 
             _lastPointerPosition = currentPosition;
 
+            if (IsMobile)
+            {
+                PanMobileCamera(delta);
+                return;
+            }
+            
             _phoneOffset += delta;
             _phoneFrame.style.translate = new Translate(
                 _phoneOffset.x,
@@ -217,6 +246,25 @@ namespace Phone.CameraApp
             }
             
             _isReturning = false;
+        }
+
+        private void PanMobileCamera(Vector2 delta)
+        {
+            var previewHeight = _cameraPreview.worldBound.height;
+            
+            if (previewHeight <= 0) return;
+            
+            var worldUnitsPerPixel = (phoneCamera.orthographicSize * 2f) / previewHeight;
+            var movement = 
+                    -mainCamera.transform.right * (delta.x * worldUnitsPerPixel)
+                    +mainCamera.transform.up * (delta.y * worldUnitsPerPixel);
+
+            _mobilePanOffset += movement;
+        }
+
+        public void ResetMobileCameraView()
+        {
+            _mobilePanOffset = Vector3.zero;
         }
     }
 }

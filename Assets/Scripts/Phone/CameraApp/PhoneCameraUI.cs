@@ -107,6 +107,7 @@ namespace Phone.CameraApp
             _cameraScreen.style.display = DisplayStyle.Flex;
             
             dragController.CancelReturn();
+            dragController.ResetMobileCameraView();
             
             cameraDetector.SetCameraActive(true);
         }
