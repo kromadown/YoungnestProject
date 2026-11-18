@@ -59,4 +59,5 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
+    <ui:Button text="Phone" name="PhoneToggleButton"/>
 </ui:UXML>
