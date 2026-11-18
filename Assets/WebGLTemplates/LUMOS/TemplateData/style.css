@@ -186,3 +186,26 @@ html, body {
 #rotate-screen .wide-icon { display: none; animation: none; }
 body.desktop #rotate-screen .phone-icon { display: none; }
 body.desktop #rotate-screen .wide-icon { display: block; }
+
+/* ---------- Phone typing ---------- */
+/* Unity's web text box for the phone keyboard. It stays (so the keyboard works) but can't be seen:
+   the player watches the game's own name field instead (see "Phone typing" in index.html). */
+.lumos-typing-box {
+  position: fixed !important;
+  left: 0 !important;
+  top: 0;
+  bottom: auto !important;
+  width: 2px !important;
+  height: 2px !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  border: 0 !important;
+  z-index: -1 !important;
+}
+
+/* 16px stops iPhones from zooming in when the box gets focus. */
+.lumos-typing-box input,
+.lumos-typing-box textarea {
+  font-size: 16px !important;
+}

@@ -2246,7 +2246,11 @@ MonoBehaviour:
   errorMessage: {fileID: 822928583}
   backButton: {fileID: 1011559989}
   continueButton: {fileID: 2003359414}
-  typingTopPadding: 40
+  typingTopPadding: 24
+  hideWhileTyping:
+  - {fileID: 1752838667}
+  - {fileID: 1030812731}
+  - {fileID: 1506444416}
 --- !u!1 &500434172
 GameObject:
   m_ObjectHideFlags: 0

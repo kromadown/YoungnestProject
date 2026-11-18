@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Player;
 using TMPro;
 using UnityEngine;
@@ -14,13 +15,19 @@ namespace MainMenu
         [SerializeField] private UnityEngine.UI.Button backButton;
         [SerializeField] private UnityEngine.UI.Button continueButton;
 
-        [Tooltip("On phones the keyboard covers the bottom half, so while typing the question and name box " +
-                 "move to the top, this far from the top edge.")]
-        [SerializeField, Min(0)] private int typingTopPadding = 40;
+        [Tooltip("On phones the keyboard covers almost the whole screen, so while typing the name box " +
+                 "moves to the top, this far from the top edge.")]
+        [SerializeField, Min(0)] private int typingTopPadding = 24;
+
+        [Tooltip("Hidden while typing on a phone so the name box fits above the keyboard " +
+                 "(e.g. the question, hint and buttons). They come back when the keyboard closes.")]
+        [SerializeField] private List<GameObject> hideWhileTyping = new();
 
         private UnityEngine.UI.VerticalLayoutGroup _layout;
         private TextAnchor _normalAlignment;
         private RectOffset _normalPadding;
+        private bool _typingLayout;
+        private readonly List<GameObject> _hiddenForTyping = new();
 
         // Raised once a valid name has been saved.
         public event Action Confirmed;
@@ -32,7 +39,12 @@ namespace MainMenu
         {
             nameInput.characterLimit = PlayerProfile.MaxNameLength;
             nameInput.onValueChanged.AddListener(_ => errorMessage.SetActive(false));
-            nameInput.onSubmit.AddListener(_ => Submit());
+            // Enter on a computer keyboard confirms the name. On a phone, Enter only closes the
+            // keyboard and the player confirms with the in-game button.
+            nameInput.onSubmit.AddListener(_ =>
+            {
+                if (!Application.isMobilePlatform) Submit();
+            });
 
             _layout = namePanel.GetComponent<UnityEngine.UI.VerticalLayoutGroup>();
             if (_layout != null)
@@ -53,10 +65,33 @@ namespace MainMenu
         private static bool HasOnScreenKeyboard =>
             Application.isMobilePlatform || UnityEngine.InputSystem.Touchscreen.current != null;
 
-        // While typing on a phone, stack everything at the top so the name stays visible above the keyboard.
+        // While typing on a phone, only the name box shows, at the top, so it stays visible above the keyboard.
         private void SetTypingLayout(bool typing)
         {
-            if (_layout == null || (typing && !HasOnScreenKeyboard)) return;
+            if (typing && !HasOnScreenKeyboard) return;
+            if (typing == _typingLayout) return;
+            _typingLayout = typing;
+
+            if (typing)
+            {
+                errorMessage.SetActive(false);
+                foreach (var item in hideWhileTyping)
+                {
+                    if (item == null || !item.activeSelf) continue;
+                    item.SetActive(false);
+                    _hiddenForTyping.Add(item);
+                }
+            }
+            else
+            {
+                foreach (var item in _hiddenForTyping)
+                {
+                    if (item != null) item.SetActive(true);
+                }
+                _hiddenForTyping.Clear();
+            }
+
+            if (_layout == null) return;
 
             _layout.childAlignment = typing ? TextAnchor.UpperCenter : _normalAlignment;
             _layout.padding = typing

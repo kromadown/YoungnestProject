@@ -2,7 +2,7 @@
 <html lang="en-us">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>{{{ PRODUCT_NAME }}}</title>
   <link rel="stylesheet" href="TemplateData/style.css">
 
@@ -180,6 +180,53 @@
       requestAnimationFrame(keepCanvasFitted);
     }
     keepCanvasFitted();
+
+    // ---------- Phone typing ----------
+
+    // A phone only opens its keyboard for a real web text box, so when the player taps a text field in
+    // the game (e.g. their name), Unity adds a hidden-in-plain-sight web text box with an "OK" button at
+    // the bottom of the page. What they type there is copied into the game's own field, which is what
+    // the player should look at. So we make Unity's box invisible (it still brings up the keyboard and
+    // catches the typing), and Enter / Done just closes the keyboard.
+    function isUnityTypingBox(node) {
+      return node.nodeType === 1 && node.tagName === "DIV" && node.parentNode === document.body &&
+             node.querySelector("input, textarea") && node.querySelector("button");
+    }
+
+    function hideTypingBox(box) {
+      if (box.dataset.lumos) return;
+      box.dataset.lumos = "1";
+      box.classList.add("lumos-typing-box");
+      var input = box.querySelector("input, textarea");
+      // Enter closes the keyboard (Unity treats losing focus as "done").
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.keyCode === 13) input.blur();
+      });
+      placeTypingBox(box);
+    }
+
+    // Keep it inside what's visible, so iPhones don't scroll the page to reach it.
+    function placeTypingBox(box) {
+      var top = window.visualViewport ? window.visualViewport.offsetTop : 0;
+      box.style.setProperty("top", top + "px", "important");
+    }
+
+    new MutationObserver(function (changes) {
+      changes.forEach(function (change) {
+        change.addedNodes.forEach(function (node) {
+          if (isUnityTypingBox(node)) hideTypingBox(node);
+        });
+      });
+    }).observe(document.body, { childList: true });
+
+    if (window.visualViewport) {
+      var replace = function () {
+        var box = document.querySelector(".lumos-typing-box");
+        if (box) placeTypingBox(box);
+      };
+      window.visualViewport.addEventListener("resize", replace);
+      window.visualViewport.addEventListener("scroll", replace);
+    }
 
     // ---------- Load the game ----------
 
