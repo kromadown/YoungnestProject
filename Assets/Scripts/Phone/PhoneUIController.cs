@@ -58,11 +58,10 @@ namespace Phone
             SetPhoneOpen(!_isPhoneOpen);
         }
 
+        // Checked every frame so turning the phone switches the layout.
         private void Update()
         {
-            #if UNITY_EDITOR
-                UpdateUI();
-            #endif
+            UpdateUI();
         }
 
         private void UpdateUI()
@@ -90,10 +89,15 @@ namespace Phone
 
         private bool ShouldUseMobileLayout()
         {
+            // Only a phone held upright gets the Open/Close phone. Sideways (the way the game is
+            // played for now) keeps the phone on the side of the screen, like on a computer.
+            var upright = Screen.height > Screen.width;
+
             #if UNITY_EDITOR
-                return previewMobileInEditor;
+                // Preview Mobile In Editor acts like a phone: set the Game view to a tall size to see it.
+                return previewMobileInEditor && upright;
             #else
-                return Application.isMobilePlatform;
+                return Application.isMobilePlatform && upright;
             #endif
         }
     }
