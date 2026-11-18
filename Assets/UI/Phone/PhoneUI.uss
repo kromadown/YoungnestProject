@@ -84,11 +84,58 @@
     height: 50px;
     
     background-color: #B6D0E4;
+    color: #2F4858;
     
     border-radius: 12px;
     
     font-size: 18px;
     -unity-text-align: middle-center;
+}
+
+/* PC - MESSAGES APP */
+#ContactPreview {
+    font-size: 18px;
+}
+
+#ContactName {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#ContactButton {
+    background-color: #B6D0E4;
+}
+
+#UnreadCount {
+    flex-shrink: 0;
+    margin-left: 10px;
+    
+    background-color: #FF812F;
+    color: #2F4858;
+    
+    min-width: 25px;
+    height: 25px;
+    border-radius: 15px;
+    
+    -unity-text-align: middle-center;
+}
+
+#MessageText {
+    font-size: 18px;
+}
+
+#BubbleBackground {
+    width: auto;
+    max-width: 85%;
+    align-self: flex-start;
+
+    background-color: #B6D0E4;
+    color: #2F4858;
 }
 
 /* MOBILE */
@@ -125,6 +172,17 @@
     display: flex;
 }
 
+.mobile-layout .app-tile {
+    margin-bottom: 24px;
+}
+
+.mobile-layout .app-button {
+    width: 120px;
+    height: 120px;
+}
+
+/* MOBILE - MESSAGES APP */
+
 .mobile-layout #MessagesScreen {
     padding: 16px;
 }
@@ -135,11 +193,16 @@
     min-height: 0;
 }
 
-.mobile-layout .app-tile {
-    margin-bottom: 24px;
+.mobile-layout #ContactPreview {
+    font-size: 20px;
 }
 
-.mobile-layout .app-button {
-    width: 120px;
-    height: 120px;
+.mobile-layout #MessageText {
+    font-size: 20px;
+}
+
+.mobile-layout #BubbleBackground {
+    width: auto;
+    max-width: 90%;
+    align-self: flex-start;
 }

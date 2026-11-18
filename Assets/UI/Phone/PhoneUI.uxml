@@ -3,19 +3,19 @@
     <ui:VisualElement name="PhoneOverlay" picking-mode="Ignore" style="flex-grow: 1; width: 100%; height: 100%; flex-direction: row; font-size: 26px; -unity-font-style: bold;">
         <ui:VisualElement name="PhoneFrame">
             <ui:VisualElement name="PhoneScreen">
-                <ui:VisualElement name="Statusbar" style="flex-grow: 0; flex-direction: row; justify-content: space-between;">
+                <ui:VisualElement name="Statusbar" style="flex-grow: 0; flex-direction: row; justify-content: space-between; color: rgb(47, 72, 88);">
                     <ui:Label text="4:20&#10;" name="Time" class="status-label"/>
                     <ui:Label text="67%" name="Battery" class="status-label"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="ScreenArea" style="flex-grow: 1; width: 100%; min-height: 0;">
                     <ui:VisualElement name="HomeScreen" class="phone-screen" style="display: flex;">
-                        <ui:Label text="Home" name="HomeTitle" class="status-label" style="font-size: 32px;"/>
-                        <ui:Label text="Apps" name="AppsTitle" style="font-size: 25px; padding-top: 0; padding-right: 0; padding-bottom: 22px; padding-left: 0; -unity-text-align: upper-left; align-content: flex-start; justify-content: flex-start; align-items: stretch; min-height: 35px;"/>
-                        <ui:VisualElement name="AppsGrid" style="width: 100%;">
+                        <ui:Label text="Home" name="HomeTitle" class="status-label" style="font-size: 32px; color: rgb(47, 72, 88);"/>
+                        <ui:Label text="Apps" name="AppsTitle" style="font-size: 25px; padding-top: 0; padding-right: 0; padding-bottom: 22px; padding-left: 0; -unity-text-align: upper-left; align-content: flex-start; justify-content: flex-start; align-items: stretch; min-height: 35px; color: rgb(47, 72, 88);"/>
+                        <ui:VisualElement name="AppsGrid" style="width: 100%; color: rgb(47, 72, 88);">
                             <ui:VisualElement name="MessagesTile" class="app-tile">
                                 <ui:VisualElement name="MessagesIconContainer" class="app-button">
                                     <ui:Button text="M" name="MessagesButton" class="app-button"/>
-                                    <ui:Label text="Label" name="HomeUnreadBadge" picking-mode="Ignore" style="position: absolute; margin-top: -8px; margin-right: -8px; min-width: 26px; height: 26px; border-top-left-radius: 13px; border-top-right-radius: 13px; border-bottom-right-radius: 13px; border-bottom-left-radius: 13px; background-color: rgb(217, 45, 32); color: rgb(255, 255, 255); -unity-text-align: middle-center; display: none;"/>
+                                    <ui:Label text="15&#10;" name="HomeUnreadBadge" picking-mode="Ignore" style="position: absolute; margin-top: -8px; margin-right: -8px; min-width: 25px; height: 50px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; background-color: rgb(255, 129, 47); color: rgb(47, 72, 88); -unity-text-align: middle-center; display: flex; font-size: 40px;"/>
                                 </ui:VisualElement>
                                 <ui:Label text="Messages" name="MessagesLabel" class="app-label"/>
                             </ui:VisualElement>
@@ -32,7 +32,7 @@
                                 <ui:Label text="Bank" name="BankLabel" class="app-label"/>
                             </ui:VisualElement>
                         </ui:VisualElement>
-                        <ui:VisualElement name="NotesPanel" style="flex-grow: 0; border-top-left-radius: 18px; border-top-right-radius: 18px; border-bottom-right-radius: 18px; border-bottom-left-radius: 18px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; margin-bottom: 10px; width: 100%; flex-shrink: 0;">
+                        <ui:VisualElement name="NotesPanel" style="flex-grow: 0; border-top-left-radius: 18px; border-top-right-radius: 18px; border-bottom-right-radius: 18px; border-bottom-left-radius: 18px; border-left-color: rgb(47, 72, 88); border-right-color: rgb(47, 72, 88); border-top-color: rgb(47, 72, 88); border-bottom-color: rgb(47, 72, 88); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; margin-bottom: 10px; width: 100%; flex-shrink: 0; color: rgb(47, 72, 88); background-color: rgb(182, 208, 228);">
                             <ui:Label text="Notes" name="NotesTitle" style="font-size: 30px;"/>
                             <ui:Label text="- Do the thing" name="TaskLabel" class="task-label"/>
                             <ui:Label text="- Just do it bruh" name="TaskLabel2" class="task-label"/>
