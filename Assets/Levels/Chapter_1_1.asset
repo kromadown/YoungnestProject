@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: Chapter_1_1
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu.ChapterData
   id: ch1_1
-  displayName: First Night
+  displayName: Moving In
   sceneName: Chapter 1
   screenshot: {fileID: 0}
-  description: '{player} just moved into a first apartment with an empty wallet
-    and a laptop that barely works. Mom says to have fun, but the bills are already
-    coming in.'
+  description: "This is {player}\u2019s first day moving in a new place. Mom sends
+    some money and asks if {player} have buy a home insurance. Meanwhile, an old
+    friend is coming over."
   learningGoals:
-  - What a monthly budget is
-  - Needs vs. wants
-  - Tracking where your money goes
+  - What home insurance could covers
+  - Paying a small cost now vs. a big one later
+  - Keeping receipts and photos for a claim
   unlockedByDefault: 1
   summary:
   - choiceKey: insurance

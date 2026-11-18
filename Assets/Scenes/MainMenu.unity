@@ -1008,7 +1008,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 4096
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -2198,7 +2198,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu.LevelSelectScreen
   levels:
   - {fileID: 11400000, guid: 0dbd7fa17d1d422484566baed20b06d6, type: 2}
-  - {fileID: 11400000, guid: 229925cdba9240f7891dcdc8a480dd11, type: 2}
   levelLabelFormat: 'Level {0}: {1}'
   chapterLabelFormat: '{0}. {1}'
   lockedLevelName: ???
@@ -4259,7 +4258,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 4
-  m_VerticalAlignment: 4096
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1

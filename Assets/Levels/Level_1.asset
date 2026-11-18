@@ -15,4 +15,3 @@ MonoBehaviour:
   displayName: Moving out
   chapters:
   - {fileID: 11400000, guid: fb2735e7b6874154876c652b1e2d54e5, type: 2}
-  - {fileID: 11400000, guid: 549dc3c407884b2ba1898eb97697237d, type: 2}
