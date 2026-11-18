@@ -198,7 +198,6 @@
       box.dataset.lumos = "1";
       box.classList.add("lumos-typing-box");
       var input = box.querySelector("input, textarea");
-      input.setSelectionRange = function () {};
       // Enter closes the keyboard (Unity treats losing focus as "done").
       input.addEventListener("keydown", function (e) {
         if (e.key === "Enter" || e.keyCode === 13) input.blur();

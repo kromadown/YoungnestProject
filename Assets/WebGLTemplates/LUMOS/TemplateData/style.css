@@ -189,18 +189,18 @@ body.desktop #rotate-screen .wide-icon { display: block; }
 
 /* ---------- Phone typing ---------- */
 /* Unity's web text box for the phone keyboard. It stays (so the keyboard works) but can't be seen:
-   the player watches the game's own name field instead (see "Phone typing" in index.html). */
+   the player watches the game's own name field instead (see "Phone typing" in index.html).
+   It keeps a normal size on purpose: Android keyboards type letters in the wrong order into a text box
+   that's too small to show them, so it's only made see-through, not shrunk. */
 .lumos-typing-box {
   position: fixed !important;
   left: 0 !important;
+  right: 0 !important;
   top: 0;
   bottom: auto !important;
-  width: 2px !important;
-  height: 2px !important;
-  overflow: hidden !important;
+  width: 100% !important;
   opacity: 0 !important;
   pointer-events: none !important;
-  border: 0 !important;
   z-index: -1 !important;
 }
 
