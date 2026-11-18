@@ -18,31 +18,26 @@ namespace Phone.CameraApp
 
         private void Awake()
         {
-            _interactable = GetComponent<Interactable>();
-
-            if (_interactable == null)
-            {
-                _interactable = GetComponentInParent<Interactable>();
-            }
-
-            if (_interactable == null)
-            {
-                _interactable = GetComponentInChildren<Interactable>();
-            }
+            _interactable = GetComponentInParent<Interactable>();
             
             if (targetRenderer == null)
             {
                 targetRenderer = GetComponentInParent<SpriteRenderer>();
-            }
 
-            if (targetRenderer == null)
-            {
-                targetRenderer = GetComponentInChildren<SpriteRenderer>();
+                if (targetRenderer == null)
+                {
+                    targetRenderer = GetComponentInChildren<SpriteRenderer>();
+                }
             }
 
             if (targetRenderer != null)
             {
                 _originalColor = targetRenderer.color;
+            }
+
+            if (_interactable == null && targetRenderer == null)
+            {
+                Debug.LogError("PhotoTarget has no available highlighting component.", this);
             }
         }
 
