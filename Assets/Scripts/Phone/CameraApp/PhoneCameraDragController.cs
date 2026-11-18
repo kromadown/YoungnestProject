@@ -84,16 +84,7 @@ namespace Phone.CameraApp
         private void OnDisable()
         {
             UnRegisterCallbacks();
-            
-            if (_cameraPreview != null &&
-                _activePointerId != -1 &&
-                _cameraPreview.HasPointerCapture(_activePointerId))
-            {
-                _cameraPreview.ReleasePointer(_activePointerId);
-            }
-            
-            _isDragging = false;
-            _activePointerId = -1;
+            EndDrag(true);
         }
         
         private void UnRegisterCallbacks()
@@ -108,15 +99,21 @@ namespace Phone.CameraApp
 
         private void Update()
         {
-            if (!_isReturning) return;
-            
+            if (_isReturning)
+            {
+                UpdatePhoneReturn();
+            }
+        }
+
+        private void UpdatePhoneReturn()
+        {
             _returnElapsedTime += Time.deltaTime;
             
-            var t = _returnElapsedTime / returnDuration;
+            var t = Mathf.Clamp01(_returnElapsedTime / returnDuration);
             var smoothedT = Mathf.SmoothStep(0, 1, t);
-            _phoneOffset = Vector2.Lerp(_returnStartOffset, Vector2.zero, smoothedT);
+            var newPhoneOffset = Vector2.Lerp(_returnStartOffset, Vector2.zero, smoothedT);
             
-            _phoneFrame.style.translate = new Translate(_phoneOffset.x, _phoneOffset.y);
+            ApplyPhoneOffset(newPhoneOffset);
 
             if (t >= 1)
             {
@@ -132,43 +129,55 @@ namespace Phone.CameraApp
             UpdateCameraPosition();
         }
 
-        private void UpdateCameraPosition()
-        {
-            var panelBounds = _cameraPreview.panel.visualTree.worldBound;
-            var previewBounds = _cameraPreview.worldBound;
+        #region Camera Positioning
 
-            if (panelBounds.width <= 0 || panelBounds.height <= 0 || previewBounds.width <= 0 || previewBounds.height <= 0) return;
-            
-            var viewPortX = (previewBounds.center.x - panelBounds.xMin) / panelBounds.width;
-            var viewPortY = 1f - (previewBounds.center.y - panelBounds.yMin) / panelBounds.height;
-
-            const float depth = 1f;
-
-            var worldAtScreenCenter = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, depth));
-            var worldAtPhoneCenter = mainCamera.ViewportToWorldPoint(new Vector3(viewPortX, viewPortY, depth));
-
-            var worldOffset = worldAtPhoneCenter - worldAtScreenCenter;
-
-            var cameraPosition = mainCamera.transform.position;
-
-            if (IsMobile)
+            private void UpdateCameraPosition()
             {
-                cameraPosition += _mobilePanOffset;
+                var panelBounds = _cameraPreview.panel.visualTree.worldBound;
+                var previewBounds = _cameraPreview.worldBound;
+    
+                if (panelBounds.width <= 0 || 
+                    panelBounds.height <= 0 || 
+                    previewBounds.width <= 0 || 
+                    previewBounds.height <= 0) 
+                    return;
+    
+                var cameraPosition =
+                    IsMobile
+                        ? mainCamera.transform.position + _mobilePanOffset
+                        : GetPCCameraPosition(panelBounds, previewBounds);
+                
+                phoneCamera.transform.SetPositionAndRotation(cameraPosition, mainCamera.transform.rotation);
+                
+                UpdateCameraProjection(panelBounds, previewBounds);
             }
-            else
+    
+            private Vector3 GetPCCameraPosition(Rect panelBounds, Rect previewBounds)
             {
-                cameraPosition += worldOffset;
+                var viewPortX = (previewBounds.center.x - panelBounds.xMin) / panelBounds.width;
+                var viewPortY = 1f - (previewBounds.center.y - panelBounds.yMin) / panelBounds.height;
+    
+                const float depth = 1f;
+    
+                var worldAtScreenCenter = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, depth));
+                var worldAtPhoneCenter = mainCamera.ViewportToWorldPoint(new Vector3(viewPortX, viewPortY, depth));
+    
+                var worldOffset = worldAtPhoneCenter - worldAtScreenCenter;
+                
+                return mainCamera.transform.position + worldOffset;
             }
-            
-            phoneCamera.transform.SetPositionAndRotation(cameraPosition, mainCamera.transform.rotation);
+    
+            private void UpdateCameraProjection(Rect panelBounds, Rect previewBounds)
+            {
+                phoneCamera.orthographic = true;
+    
+                var baseSize = mainCamera.orthographicSize * (previewBounds.height / panelBounds.height);
+                phoneCamera.orthographicSize = IsMobile ? baseSize / mobileZoom : baseSize;
+                phoneCamera.aspect = previewBounds.width / previewBounds.height;
+            }
 
-            phoneCamera.orthographic = true;
-
-            var baseSize = mainCamera.orthographicSize * (previewBounds.height / panelBounds.height);
-            phoneCamera.orthographicSize = IsMobile ? baseSize / mobileZoom : baseSize;
-            phoneCamera.aspect = previewBounds.width / previewBounds.height;
-        }
-
+        #endregion
+        
         private void OnPointerDown(PointerDownEvent evt)
         {
             if (evt.button != 0) return;
@@ -203,11 +212,7 @@ namespace Phone.CameraApp
                 return;
             }
             
-            _phoneOffset += delta;
-            _phoneFrame.style.translate = new Translate(
-                _phoneOffset.x,
-                _phoneOffset.y
-                );
+            ApplyPhoneOffset(_phoneOffset + delta);
         }
 
         private void OnPointerUp(PointerUpEvent evt)
@@ -216,18 +221,36 @@ namespace Phone.CameraApp
             if (evt.pointerId != _activePointerId) return;
             if (evt.button != 0) return;
             
-            _isDragging = false;
-            _activePointerId = -1;
-            
-            _cameraPreview.ReleasePointer(evt.pointerId);
+            EndDrag(true);
         }
 
         private void OnLostPointer(PointerCaptureOutEvent evt)
         {
             if (_activePointerId != evt.pointerId) return;
             
-            _isDragging = false;
+            EndDrag(false);
+        }
+
+        private void EndDrag(bool releasePointerCapture)
+        {
+            var pointerId = _activePointerId;
+            
             _activePointerId = -1;
+            _isDragging = false;
+
+            if (_cameraPreview == null || pointerId == -1) return;
+            
+            if (releasePointerCapture && _cameraPreview.HasPointerCapture(pointerId))
+            {
+                _cameraPreview.ReleasePointer(pointerId);
+            }
+        }
+
+        private void ApplyPhoneOffset(Vector2 offset)
+        {
+            _phoneOffset = offset;
+            
+            _phoneFrame.style.translate = new Translate(_phoneOffset.x, _phoneOffset.y);
         }
         
         public void ResetPhonePosition()
@@ -241,8 +264,7 @@ namespace Phone.CameraApp
         {
             if (resetPosition)
             {
-                _phoneOffset = Vector2.zero;
-                _phoneFrame.style.translate = new Translate(_phoneOffset.x,  _phoneOffset.y);
+                ApplyPhoneOffset(Vector2.zero);
             }
             
             _isReturning = false;

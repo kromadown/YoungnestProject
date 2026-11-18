@@ -17,7 +17,7 @@ namespace Phone.CameraApp
         private void LateUpdate()
         {
             if (!_isCameraActive) return;
-
+            
             SetCurrentTarget(DetectPhotoTarget());
         }
 
@@ -40,15 +40,7 @@ namespace Phone.CameraApp
             
             target.OnPhotographed();
         }
-
-        private PhotoTarget DetectPhotoTarget()
-        {
-            var hit = DetectedPhotoObject().collider;
-            if (hit == null) return null;
-
-            return hit.GetComponentInParent<PhotoTarget>();
-        }
-
+        
         private void SetCurrentTarget(PhotoTarget target)
         {
             if (_currentTarget == target) return;
@@ -66,12 +58,20 @@ namespace Phone.CameraApp
             }
         }
 
-        private RaycastHit2D DetectedPhotoObject()
+        private PhotoTarget DetectPhotoTarget()
+        {
+            var hit = GetPhotoRaycastHit().collider;
+            if (hit == null) return null;
+
+            return hit.GetComponentInParent<PhotoTarget>();
+        }
+        
+        private RaycastHit2D GetPhotoRaycastHit()
         {
             var ray = phoneCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             return Physics2D.GetRayIntersection(ray, Mathf.Infinity, detectionLayer);
         }
-
+        
         private void OnDisable()
         {
             SetCameraActive(false);

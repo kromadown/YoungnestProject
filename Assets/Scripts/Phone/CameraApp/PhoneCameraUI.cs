@@ -10,7 +10,8 @@ namespace Phone.CameraApp
         [Header("References")]
         [SerializeField] private PhoneCameraDetector cameraDetector;
         [SerializeField] private RenderTexture cameraRenderTexture;
-        [SerializeField] private PhoneCameraDragController  dragController;
+        
+        private PhoneCameraDragController _dragController;
         
         private VisualElement _homeScreen;
         private VisualElement _cameraScreen;
@@ -19,9 +20,8 @@ namespace Phone.CameraApp
         private Button _cameraShutterButton;
         private Button _backButton;
         
-        public Image CameraPreview;
+        private Image _cameraPreview;
         
-
         private void OnEnable()
         {
             if (!TryAssignReferences())
@@ -32,9 +32,9 @@ namespace Phone.CameraApp
             
             SubscribeEvents();
             
-            CameraPreview.image = cameraRenderTexture;
-            _cameraScreen.style.display = DisplayStyle.None;
-            cameraDetector.SetCameraActive(false);
+            _cameraPreview.image = cameraRenderTexture;
+            
+            SetCameraOpen(false);
         }
 
         private bool TryAssignReferences()
@@ -48,19 +48,19 @@ namespace Phone.CameraApp
             _cameraShutterButton = root.Q<Button>("CameraShutterButton");
             _backButton = root.Q<Button>("CameraBackButton");
             
-            CameraPreview = root.Q<Image>("CameraPreview");
+            _cameraPreview = root.Q<Image>("CameraPreview");
 
-            dragController = GetComponent<PhoneCameraDragController>();
+            _dragController = GetComponent<PhoneCameraDragController>();
             
             if (_homeScreen == null || 
                 _cameraScreen == null ||
                 _cameraButton == null ||
                 _cameraShutterButton == null ||
                 _backButton == null ||
-                CameraPreview == null ||
+                _cameraPreview == null ||
                 cameraRenderTexture == null ||
                 cameraDetector == null ||
-                dragController == null
+                _dragController == null
                 )
             {
                 Debug.LogError("Phone Camera UI has missing references or UI elements.", this);
@@ -103,13 +103,10 @@ namespace Phone.CameraApp
         
         private void OpenCamera()
         {
-            _homeScreen.style.display = DisplayStyle.None;
-            _cameraScreen.style.display = DisplayStyle.Flex;
+            _dragController.CancelReturn();
+            _dragController.ResetMobileCameraView();
             
-            dragController.CancelReturn();
-            dragController.ResetMobileCameraView();
-            
-            cameraDetector.SetCameraActive(true);
+            SetCameraOpen(true);
         }
 
         private void TakePicture()
@@ -120,12 +117,17 @@ namespace Phone.CameraApp
         
         private void GoBack()
         {
-            cameraDetector.SetCameraActive(false);
+            SetCameraOpen(false);
             
-            _cameraScreen.style.display = DisplayStyle.None;
-            _homeScreen.style.display = DisplayStyle.Flex;
+            _dragController.ResetPhonePosition();
+        }
+
+        private void SetCameraOpen(bool isOpen)
+        {
+            _homeScreen.style.display = isOpen ? DisplayStyle.None : DisplayStyle.Flex;
+            _cameraScreen.style.display = isOpen ? DisplayStyle.Flex : DisplayStyle.None;
             
-            dragController.ResetPhonePosition();
+            cameraDetector.SetCameraActive(isOpen);
         }
     }
 }
