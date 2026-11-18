@@ -160,6 +160,27 @@
     document.addEventListener("webkitfullscreenchange", updateButtons);
     updateButtons();
 
+    // ---------- Keep the game the size of the screen ----------
+
+    // Android Chrome sometimes doesn't tell the game that the screen changed size when it goes
+    // fullscreen or turns sideways, so the game kept drawing at the old (upright) width and the rest
+    // of the screen stayed black. We size the canvas ourselves and check it every frame instead.
+    function fitCanvas() {
+      var ratio = window.devicePixelRatio || 1;
+      var width = Math.round(canvas.clientWidth * ratio);
+      var height = Math.round(canvas.clientHeight * ratio);
+      if (width > 0 && height > 0 && (canvas.width !== width || canvas.height !== height)) {
+        canvas.width = width;
+        canvas.height = height;
+      }
+    }
+
+    function keepCanvasFitted() {
+      fitCanvas();
+      requestAnimationFrame(keepCanvasFitted);
+    }
+    keepCanvasFitted();
+
     // ---------- Load the game ----------
 
     var buildUrl = "Build";
@@ -184,6 +205,8 @@
       companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
       productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
       productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}},
+      // fitCanvas() above keeps the canvas the size of the screen instead.
+      matchWebGLToCanvasSize: false,
     };
 
     var script = document.createElement("script");
