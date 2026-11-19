@@ -55,9 +55,9 @@ MonoBehaviour:
   objectives:
   - objective: {fileID: 11400000, guid: 5fa4a263bc61cc24f9fe9b98f7594141, type: 2}
     activeAtStart: 0
-  - objective: {fileID: 11400000, guid: ccbaf0dcacbcf3145968075761321b9b, type: 2}
-    activeAtStart: 0
   - objective: {fileID: 11400000, guid: a86895f980834f444b7356fcd8dff661, type: 2}
+    activeAtStart: 0
+  - objective: {fileID: 11400000, guid: ccbaf0dcacbcf3145968075761321b9b, type: 2}
     activeAtStart: 0
   - objective: {fileID: 11400000, guid: 798c75a8008e4bf429b51b12cfdb28ae, type: 2}
     activeAtStart: 0
