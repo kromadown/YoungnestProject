@@ -2,6 +2,7 @@ using System.Collections;
 using System.Globalization;
 using Dialogue;
 using Phone.Messages;
+using Phone.Objectives;
 using Player;
 using Room.Interaction;
 using Room.Rendering;
@@ -60,6 +61,14 @@ namespace Story
         [Header("1.5 The Reveal")]
         [SerializeField] private DialogueData insuredEnding;
         [SerializeField] private DialogueData uninsuredEnding;
+        
+        [Header("Notes App Objectives")]
+        [SerializeField] private ObjectiveManager objectiveManager;
+        [SerializeField] private ObjectiveData readTextObjective;
+        [SerializeField] private ObjectiveData insuranceObjective;
+        [SerializeField] private ObjectiveData doorObjective;
+        [SerializeField] private ObjectiveData cameraObjective;
+        
 
         private bool _insured;
         private bool _momMessageSent;
@@ -84,19 +93,28 @@ namespace Story
 
             if (messageManager != null && momMessage != null)
             {
+                ActivateObjective(readTextObjective);
                 SendMomMessage();
                 yield return new WaitUntil(MomMessageRead);
+                
+                CompleteObjective(readTextObjective);
                 yield return new WaitForSeconds(momReplyDelay);
             }
 
             yield return Play(momReply);
             PlayerProfile.AddMoney(momAllowance);
 
+            ActivateObjective(insuranceObjective);
             yield return AskInsurance();
 
             yield return new WaitForSeconds(knockDelay);
             yield return Play(knock);
+            
+            ActivateObjective(doorObjective);
             yield return WaitForClick(door);
+
+            if (door != null) CompleteObjective(doorObjective);
+            
             if (doorRenderer != null && doorOpenSprite != null)
             {
                 _doorClosedSprite = doorRenderer.sprite;
@@ -106,9 +124,16 @@ namespace Story
             yield return Play(friendArrives);
 
             yield return Play(lookForCamera);
+            
+            ActivateObjective(cameraObjective);
+            
             if (vlogCamera != null) vlogCamera.SetPulse(true);
             yield return WaitForClick(vlogCamera);
+            
             StartRecording();
+
+            if (vlogCamera != null) CompleteObjective(cameraObjective);
+            
             yield return Play(chat);
 
             DialogueManager.CueFired += OnCue;
@@ -147,6 +172,8 @@ namespace Story
             while (picked == null) yield return Play(choicesOnly);
             manager.ChoiceMade -= OnChoice;
             Destroy(choicesOnly);
+            
+            CompleteObjective(insuranceObjective);
 
             _insured = picked == Bought;
             if (!_insured) yield break;
@@ -242,6 +269,20 @@ namespace Story
             target.Clicked += OnClicked;
             yield return new WaitUntil(() => clicked);
             target.Clicked -= OnClicked;
+        }
+
+        private void ActivateObjective(ObjectiveData objective)
+        {
+            if (objectiveManager == null || objective == null) return;
+
+            objectiveManager.ActivateObjective(objective);
+        }
+
+        private void CompleteObjective(ObjectiveData objective)
+        {
+            if (objectiveManager == null || objective == null) return;
+
+            objectiveManager.CompleteObjective(objective);
         }
     }
 }

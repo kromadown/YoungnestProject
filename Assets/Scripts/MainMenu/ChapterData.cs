@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Phone.Objectives;
 using UnityEngine;
 
 namespace MainMenu
@@ -50,6 +51,9 @@ namespace MainMenu
 
         [Header("Chapter Complete screen")]
         [SerializeField] private List<ChapterSummaryItem> summary = new();
+        
+        [Header("Objectives")]
+        [SerializeField] private List<ChapterObjectiveEntry> objectives = new();
 
         public string Id => string.IsNullOrEmpty(id) ? name : id;
         public string DisplayName => string.IsNullOrEmpty(displayName) ? name : displayName;
@@ -59,5 +63,6 @@ namespace MainMenu
         public IReadOnlyList<string> LearningGoals => learningGoals;
         public bool UnlockedByDefault => unlockedByDefault;
         public IReadOnlyList<ChapterSummaryItem> Summary => summary;
+        public IReadOnlyList<ChapterObjectiveEntry> Objectives => objectives;
     }
 }
