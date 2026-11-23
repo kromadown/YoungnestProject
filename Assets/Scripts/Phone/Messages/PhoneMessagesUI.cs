@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using Dialogue;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Debug = UnityEngine.Debug;
@@ -11,9 +14,11 @@ namespace Phone.Messages
         [SerializeField] private MessageManager messageManager;
         [SerializeField] private VisualTreeAsset contactRowTemplate;
         [SerializeField] private VisualTreeAsset messageBubbleTemplate;
-
+        [SerializeField] private PhoneDialogueController phoneDialogueController;
+        
         private VisualElement _homeScreen;
         private VisualElement _messagesScreen;
+        private VisualElement _replyArea;
 
         private Button _messagesButton;
         private Button _backButton;
@@ -23,6 +28,7 @@ namespace Phone.Messages
 
         private ScrollView _contactsList;
         private ScrollView _conversationList;
+        private ScrollView _replyList;
 
         private PhoneContact _currentContact;
         private bool _isMessagesOpen;
@@ -48,6 +54,7 @@ namespace Phone.Messages
 
             _homeScreen = root.Q<VisualElement>("HomeScreen");
             _messagesScreen = root.Q<VisualElement>("MessagesScreen");
+            _replyArea = root.Q<VisualElement>("ReplyArea");
 
             _messagesButton = root.Q<Button>("MessagesButton");
             _backButton = root.Q<Button>("MessagesBackButton");
@@ -55,6 +62,7 @@ namespace Phone.Messages
 
             _contactsList = root.Q<ScrollView>("ContactsList");
             _conversationList = root.Q<ScrollView>("ConversationList");
+            _replyList = root.Q<ScrollView>("ReplyList");
             
             _homeUnreadBadge = root.Q<Label>("HomeUnreadBadge");
             
@@ -68,7 +76,10 @@ namespace Phone.Messages
                 _headerTitle == null ||
                 _contactsList == null ||
                 _conversationList == null ||
-                _homeUnreadBadge == null)
+                _homeUnreadBadge == null ||
+                _replyArea == null ||
+                _replyList == null ||
+                phoneDialogueController == null)
             {
                 Debug.LogError("Phone Messages UI has missing references or UI elements.", this);
                 return false;
@@ -91,7 +102,12 @@ namespace Phone.Messages
 
             if (messageManager != null)
             {
-                messageManager.MessageReceived += OnMessageReceived;
+                messageManager.ConversationChanged += OnConversationChanged;
+            }
+
+            if (phoneDialogueController != null)
+            {
+                phoneDialogueController.RepliesChanged += OnRepliesChanged;
             }
         }
 
@@ -114,7 +130,12 @@ namespace Phone.Messages
             
             if (messageManager != null)
             {
-                messageManager.MessageReceived -= OnMessageReceived;
+                messageManager.ConversationChanged -= OnConversationChanged;
+            }
+            
+            if (phoneDialogueController != null)
+            {
+                phoneDialogueController.RepliesChanged -= OnRepliesChanged;
             }
         }
 
@@ -130,6 +151,8 @@ namespace Phone.Messages
 
         private void ShowContacts()
         {
+            HideReplyOptions();
+            
             _currentContact = null;
             _headerTitle.text = "Messages";
             
@@ -158,7 +181,7 @@ namespace Phone.Messages
                 
                 name.text = contact.DisplayName;
 
-                preview.text = messages.Count > 0 ? messages[messages.Count - 1].Text : "";
+                preview.text = messages.Count > 0 ? messages[^1].Text : "";
 
                 unreadLabel.text = unread.ToString();
                 unreadLabel.style.display = unread > 0 ? DisplayStyle.Flex : DisplayStyle.None;
@@ -171,6 +194,8 @@ namespace Phone.Messages
 
         private void ShowConversation(PhoneContact contact)
         {
+            HideReplyOptions();
+            
             _currentContact = contact;
             _headerTitle.text = contact.DisplayName;
             
@@ -182,6 +207,7 @@ namespace Phone.Messages
             _conversationList.style.display = DisplayStyle.Flex;
 
             RenderConversation();
+            RefreshReplyOptions();
         }
 
         private void RenderConversation()
@@ -193,6 +219,9 @@ namespace Phone.Messages
             foreach (var message in messageManager.GetConversation(_currentContact))
             {
                 var bubble = messageBubbleTemplate.Instantiate();
+                
+                var messageRow = bubble.Q<VisualElement>("MessageRow");
+                messageRow.EnableInClassList("outgoing-message", message.IsFromPlayer);
                 
                 bubble.Q<Label>("MessageText").text = message.Text;
                 
@@ -212,7 +241,7 @@ namespace Phone.Messages
             });
         }
         
-        private void OnMessageReceived(PhoneContact sender)
+        private void OnConversationChanged(PhoneContact sender)
         {
             if (_isMessagesOpen)
             {
@@ -255,6 +284,70 @@ namespace Phone.Messages
             _homeUnreadBadge.text = totalUnread > 99 ? "99+" : totalUnread.ToString();
             
             _homeUnreadBadge.style.display = totalUnread > 0 ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+        
+        private void OnRepliesChanged(PhoneContact contact)
+        {
+            if (_isMessagesOpen && _currentContact == contact)
+            {
+                RefreshReplyOptions();
+            }
+        }
+
+        private void RefreshReplyOptions()
+        {
+            if (_currentContact == null)
+            {
+                HideReplyOptions();
+                return;
+            }
+            
+            var contact =  _currentContact;
+            
+            ShowReplyOptions(
+                phoneDialogueController.GetReplies(contact),
+                choice => phoneDialogueController.SelectReply(contact, choice)
+                );
+        }
+        
+        public void ShowReplyOptions(
+            IReadOnlyList<DialogueChoice> choices, 
+            Action<DialogueChoice> onSelected)
+        {
+            _replyList.contentContainer.Clear();
+
+            if (choices == null || choices.Count == 0)
+            {
+                HideReplyOptions();
+                return;
+            }
+
+            foreach (var choice in choices)
+            {
+                if (string.IsNullOrWhiteSpace(choice.text)) continue;
+
+                var selectedChoice = choice;
+
+                var button = new Button(() => onSelected?.Invoke(selectedChoice))
+                {
+                    text = selectedChoice.text
+                };
+                
+                button.AddToClassList("reply-choice");
+                
+                _replyList.contentContainer.Add(button);
+            }
+            
+            _replyArea.style.display = 
+                _replyList.contentContainer.childCount > 0 
+                ? DisplayStyle.Flex 
+                : DisplayStyle.None;
+        }
+
+        private void HideReplyOptions()
+        {
+            _replyArea.style.display = DisplayStyle.None;
+            _replyList.contentContainer.Clear();
         }
     }
 }

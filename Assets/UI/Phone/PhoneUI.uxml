@@ -44,6 +44,10 @@
                         </ui:VisualElement>
                         <ui:ScrollView name="ContactsList" horizontal-scroller-visibility="Hidden" style="min-height: 0;"/>
                         <ui:ScrollView name="ConversationList" horizontal-scroller-visibility="Hidden" style="flex-grow: 1; min-height: 0; display: none;"/>
+                        <ui:VisualElement name="ReplyArea" style="display: none;">
+                            <ui:Label text="CHOOSE A REPLY" name="ReplyTitle"/>
+                            <ui:ScrollView name="ReplyList" horizontal-scroller-visibility="Hidden"/>
+                        </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement name="CameraScreen" class="phone-screen" style="flex-grow: 1; display: none; height: 100%;">
                         <ui:Button text="←" name="CameraBackButton" parse-escape-sequences="false" emoji-fallback-support="true" style="width: 40px; height: 40px; border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-right-radius: 12px; border-bottom-left-radius: 12px; font-size: 24px;"/>

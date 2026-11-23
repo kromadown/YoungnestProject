@@ -100,5 +100,13 @@ namespace Phone
                 return Application.isMobilePlatform && upright;
             #endif
         }
+
+        public void CloseForRoomDialogue()
+        {
+            if (IsMobilePhoneOpen)
+            {
+                SetPhoneOpen(false);
+            }
+        }
     }
 }

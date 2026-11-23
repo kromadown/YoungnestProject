@@ -99,9 +99,10 @@ namespace Story
                 
                 CompleteObjective(readTextObjective);
                 yield return new WaitForSeconds(momReplyDelay);
-            }
 
-            yield return Play(momReply);
+                yield return Play(momReply, momMessage.Sender);
+            }
+            
             PlayerProfile.AddMoney(momAllowance);
 
             ActivateObjective(insuranceObjective);
@@ -245,13 +246,26 @@ namespace Story
             if (laptopRenderer != null && brokenLaptopSprite != null) laptopRenderer.sprite = brokenLaptopSprite;
         }
 
-        private static IEnumerator Play(DialogueData dialogue)
+        private static IEnumerator Play(DialogueData dialogue, PhoneContact contact = null)
         {
-            var manager = DialogueManager.Instance;
-            if (dialogue == null || manager == null) yield break;
+            if (dialogue == null) yield break;
+            
+            var router = DialogueRouter.Instance;
+
+            if (router == null)
+            {
+                Debug.LogWarning("Chapter1Flow: DialogueRouter is missing.");
+                yield break;
+            }
+
+            if (dialogue.Presentation == DialoguePresentation.Phone && contact == null)
+            {
+                Debug.LogWarning($"Phone dialogue '{dialogue.name}' is missing a contact.");
+                yield break;
+            }
 
             bool done = false;
-            manager.Play(dialogue, () => done = true);
+            router.Play(dialogue, () => done = true, contact);
             yield return new WaitUntil(() => done);
         }
 

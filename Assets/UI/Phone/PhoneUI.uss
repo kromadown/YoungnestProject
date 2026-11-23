@@ -139,6 +139,54 @@
     color: #2F4858;
 }
 
+.outgoing-message {
+    justify-content: flex-end;
+}
+
+.outgoing-message #BubbleBackground {
+    background-color: #2F4858;
+    color: #B6D0E4;
+}
+
+/* REPLY OPTIONS */
+
+#ReplyArea {
+    flex-grow: 0;
+    flex-shrink: 0;
+    max-height: 40%;
+    margin-top: 10px;
+}
+
+#ReplyTitle {
+    font-size: 15px;
+    color: #2F4858;
+    margin-bottom: 10px;
+}
+
+#ReplyList {
+    flex-grow: 0;
+    flex-shrink: 1;
+    min-height: 0;
+    max-height: 180px;
+}
+
+.reply-choice {
+    min-height: 50px;
+    flex-shrink: 0;
+    
+    margin-bottom: 5px;
+    padding: 10px;
+    
+    background-color: #B6D0E4;
+    color: #2F4858;
+    
+    border-radius: 10px;
+    font-size: 20px;
+    
+    white-space: normal;
+    -unity-text-align: middle-left;
+}
+
 /* MOBILE */
 
 .mobile-layout #PhoneOverlay {
@@ -211,4 +259,13 @@
     width: auto;
     max-width: 90%;
     align-self: flex-start;
+}
+
+.mobile-layout #ReplyList {
+    max-height: 240px;
+}
+
+.mobile-layout .reply-choice {
+    min-height: 60px;
+    font-size: 20px;
 }

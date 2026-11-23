@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfee7d51b81b45718b74b1d814266ae9, type: 3}
   m_Name: Dialogue 1
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueData
+  presentation: 0
   lines:
   - speaker: '{player}'
     text: Today is my first day moving here.

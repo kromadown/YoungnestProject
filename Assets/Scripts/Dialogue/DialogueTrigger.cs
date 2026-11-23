@@ -1,4 +1,5 @@
 using System.Collections;
+using Phone.Messages;
 using Story;
 using UnityEngine;
 using UnityEngine.Events;
@@ -25,6 +26,9 @@ namespace Dialogue
         [Tooltip("Runs when the dialogue ends, e.g. send a phone message or play the next dialogue.")]
         [SerializeField] private UnityEvent onFinished;
 
+        [Header("Phone Dialogue (Optional)")] 
+        [SerializeField] private PhoneContact phoneContact;
+
         private bool _hasPlayed;
 
         private void Start()
@@ -45,14 +49,14 @@ namespace Dialogue
         {
             if (delay > 0) yield return new WaitForSeconds(delay);
 
-            var manager = DialogueManager.Instance;
-            if (manager == null)
+            var router = DialogueRouter.Instance;
+            if (router == null)
             {
-                Debug.LogWarning("No DialogueManager in the scene. Drag the DialogueBox prefab into the scene.", this);
+                Debug.LogWarning("No DialogueRouter found in the scene.", this);
                 yield break;
             }
 
-            manager.Play(dialogue, onFinished.Invoke);
+            router.Play(dialogue, onFinished.Invoke, phoneContact);
         }
     }
 }
