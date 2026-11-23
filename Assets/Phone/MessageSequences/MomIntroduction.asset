@@ -26,3 +26,4 @@ MonoBehaviour:
       in case anything happen.'
   - delayBeforeMessage: 3
     text: Anyway, good luck with your studies! Love you xxx
+  followUpDialogue: {fileID: 0}

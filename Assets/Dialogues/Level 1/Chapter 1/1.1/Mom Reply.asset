@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfee7d51b81b45718b74b1d814266ae9, type: 3}
   m_Name: Mom Reply
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueData
+  presentation: 1
   lines: []
   choicePrompt:
     speaker: '{player}'
-    text: Reply to Mom
+    text: 
     cue: 
   choices:
   - text: I will consider it.
