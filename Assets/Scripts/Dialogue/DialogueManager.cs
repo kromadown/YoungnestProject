@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Phone.Messages;
 using Player;
 using Story;
 using TMPro;
@@ -22,20 +23,20 @@ namespace Dialogue
         [SerializeField] private UnityEngine.UI.Button advanceButton;
 
         [Header("Choices")]
-        [Tooltip("Run Tools > Youngnest > Create Dialogue Box Prefab > Update to create these.")]
+        [Tooltip("The big option buttons, centred over the room above the dialogue box. " +
+                 "Tools > Youngnest > Create Dialogue Box Prefab > Update creates them if missing.")]
         [SerializeField] private GameObject choicePanel;
+        [Tooltip("Optional, old layout: the question now shows in the dialogue box itself.")]
         [SerializeField] private TMP_Text choicePromptText;
         [SerializeField] private RectTransform choiceList;
         [SerializeField] private UnityEngine.UI.Button choiceButtonTemplate;
         [SerializeField] private GameObject nextIndicator;
-        [Tooltip("The box that grows taller when the options don't fit.")]
-        [SerializeField] private RectTransform boxRect;
 
         [Header("Typing")]
         [Tooltip("Letters per second. 0 shows the whole line at once.")]
         [SerializeField, Min(0)] private float charactersPerSecond = 40f;
 
-        private readonly Queue<(DialogueData dialogue, Action onFinished)> _queue = new();
+        private readonly Queue<(DialogueData dialogue, Action onFinished, PhoneContact contact)> _queue = new();
         private readonly List<GameObject> _spawnedChoices = new();
 
         private DialogueData _current;
@@ -44,8 +45,7 @@ namespace Dialogue
         private Coroutine _typing;
         private bool _choosing;
 
-        private Vector2 _baseBoxSize;
-        private Vector2 _baseNameTagPosition;
+        private PhoneContact _conversationContact;
 
         public static DialogueManager Instance { get; private set; }
 
@@ -70,8 +70,6 @@ namespace Dialogue
 
             advanceButton.onClick.AddListener(OnAdvanceClicked);
 
-            if (boxRect != null) _baseBoxSize = boxRect.sizeDelta;
-            _baseNameTagPosition = ((RectTransform)nameTag.transform).anchoredPosition;
 
             if (HasChoiceUI)
             {
@@ -90,7 +88,8 @@ namespace Dialogue
 
         private void Update()
         {
-            if (!IsPlaying) return;
+            // Paused (time stopped by the pause menu): keys don't advance the dialogue.
+            if (!IsPlaying || Time.timeScale == 0f) return;
 
 #if ENABLE_INPUT_SYSTEM
             var keyboard = UnityEngine.InputSystem.Keyboard.current;
@@ -132,8 +131,15 @@ namespace Dialogue
         }
 
         // Plays a dialogue. If one is already playing, this one waits until it ends.
-        public void Play(DialogueData dialogue, Action onFinished = null)
+        public void Play(DialogueData dialogue, Action onFinished = null, PhoneContact contact = null)
         {
+            if (dialogue != null && dialogue.Presentation != DialoguePresentation.Room)
+            {
+                Debug.LogWarning($"Dialogue '{dialogue.name}' is set to Phone, " + 
+                                 "but was sent to the room DialogueManager.", this);
+                return;
+            }
+            
             if (dialogue == null || (dialogue.Lines.Count == 0 && !dialogue.HasChoices))
             {
                 Debug.LogWarning("Tried to play an empty dialogue.", this);
@@ -143,11 +149,12 @@ namespace Dialogue
 
             if (IsPlaying)
             {
-                _queue.Enqueue((dialogue, onFinished));
+                _queue.Enqueue((dialogue, onFinished, contact));
                 return;
             }
 
             _onFinished = onFinished;
+            _conversationContact = contact;
             dialogueRoot.SetActive(true);
             DialogueStarted?.Invoke(dialogue);
             StartDialogue(dialogue);
@@ -261,14 +268,18 @@ namespace Dialogue
 
             _choosing = true;
 
+            // The question goes in the dialogue box; the options float above it, big enough to tap on a phone.
+            // With no prompt text, the last line stays in the box (it usually asks the question).
             var prompt = _current.ChoicePrompt;
-            ShowSpeaker(prompt.speaker);
             FireCue(prompt.cue);
-            var hasPrompt = !string.IsNullOrWhiteSpace(prompt.text);
-            choicePromptText.gameObject.SetActive(hasPrompt);
-            choicePromptText.text = PlayerProfile.FillName(prompt.text);
+            if (choicePromptText != null) choicePromptText.gameObject.SetActive(false);
+            if (!string.IsNullOrWhiteSpace(prompt.text))
+            {
+                ShowSpeaker(prompt.speaker);
+                bodyText.text = PlayerProfile.FillName(prompt.text);
+            }
+            bodyText.maxVisibleCharacters = int.MaxValue;
 
-            bodyText.gameObject.SetActive(false);
             if (nextIndicator != null) nextIndicator.SetActive(false);
             choicePanel.SetActive(true);
 
@@ -285,13 +296,21 @@ namespace Dialogue
                 button.onClick.AddListener(() => Choose(picked));
                 _spawnedChoices.Add(button.gameObject);
             }
-
-            FitBoxToChoices();
         }
 
         private void Choose(DialogueChoice choice)
         {
             if (!_choosing) return;
+
+            var next = choice.nextDialogue;
+            if (next != null && 
+                next.Presentation == DialoguePresentation.Phone &&
+                (next.Lines.Count > 0 || next.HasChoices) && 
+                (_conversationContact == null || DialogueRouter.Instance == null))
+            {
+                Debug.LogError("Cannot switch to phone dialogue. A Contact or DialogueRouter is missing.", this);
+                return;
+            }
 
             if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
             HideChoices();
@@ -301,16 +320,24 @@ namespace Dialogue
                 StoryChoices.Set(choice.rememberKey, choice.rememberValue);
             }
             ChoiceMade?.Invoke(choice);
-
-            var next = choice.nextDialogue;
-            if (next != null && (next.Lines.Count > 0 || next.HasChoices))
-            {
-                StartDialogue(next);
-            }
-            else
+            
+            if (next == null || (next.Lines.Count == 0 && !next.HasChoices))
             {
                 EndDialogue();
+                return;
             }
+
+            if (next.Presentation == DialoguePresentation.Room)
+            {
+                StartDialogue(next);
+                return;
+            }
+
+            var router = DialogueRouter.Instance;
+            var contact = _conversationContact;
+            var onFinished = _onFinished;
+            
+            EndDialogue(() => router.Play(next, onFinished, contact));
         }
 
         private void HideChoices()
@@ -323,28 +350,9 @@ namespace Dialogue
             if (HasChoiceUI) choicePanel.SetActive(false);
             bodyText.gameObject.SetActive(true);
             if (nextIndicator != null) nextIndicator.SetActive(true);
-
-            if (boxRect != null) boxRect.sizeDelta = _baseBoxSize;
-            ((RectTransform)nameTag.transform).anchoredPosition = _baseNameTagPosition;
         }
 
-        // Makes the box taller (and lifts the name tag) when the options don't fit.
-        private void FitBoxToChoices()
-        {
-            if (boxRect == null) return;
-
-            var panelRect = (RectTransform)choicePanel.transform;
-            UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(panelRect);
-
-            var padding = boxRect.rect.height - panelRect.rect.height;
-            var needed = UnityEngine.UI.LayoutUtility.GetPreferredHeight(panelRect) + padding;
-            var extra = Mathf.Max(0f, needed - _baseBoxSize.y);
-
-            boxRect.sizeDelta = new Vector2(_baseBoxSize.x, _baseBoxSize.y + extra);
-            ((RectTransform)nameTag.transform).anchoredPosition = _baseNameTagPosition + Vector2.up * extra;
-        }
-
-        private void EndDialogue()
+        private void EndDialogue(Action continuation = null)
         {
             if (_choosing) HideChoices();
 
@@ -353,15 +361,25 @@ namespace Dialogue
 
             _current = null;
             _onFinished = null;
+            _conversationContact = null;
+            
             dialogueRoot.SetActive(false);
 
             DialogueEnded?.Invoke(finished);
-            onFinished?.Invoke();
+
+            if (continuation != null)
+            {
+                continuation.Invoke();
+            }
+            else
+            {
+                onFinished?.Invoke();
+            }
 
             if (!IsPlaying && _queue.Count > 0)
             {
-                var (next, nextFinished) = _queue.Dequeue();
-                Play(next, nextFinished);
+                var (next, nextFinished, nextContact) = _queue.Dequeue();
+                Play(next, nextFinished, nextContact);
             }
         }
 

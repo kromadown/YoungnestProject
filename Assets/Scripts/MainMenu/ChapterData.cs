@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Phone.Objectives;
 using UnityEngine;
 
 namespace MainMenu
@@ -12,7 +13,8 @@ namespace MainMenu
         [Tooltip("The remembered choice to read, e.g. 'insurance'.")]
         public string choiceKey;
 
-        [Tooltip("One sentence per answer. Use <b>...</b> for the bold part, e.g. You <b>bought the home insurance</b>.")]
+        [Tooltip("One sentence per answer. Use <b>...</b> for the bold part, e.g. You <b>bought the home insurance</b>. " +
+                 "{player} is the player's name; any other {key} shows that remembered value, e.g. {laptop_cost}.")]
         public List<ChapterSummarySentence> sentences = new();
 
         [Tooltip("Shown when the player never made this choice. Leave empty to hide the card.")]
@@ -42,12 +44,16 @@ namespace MainMenu
         [SerializeField] private string displayName;
         [SerializeField] private string sceneName;
         [SerializeField] private Sprite screenshot;
+        [Tooltip("Write {player} where the player's name should go.")]
         [SerializeField, TextArea(3, 6)] private string description;
         [SerializeField] private List<string> learningGoals = new();
         [SerializeField] private bool unlockedByDefault;
 
         [Header("Chapter Complete screen")]
         [SerializeField] private List<ChapterSummaryItem> summary = new();
+        
+        [Header("Objectives")]
+        [SerializeField] private List<ChapterObjectiveEntry> objectives = new();
 
         public string Id => string.IsNullOrEmpty(id) ? name : id;
         public string DisplayName => string.IsNullOrEmpty(displayName) ? name : displayName;
@@ -57,5 +63,6 @@ namespace MainMenu
         public IReadOnlyList<string> LearningGoals => learningGoals;
         public bool UnlockedByDefault => unlockedByDefault;
         public IReadOnlyList<ChapterSummaryItem> Summary => summary;
+        public IReadOnlyList<ChapterObjectiveEntry> Objectives => objectives;
     }
 }

@@ -141,7 +141,7 @@ namespace Dialogue.Editor
                     return;
                 }
 
-                if (box.Find("ChoicePanel") != null)
+                if (box.parent.Find("ChoicePanel") != null || box.Find("ChoicePanel") != null)
                 {
                     EditorUtility.DisplayDialog(Title, "The DialogueBox prefab is already up to date.", "OK");
                     return;
@@ -157,25 +157,27 @@ namespace Dialogue.Editor
             }
         }
 
-        // The prompt and option buttons shown when a dialogue has choices. Hidden the rest of the time.
+        // The option buttons shown when a dialogue has choices: big and centred over the room, above the box
+        // (the question itself shows in the box). Hidden the rest of the time.
         private static void AddChoiceList(Transform box, DialogueManager manager)
         {
-            var panel = CreateUI("ChoicePanel", box);
+            var panel = CreateUI("ChoicePanel", box.parent);
             var panelRect = panel.GetComponent<RectTransform>();
             panelRect.anchorMin = Vector2.zero;
-            panelRect.anchorMax = Vector2.one;
-            panelRect.offsetMin = new Vector2(50, 20);
-            panelRect.offsetMax = new Vector2(-40, -20);
-            AddVerticalLayout(panel, 10);
-
-            var prompt = CreateText(panel.transform, "PromptText", "About the home insurance...", 30, false, TextAlignmentOptions.MidlineLeft);
+            panelRect.anchorMax = new Vector2(0.62f, 1);
+            panelRect.offsetMin = new Vector2(60, 320);
+            panelRect.offsetMax = new Vector2(0, -40);
+            AddVerticalLayout(panel, 0);
+            var panelLayout = panel.GetComponent<UnityEngine.UI.VerticalLayoutGroup>();
+            panelLayout.childAlignment = TextAnchor.MiddleCenter;
+            panelLayout.padding = new RectOffset(140, 140, 0, 0);
 
             var list = CreateUI("ChoiceList", panel.transform);
-            AddVerticalLayout(list, 6);
+            AddVerticalLayout(list, 22);
+            list.GetComponent<UnityEngine.UI.VerticalLayoutGroup>().childAlignment = TextAnchor.MiddleCenter;
 
             var template = CreateUI("ChoiceButtonTemplate", list.transform);
-            var image = template.AddComponent<UnityEngine.UI.Image>();
-            image.color = Color.white;
+            var image = AddOutlinedImage(template, true);
             var button = template.AddComponent<UnityEngine.UI.Button>();
             button.targetGraphic = image;
             var colors = button.colors;
@@ -185,20 +187,15 @@ namespace Dialogue.Editor
             button.colors = colors;
 
             var row = template.AddComponent<UnityEngine.UI.HorizontalLayoutGroup>();
-            row.padding = new RectOffset(8, 8, 4, 4);
+            row.padding = new RectOffset(28, 28, 26, 26);
             row.spacing = 12;
-            row.childAlignment = TextAnchor.MiddleLeft;
+            row.childAlignment = TextAnchor.MiddleCenter;
             row.childControlWidth = true;
             row.childControlHeight = true;
             row.childForceExpandWidth = false;
             row.childForceExpandHeight = false;
 
-            var arrow = CreateText(template.transform, "Arrow", ">", 30, true, TextAlignmentOptions.Center);
-            var arrowLayout = arrow.gameObject.AddComponent<UnityEngine.UI.LayoutElement>();
-            arrowLayout.minWidth = 30;
-            arrowLayout.preferredWidth = 30;
-
-            var label = CreateText(template.transform, "Label", "Option text", 26, false, TextAlignmentOptions.MidlineLeft);
+            var label = CreateText(template.transform, "Label", "Option text", 44, false, TextAlignmentOptions.Center);
             label.gameObject.AddComponent<UnityEngine.UI.LayoutElement>().flexibleWidth = 1;
 
             template.SetActive(false);
@@ -206,12 +203,10 @@ namespace Dialogue.Editor
 
             var so = new SerializedObject(manager);
             so.FindProperty("choicePanel").objectReferenceValue = panel;
-            so.FindProperty("choicePromptText").objectReferenceValue = prompt;
             so.FindProperty("choiceList").objectReferenceValue = list.GetComponent<RectTransform>();
             so.FindProperty("choiceButtonTemplate").objectReferenceValue = button;
             var nextIndicator = box.Find("NextIndicator");
             so.FindProperty("nextIndicator").objectReferenceValue = nextIndicator != null ? nextIndicator.gameObject : null;
-            so.FindProperty("boxRect").objectReferenceValue = box as RectTransform;
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 

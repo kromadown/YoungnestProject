@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Dialogue;
 using UnityEngine;
 
 namespace Phone.Messages
@@ -18,8 +19,12 @@ namespace Phone.Messages
         [SerializeField] private bool canRepeat;
         [SerializeField] private List<PhoneMessageStep> messages = new();
     
+        [Header("Dialogue (Optional)")]
+        [SerializeField] private DialogueData followUpDialogue;
+        
         public PhoneContact Sender => sender;
         public bool CanRepeat => canRepeat;
         public IReadOnlyList<PhoneMessageStep> Messages => messages;
+        public DialogueData FollowUpDialogue => followUpDialogue;
     }
 }

@@ -590,6 +590,7 @@ GameObject:
   - component: {fileID: 778244969849704930}
   - component: {fileID: 1360824047627928844}
   - component: {fileID: 8053136052454849030}
+  - component: {fileID: 2106854307823090294}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -4037,3 +4038,16 @@ MonoBehaviour:
   sortWith: {fileID: 5347758459784508769}
   offset: 1
   precision: 100
+--- !u!114 &2106854307823090294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343649219958677249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3cc34283db14c5caaa88dd5083f5c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.Movement.PlayerAppearance
+  characters: {fileID: 11400000, guid: e4d58cb0c5ad4f32bcbe34c0abab7dbe, type: 2}

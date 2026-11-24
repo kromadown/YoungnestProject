@@ -22,7 +22,7 @@ MonoBehaviour:
     text: 
     cue: 
   choices:
-  - text: Just in case, buy one. ($1,500)
+  - text: Just in case, buy one. (SEK 1,500)
     nextDialogue: {fileID: 0}
     rememberKey: insurance
     rememberValue: bought

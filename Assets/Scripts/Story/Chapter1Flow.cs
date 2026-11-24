@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Globalization;
 using Dialogue;
 using Phone.Messages;
+using Phone.Objectives;
 using Player;
 using Room.Interaction;
 using Room.Rendering;
@@ -20,6 +22,8 @@ namespace Story
         [SerializeField] private MessageManager messageManager;
         [SerializeField] private PhoneMessageSequence momMessage;
         [SerializeField] private string momMessageCue = "mom_message";
+        [Tooltip("Seconds to wait after the player has opened Mom's chat (and all her messages are in) before Mom Reply plays, so they can read it.")]
+        [SerializeField, Min(0)] private float momReplyDelay = 4f;
         [SerializeField] private DialogueData momReply;
         [SerializeField, Min(0)] private int momAllowance = 15000;
         [SerializeField] private DialogueData insuranceChoice;
@@ -50,11 +54,21 @@ namespace Story
         [SerializeField] private Sprite brokenLaptopSprite;
         [SerializeField] private DialogueData insuredOutcome;
         [SerializeField] private DialogueData uninsuredOutcome;
+        [Tooltip("Paid from the wallet when the player has no insurance. Shown on the Chapter Complete screen as {laptop_cost}.")]
+        [SerializeField, Min(0)] private int laptopRepairCost = 12000;
         [SerializeField] private string friendLeavesCue = "friend_leaves";
 
         [Header("1.5 The Reveal")]
         [SerializeField] private DialogueData insuredEnding;
         [SerializeField] private DialogueData uninsuredEnding;
+        
+        [Header("Notes App Objectives")]
+        [SerializeField] private ObjectiveManager objectiveManager;
+        [SerializeField] private ObjectiveData readTextObjective;
+        [SerializeField] private ObjectiveData insuranceObjective;
+        [SerializeField] private ObjectiveData doorObjective;
+        [SerializeField] private ObjectiveData cameraObjective;
+        
 
         private bool _insured;
         private bool _momMessageSent;
@@ -79,18 +93,29 @@ namespace Story
 
             if (messageManager != null && momMessage != null)
             {
+                ActivateObjective(readTextObjective);
                 SendMomMessage();
                 yield return new WaitUntil(MomMessageRead);
-            }
+                
+                CompleteObjective(readTextObjective);
+                yield return new WaitForSeconds(momReplyDelay);
 
-            yield return Play(momReply);
+                yield return Play(momReply, momMessage.Sender);
+            }
+            
             PlayerProfile.AddMoney(momAllowance);
 
+            ActivateObjective(insuranceObjective);
             yield return AskInsurance();
 
             yield return new WaitForSeconds(knockDelay);
             yield return Play(knock);
+            
+            ActivateObjective(doorObjective);
             yield return WaitForClick(door);
+
+            if (door != null) CompleteObjective(doorObjective);
+            
             if (doorRenderer != null && doorOpenSprite != null)
             {
                 _doorClosedSprite = doorRenderer.sprite;
@@ -100,9 +125,16 @@ namespace Story
             yield return Play(friendArrives);
 
             yield return Play(lookForCamera);
+            
+            ActivateObjective(cameraObjective);
+            
             if (vlogCamera != null) vlogCamera.SetPulse(true);
             yield return WaitForClick(vlogCamera);
+            
             StartRecording();
+
+            if (vlogCamera != null) CompleteObjective(cameraObjective);
+            
             yield return Play(chat);
 
             DialogueManager.CueFired += OnCue;
@@ -113,6 +145,7 @@ namespace Story
             DialogueManager.CueFired += OnCue;
             yield return Play(_insured ? insuredOutcome : uninsuredOutcome);
             DialogueManager.CueFired -= OnCue;
+            if (!_insured) PayForLaptop();
             yield return Play(_insured ? insuredEnding : uninsuredEnding);
 
             StoryChoices.Set("chapter1", "done");
@@ -140,6 +173,8 @@ namespace Story
             while (picked == null) yield return Play(choicesOnly);
             manager.ChoiceMade -= OnChoice;
             Destroy(choicesOnly);
+            
+            CompleteObjective(insuranceObjective);
 
             _insured = picked == Bought;
             if (!_insured) yield break;
@@ -189,6 +224,16 @@ namespace Story
                 vlogCamera.gameObject.AddComponent<RecordingLight>();
         }
 
+        // No insurance: the player pays for the broken laptop themselves.
+        // The amount is remembered so the Chapter Complete screen can show it.
+        private void PayForLaptop()
+        {
+            if (!PlayerProfile.TrySpend(laptopRepairCost))
+                Debug.LogWarning($"Laptop costs {laptopRepairCost} but the wallet has only {PlayerProfile.Money}.", this);
+
+            StoryChoices.Set("laptop_cost", laptopRepairCost.ToString("N0", CultureInfo.InvariantCulture));
+        }
+
         private void FriendLeaves()
         {
             if (friend != null) friend.SetActive(false);
@@ -201,13 +246,26 @@ namespace Story
             if (laptopRenderer != null && brokenLaptopSprite != null) laptopRenderer.sprite = brokenLaptopSprite;
         }
 
-        private static IEnumerator Play(DialogueData dialogue)
+        private static IEnumerator Play(DialogueData dialogue, PhoneContact contact = null)
         {
-            var manager = DialogueManager.Instance;
-            if (dialogue == null || manager == null) yield break;
+            if (dialogue == null) yield break;
+            
+            var router = DialogueRouter.Instance;
+
+            if (router == null)
+            {
+                Debug.LogWarning("Chapter1Flow: DialogueRouter is missing.");
+                yield break;
+            }
+
+            if (dialogue.Presentation == DialoguePresentation.Phone && contact == null)
+            {
+                Debug.LogWarning($"Phone dialogue '{dialogue.name}' is missing a contact.");
+                yield break;
+            }
 
             bool done = false;
-            manager.Play(dialogue, () => done = true);
+            router.Play(dialogue, () => done = true, contact);
             yield return new WaitUntil(() => done);
         }
 
@@ -225,6 +283,20 @@ namespace Story
             target.Clicked += OnClicked;
             yield return new WaitUntil(() => clicked);
             target.Clicked -= OnClicked;
+        }
+
+        private void ActivateObjective(ObjectiveData objective)
+        {
+            if (objectiveManager == null || objective == null) return;
+
+            objectiveManager.ActivateObjective(objective);
+        }
+
+        private void CompleteObjective(ObjectiveData objective)
+        {
+            if (objectiveManager == null || objective == null) return;
+
+            objectiveManager.CompleteObjective(objective);
         }
     }
 }

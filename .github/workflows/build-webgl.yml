@@ -1,0 +1,73 @@
+# Builds the web (WebGL) version of the game when you ask for it and publishes it to GitHub Pages:
+#   https://kromadown.github.io/YoungnestProject/
+#
+# One-time setup (repo Settings):
+#   - Secrets and variables > Actions: UNITY_LICENSE (contents of C:\ProgramData\Unity\Unity_lic.ulf),
+#     UNITY_EMAIL and UNITY_PASSWORD (the Unity account the license belongs to).
+#   - Pages > Source: GitHub Actions.
+# Builds use GameCI (https://game.ci).
+
+name: Build web version
+
+# Only builds when someone presses Actions > Build web version > Run workflow.
+# To build automatically on every push to main again, add back:
+#   push:
+#     branches: [main]
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one build at a time; a newer push replaces a build that hasn't finished.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build WebGL
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the project
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      # Unity's Library folder takes long to create; keeping it between builds makes them much faster.
+      - name: Restore Unity's Library cache
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-WebGL-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-WebGL-
+
+      - name: Build with Unity
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: WebGL
+          buildName: WebGL
+
+      - name: Hand the build to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/WebGL/WebGL
+
+  publish:
+    name: Publish to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Publish
+        id: deploy
+        uses: actions/deploy-pages@v4

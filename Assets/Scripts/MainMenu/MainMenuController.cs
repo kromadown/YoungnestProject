@@ -5,7 +5,8 @@ namespace MainMenu
 {
     // The title screen.
     // Continue (only shown when there's a save) opens the level select at the player's progress.
-    // New Game deletes the save after asking, then asks for a name and opens the level select.
+    // New Game deletes the save after asking, then lets the player pick a character, asks for a name
+    // and opens the level select.
     public class MainMenuController : MonoBehaviour
     {
         [Header("Main Panel")]
@@ -22,6 +23,8 @@ namespace MainMenu
         [SerializeField] private UnityEngine.UI.Button confirmCancelButton;
 
         [Header("Screens")]
+        [Tooltip("Shown after New Game, before the name entry. Optional.")]
+        [SerializeField] private CharacterSelectScreen characterSelect;
         [SerializeField] private NameEntryScreen nameEntry;
         [SerializeField] private LevelSelectScreen levelSelect;
 
@@ -46,10 +49,16 @@ namespace MainMenu
 
             levelSelect.BackToMenuRequested += ShowMainPanel;
 
+            if (characterSelect != null)
+            {
+                characterSelect.Confirmed += ShowNameEntryOrLevelSelect;
+                characterSelect.BackRequested += ShowMainPanel;
+            }
+
             if (nameEntry != null)
             {
                 nameEntry.Confirmed += ShowLevelSelect;
-                nameEntry.BackRequested += ShowMainPanel;
+                nameEntry.BackRequested += OnNameEntryBack;
             }
         }
 
@@ -57,10 +66,16 @@ namespace MainMenu
         {
             if (levelSelect != null) levelSelect.BackToMenuRequested -= ShowMainPanel;
 
+            if (characterSelect != null)
+            {
+                characterSelect.Confirmed -= ShowNameEntryOrLevelSelect;
+                characterSelect.BackRequested -= ShowMainPanel;
+            }
+
             if (nameEntry != null)
             {
                 nameEntry.Confirmed -= ShowLevelSelect;
-                nameEntry.BackRequested -= ShowMainPanel;
+                nameEntry.BackRequested -= OnNameEntryBack;
             }
         }
 
@@ -81,6 +96,7 @@ namespace MainMenu
             mainPanel.SetActive(true);
             if (continueButton != null) continueButton.gameObject.SetActive(SaveData.HasSave);
             if (HasConfirmUI) newGameConfirmPanel.SetActive(false);
+            if (characterSelect != null) characterSelect.Hide();
             if (nameEntry != null) nameEntry.Hide();
             levelSelect.Hide();
         }
@@ -88,8 +104,36 @@ namespace MainMenu
         private void ShowLevelSelect()
         {
             mainPanel.SetActive(false);
+            if (characterSelect != null) characterSelect.Hide();
             if (nameEntry != null) nameEntry.Hide();
             levelSelect.Show();
+        }
+
+        // After the character is picked: ask for a name the first time, otherwise go straight on.
+        private void ShowNameEntryOrLevelSelect()
+        {
+            if (nameEntry == null || PlayerProfile.HasName)
+            {
+                ShowLevelSelect();
+                return;
+            }
+
+            mainPanel.SetActive(false);
+            if (characterSelect != null) characterSelect.Hide();
+            nameEntry.Show();
+        }
+
+        // Back on the name entry returns to the character select (or the title screen without one).
+        private void OnNameEntryBack()
+        {
+            if (characterSelect == null)
+            {
+                ShowMainPanel();
+                return;
+            }
+
+            nameEntry.Hide();
+            characterSelect.Show();
         }
 
         private void OnContinue()
@@ -124,14 +168,14 @@ namespace MainMenu
                 SaveData.DeleteAll();
             }
 
-            if (nameEntry == null || PlayerProfile.HasName)
+            if (characterSelect != null)
             {
-                ShowLevelSelect();
+                mainPanel.SetActive(false);
+                characterSelect.Show();
                 return;
             }
 
-            mainPanel.SetActive(false);
-            nameEntry.Show();
+            ShowNameEntryOrLevelSelect();
         }
 
         private void OnSettings()

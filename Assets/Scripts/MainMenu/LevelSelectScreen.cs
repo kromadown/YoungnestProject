@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Player;
 using TMPro;
 using UnityEngine;
 using Transitions;
@@ -23,9 +24,15 @@ namespace MainMenu
         [SerializeField] private string doneText = "Done";
         [Tooltip("Shown on the level and chapter the player is up to.")]
         [SerializeField] private string inProgressText = "In progress";
-        [SerializeField] private Color rowColor = new(0.91f, 0.91f, 0.91f);
-        [SerializeField] private Color selectedRowColor = new(0.81f, 0.88f, 0.96f);
-        [SerializeField] private Color inProgressRowColor = new(0.98f, 0.93f, 0.85f);
+        [SerializeField] private Color rowColor = new(0.9608f, 0.9412f, 0.9137f);
+        [SerializeField] private Color selectedRowColor = new(0.7137f, 0.8157f, 0.8941f);
+        [SerializeField] private Color inProgressRowColor = new(0.9608f, 0.9412f, 0.9137f);
+        [Tooltip("Row under the mouse, or picked with the keyboard.")]
+        [SerializeField] private Color hoverRowColor = new(1f, 0.5059f, 0.1843f);
+        [SerializeField] private Color pressedRowColor = new(0.9098f, 0.4353f, 0.1255f);
+        [SerializeField] private Color lockedRowColor = new(0.91f, 0.89f, 0.87f);
+        [Tooltip("Fills the preview box when a chapter has no screenshot yet.")]
+        [SerializeField] private Color screenshotPlaceholderColor = new(0.8471f, 0.898f, 0.9373f);
 
         [Header("Level Panel")]
         [SerializeField] private GameObject levelPanel;
@@ -41,6 +48,7 @@ namespace MainMenu
         [SerializeField] private GameObject previewContent;
         [SerializeField] private UnityEngine.UI.Image previewScreenshot;
         [SerializeField] private GameObject screenshotPlaceholder;
+        [Tooltip("Optional: shows the chapter name above the description.")]
         [SerializeField] private TMP_Text previewNameText;
         [SerializeField] private TMP_Text previewDescriptionText;
         [SerializeField] private RectTransform learnListContent;
@@ -194,11 +202,11 @@ namespace MainMenu
 
             var hasScreenshot = chapter.Screenshot != null;
             previewScreenshot.sprite = chapter.Screenshot;
-            previewScreenshot.color = hasScreenshot ? Color.white : new Color(0.89f, 0.89f, 0.89f);
+            previewScreenshot.color = hasScreenshot ? Color.white : screenshotPlaceholderColor;
             screenshotPlaceholder.SetActive(!hasScreenshot);
 
-            previewNameText.text = ChapterLabel(chapter);
-            previewDescriptionText.text = chapter.Description;
+            if (previewNameText != null) previewNameText.text = ChapterLabel(chapter);
+            previewDescriptionText.text = PlayerProfile.FillName(chapter.Description);
 
             foreach (var item in _spawnedLearnItems) Destroy(item);
             _spawnedLearnItems.Clear();
@@ -206,7 +214,7 @@ namespace MainMenu
             foreach (var goal in chapter.LearningGoals)
             {
                 var item = Instantiate(learnItemTemplate, learnListContent);
-                item.text = $"• {goal}";
+                item.text = $"• {PlayerProfile.FillName(goal)}";
                 item.gameObject.SetActive(true);
                 _spawnedLearnItems.Add(item.gameObject);
             }
@@ -224,10 +232,17 @@ namespace MainMenu
             row.interactable = interactable;
             row.onClick.AddListener(onClick);
 
-            if (row.targetGraphic != null)
-            {
-                row.targetGraphic.color = selected ? selectedRowColor : inProgress ? inProgressRowColor : rowColor;
-            }
+            // The row's own colour comes from the button states, so hovering, keyboard selection
+            // and pressing can turn it orange like the other buttons.
+            if (row.targetGraphic != null) row.targetGraphic.color = Color.white;
+            var colors = row.colors;
+            colors.normalColor = selected ? selectedRowColor : inProgress ? inProgressRowColor : rowColor;
+            colors.highlightedColor = hoverRowColor;
+            colors.selectedColor = hoverRowColor;
+            colors.pressedColor = pressedRowColor;
+            colors.disabledColor = lockedRowColor;
+            colors.colorMultiplier = 1f;
+            row.colors = colors;
 
             // The template has two texts: the first is the name, the second the status.
             var texts = row.GetComponentsInChildren<TMP_Text>(true);

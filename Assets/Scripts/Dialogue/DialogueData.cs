@@ -33,6 +33,10 @@ namespace Dialogue
     [CreateAssetMenu(fileName = "NewDialogue", menuName = "Dialogue/Dialogue")]
     public class DialogueData : ScriptableObject
     {
+        [Header("Presentation")] 
+        [SerializeField] private DialoguePresentation presentation = DialoguePresentation.Room;
+        
+        [Header("Dialogue Lines")]
         [SerializeField] private List<DialogueLine> lines = new();
 
         [Header("Choices (optional)")]
@@ -44,5 +48,6 @@ namespace Dialogue
         public DialogueLine ChoicePrompt => choicePrompt;
         public IReadOnlyList<DialogueChoice> Choices => choices;
         public bool HasChoices => choices.Count > 0;
+        public DialoguePresentation Presentation => presentation;
     }
 }
