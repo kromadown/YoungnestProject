@@ -266,6 +266,10 @@ PrefabInstance:
       propertyPath: messageManager
       value: 
       objectReference: {fileID: 1591322234}
+    - target: {fileID: 2892433958259341229, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
+      propertyPath: previewMobileInEditor
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4830273464749404032, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
       propertyPath: cameraDetector
       value: 

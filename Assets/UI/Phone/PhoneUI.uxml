@@ -2,7 +2,7 @@
     <Style src="project://database/Assets/UI/Phone/PhoneUI.uss?fileID=7433441132597879392&amp;guid=7cd436e2d6af42b44a904f3fb9ea8ccd&amp;type=3"/>
     <ui:VisualElement name="PhoneOverlay" picking-mode="Ignore" style="flex-grow: 1; width: 100%; height: 100%; flex-direction: row; font-size: 26px; -unity-font-style: bold;">
         <ui:VisualElement name="PhoneFrame" style="background-color: rgb(47, 72, 88);">
-            <ui:VisualElement name="PhoneScreen" style="background-image: url(&quot;project://database/Assets/ArtAsset/RoomAsset/Small%20Component/Dophine.png?fileID=2800000&amp;guid=be0e29115c8205e47a4db85ebf833d4d&amp;type=3#Dophine&quot;);">
+            <ui:VisualElement name="PhoneScreen" style="background-image: url(&quot;project://database/Assets/ArtAsset/RoomAsset/Small%20Component/Dophine.png?fileID=2800000&amp;guid=be0e29115c8205e47a4db85ebf833d4d&amp;type=3#Dophine&quot;); background-size: 90% 50%;">
                 <ui:VisualElement name="Statusbar" style="flex-grow: 0; flex-direction: row; justify-content: space-between; color: rgb(47, 72, 88);">
                     <ui:Label text="4:20&#10;" name="Time" class="status-label"/>
                     <ui:Label text="67%" name="Battery" class="status-label"/>
@@ -17,7 +17,7 @@
                                     <ui:Button text="" name="MessagesButton" class="app-button" style="background-color: rgba(188, 188, 188, 0); background-image: url(&quot;project://database/Assets/ArtAsset/PhoneUi/Message_icon_frame.png?fileID=2800000&amp;guid=09653e9a9c091ac4bb81b3c9973b2b7c&amp;type=3#Message_icon_frame&quot;); background-size: contain; width: 100%; height: 100%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; align-items: center; justify-content: center;">
                                         <ui:VisualElement name="MessagesIcon" picking-mode="Ignore" class="app-icon" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/ArtAsset/PhoneUi/Message_Icon.png?fileID=2800000&amp;guid=1d6b766543f37794cb66e0b0277a6efd&amp;type=3#Message_Icon&quot;); width: 80%; height: 80%;"/>
                                     </ui:Button>
-                                    <ui:Label text="15&#10;" name="HomeUnreadBadge" picking-mode="Ignore" style="position: absolute; margin-top: -8px; margin-right: -8px; min-width: 25px; height: 50px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; background-color: rgb(255, 129, 47); color: rgb(47, 72, 88); -unity-text-align: middle-center; display: flex; font-size: 40px;"/>
+                                    <ui:Label text="15&#10;" name="HomeUnreadBadge" picking-mode="Ignore" style="position: absolute; margin-top: -8px; margin-right: -8px; min-width: 25px; height: 50px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; background-color: rgb(255, 129, 47); color: rgb(47, 72, 88); -unity-text-align: middle-center; display: flex; font-size: 40px; bottom: auto; top: 0; left: 0; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-left-color: rgb(47, 72, 88); border-right-color: rgb(47, 72, 88); border-top-color: rgb(47, 72, 88); border-bottom-color: rgb(47, 72, 88);"/>
                                 </ui:VisualElement>
                                 <ui:Label text="Messages" name="MessagesLabel" class="app-label"/>
                             </ui:VisualElement>
@@ -47,7 +47,6 @@
                     </ui:VisualElement>
                     <ui:VisualElement name="MessagesScreen" class="phone-screen" style="display: none;">
                         <ui:VisualElement name="MessagesHeader" style="flex-grow: 0; flex-direction: row; align-items: center; flex-shrink: 0; height: 56px; margin-bottom: 8px;">
-                            <ui:Button text="←" name="MessagesBackButton" parse-escape-sequences="false" emoji-fallback-support="true" style="width: 40px; height: 40px; border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-right-radius: 12px; border-bottom-left-radius: 12px; font-size: 24px;"/>
                             <ui:Label text="Messages" name="MessagesHeaderTitle" style="font-size: 24px; margin-left: 10px;"/>
                         </ui:VisualElement>
                         <ui:ScrollView name="ContactsList" horizontal-scroller-visibility="Hidden" style="min-height: 0;"/>
@@ -58,14 +57,16 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement name="CameraScreen" class="phone-screen" style="flex-grow: 1; display: none; height: 100%;">
-                        <ui:Button text="←" name="CameraBackButton" parse-escape-sequences="false" emoji-fallback-support="true" style="width: 40px; height: 40px; border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-right-radius: 12px; border-bottom-left-radius: 12px; font-size: 24px;"/>
                         <ui:Image name="CameraPreview" source="project://database/Assets/RenderTextures/PhoneCamera.renderTexture?fileID=8400000&amp;guid=d53a086ca18a94141b54988ba1f40ff6&amp;type=2#PhoneCamera" scale-mode="ScaleAndCrop" style="width: 100%; scale: 1 1; flex-grow: 1; flex-direction: column; aspect-ratio: auto; align-self: center;">
                             <ui:VisualElement name="CameraGrid" picking-mode="Ignore" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/ArtAsset/RoomAsset/UiArtAsset/CameraGrid_1.png?fileID=21300000&amp;guid=a9ffed5269705fa4788edaeda2d58528&amp;type=3#CameraGrid_1&quot;); position: absolute; top: 0; left: 0; bottom: 0; right: 0;"/>
                         </ui:Image>
                         <ui:Button text="" name="CameraShutterButton" parse-escape-sequences="false" icon-image="project://database/Resources/unity_builtin_extra?fileID=10912&amp;guid=0000000000000000f000000000000000&amp;type=0#Knob" style="background-color: rgba(188, 188, 188, 0); flex-grow: 0; min-width: auto; background-size: 100% 100%; height: 80px;"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="HomeIndicator" style="flex-grow: 0; width: 100px; height: 60px; background-color: rgba(0, 0, 0, 0); border-top-left-radius: 6px; border-top-right-radius: 6px; border-bottom-right-radius: 6px; border-bottom-left-radius: 6px; align-self: center; margin-top: 8px; padding-top: 0; margin-bottom: 8px; min-height: 0; flex-shrink: 0; background-image: url(&quot;project://database/Assets/ArtAsset/PhoneUi/PhoneButton.png?fileID=2800000&amp;guid=36973f7adf26fac4ea7823edb726d081&amp;type=3#PhoneButton&quot;); background-size: contain;"/>
+                <ui:VisualElement name="NavigationBar" picking-mode="Ignore" style="flex-grow: 0; flex-direction: row; width: 100%; height: 75px; flex-shrink: 0; align-items: center; justify-content: center; background-color: rgba(0, 0, 0, 0);">
+                    <ui:Button text="←" name="BackButton" style="position: absolute; left: 50px; width: 50px; height: 50px; background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; font-size: 70px; color: rgb(47, 72, 88); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
+                    <ui:Button text="" name="HomeIndicator" style="background-image: url(&quot;project://database/Assets/ArtAsset/PhoneUi/PhoneButton.png?fileID=2800000&amp;guid=36973f7adf26fac4ea7823edb726d081&amp;type=3#PhoneButton&quot;); width: 100px; height: 60px; background-color: rgba(188, 188, 188, 0); background-size: contain; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

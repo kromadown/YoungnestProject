@@ -13,12 +13,9 @@ namespace Phone.CameraApp
         
         private PhoneCameraDragController _dragController;
         
-        private VisualElement _homeScreen;
         private VisualElement _cameraScreen;
-
-        private Button _cameraButton;
+        
         private Button _cameraShutterButton;
-        private Button _backButton;
         
         private Image _cameraPreview;
         
@@ -40,23 +37,17 @@ namespace Phone.CameraApp
         private bool TryAssignReferences()
         {
             var root = GetComponent<UIDocument>().rootVisualElement;
-
-            _homeScreen = root.Q<VisualElement>("HomeScreen");
+            
             _cameraScreen = root.Q<VisualElement>("CameraScreen");
             
-            _cameraButton = root.Q<Button>("CameraButton");
             _cameraShutterButton = root.Q<Button>("CameraShutterButton");
-            _backButton = root.Q<Button>("CameraBackButton");
             
             _cameraPreview = root.Q<Image>("CameraPreview");
 
             _dragController = GetComponent<PhoneCameraDragController>();
             
-            if (_homeScreen == null || 
-                _cameraScreen == null ||
-                _cameraButton == null ||
+            if (_cameraScreen == null ||
                 _cameraShutterButton == null ||
-                _backButton == null ||
                 _cameraPreview == null ||
                 cameraRenderTexture == null ||
                 cameraDetector == null ||
@@ -72,9 +63,7 @@ namespace Phone.CameraApp
 
         private void SubscribeEvents()
         {
-            _cameraButton.clicked += OpenCamera;
             _cameraShutterButton.clicked += TakePicture;
-            _backButton.clicked += GoBack;
         }
         
         private void OnDisable()
@@ -85,23 +74,13 @@ namespace Phone.CameraApp
 
         private void UnSubscribeEvents()
         {
-            if (_cameraButton != null)
-            {
-                _cameraButton.clicked -= OpenCamera;
-            }
-
             if (_cameraShutterButton != null)
             {
                 _cameraShutterButton.clicked -= TakePicture;
             }
-
-            if (_backButton != null)
-            {
-                _backButton.clicked -= GoBack;
-            }
         }
         
-        private void OpenCamera()
+        public void OpenCamera()
         {
             _dragController.CancelReturn();
             _dragController.ResetMobileCameraView();
@@ -115,7 +94,7 @@ namespace Phone.CameraApp
             cameraDetector.TakePicture();
         }
         
-        private void GoBack()
+        public void CloseCamera()
         {
             SetCameraOpen(false);
             
@@ -124,7 +103,6 @@ namespace Phone.CameraApp
 
         private void SetCameraOpen(bool isOpen)
         {
-            _homeScreen.style.display = isOpen ? DisplayStyle.None : DisplayStyle.Flex;
             _cameraScreen.style.display = isOpen ? DisplayStyle.Flex : DisplayStyle.None;
             
             cameraDetector.SetCameraActive(isOpen);
