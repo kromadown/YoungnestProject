@@ -16,11 +16,10 @@ MonoBehaviour:
   displayName: Moving In
   sceneName: Chapter 1
   screenshot: {fileID: 0}
-  description: "This is {player}\u2019s first day moving in a new place. Mom sends
-    some money and asks if {player} have buy a home insurance. Meanwhile, an old
-    friend is coming over."
+  description: Your first day moving into a new place. Mom sends some money and
+    asks if you have bought home insurance. Meanwhile, an old friend is coming over.
   learningGoals:
-  - What home insurance could covers
+  - What home insurance covers
   - Paying a small cost now vs. a big one later
   - Keeping receipts and photos for a claim
   unlockedByDefault: 1

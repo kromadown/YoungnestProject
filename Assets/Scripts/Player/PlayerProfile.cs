@@ -10,8 +10,8 @@ namespace Player
         public const string NameToken = "{player}";
         public const int MaxNameLength = 12;
 
-        // Used when no name has been entered yet, e.g. when testing a scene directly.
-        public const string DefaultName = "Jessie";
+        // Used when no name has been entered yet (the name entry is off, or a scene is tested directly).
+        public const string DefaultName = "You";
 
         private const string NameKey = "player_name";
         private const string MoneyKey = "player_money";
