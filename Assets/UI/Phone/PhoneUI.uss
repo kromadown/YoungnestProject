@@ -7,6 +7,20 @@
     border-radius: 24px;
     font-size: 36px;
     flex-shrink: 0;
+    background-color: rgba(0, 0, 0, 0);
+    background-size: contain;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    border-bottom-left-radius: 40px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-left-color: rgb(47, 72, 88);
+    border-right-color: rgb(47, 72, 88);
+    border-top-color: rgb(47, 72, 88);
+    border-bottom-color: rgb(47, 72, 88);
 }
 
 .app-label {
@@ -37,8 +51,6 @@
     min-height: 0;
 }
 
-/* PC */
-
 #PhoneOverlay {
     justify-content: flex-end;
     align-items: center;
@@ -48,7 +60,7 @@
 #PhoneFrame {
     width: 33%;
     height: 90%;
-    background-color: #000000;
+    background-color: rgb(0, 0, 0);
     border-radius: 38px;
     padding: 8px;
 }
@@ -56,9 +68,11 @@
 #PhoneScreen {
     width: 100%;
     height: 100%;
-    background-color: #FFFCF8;
+    background-color: rgb(255, 252, 248);
     border-radius: 30px;
     padding: 18px;
+    background-image: url("project://database/Assets/ArtAsset/RoomAsset/Small%20Component/Dophine.png?fileID=2800000&guid=be0e29115c8205e47a4db85ebf833d4d&type=3#Dophine");
+    background-size: cover;
 }
 
 #HomeScreen {
@@ -77,23 +91,17 @@
 #PhoneToggleButton {
     display: none;
     position: absolute;
-    
     top: 20px;
     right: 20px;
-    
     width: 90px;
     height: 50px;
-    
-    background-color: #B6D0E4;
-    color: #2F4858;
-    
+    background-color: rgb(182, 208, 228);
+    color: rgb(47, 72, 88);
     border-radius: 12px;
-    
     font-size: 18px;
     -unity-text-align: middle-center;
 }
 
-/* PC - MESSAGES APP */
 #ContactPreview {
     font-size: 18px;
 }
@@ -102,27 +110,23 @@
     flex-grow: 1;
     flex-shrink: 1;
     min-width: 0;
-    
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 #ContactButton {
-    background-color: #B6D0E4;
+    background-color: rgb(182, 208, 228);
 }
 
 #UnreadCount {
     flex-shrink: 0;
     margin-left: 10px;
-    
-    background-color: #FF812F;
-    color: #2F4858;
-    
+    background-color: rgb(255, 129, 47);
+    color: rgb(47, 72, 88);
     min-width: 25px;
     height: 25px;
     border-radius: 15px;
-    
     -unity-text-align: middle-center;
 }
 
@@ -134,9 +138,8 @@
     width: auto;
     max-width: 85%;
     align-self: flex-start;
-
-    background-color: #B6D0E4;
-    color: #2F4858;
+    background-color: rgb(182, 208, 228);
+    color: rgb(47, 72, 88);
 }
 
 .outgoing-message {
@@ -144,11 +147,9 @@
 }
 
 .outgoing-message #BubbleBackground {
-    background-color: #2F4858;
-    color: #B6D0E4;
+    background-color: rgb(47, 72, 88);
+    color: rgb(182, 208, 228);
 }
-
-/* REPLY OPTIONS */
 
 #ReplyArea {
     flex-grow: 0;
@@ -159,7 +160,7 @@
 
 #ReplyTitle {
     font-size: 15px;
-    color: #2F4858;
+    color: rgb(47, 72, 88);
     margin-bottom: 10px;
 }
 
@@ -173,21 +174,15 @@
 .reply-choice {
     min-height: 50px;
     flex-shrink: 0;
-    
     margin-bottom: 5px;
     padding: 10px;
-    
-    background-color: #B6D0E4;
-    color: #2F4858;
-    
+    background-color: rgb(182, 208, 228);
+    color: rgb(47, 72, 88);
     border-radius: 10px;
     font-size: 20px;
-    
     white-space: normal;
     -unity-text-align: middle-left;
 }
-
-/* MOBILE */
 
 .mobile-layout #PhoneOverlay {
     justify-content: flex-start;
@@ -198,7 +193,7 @@
 .mobile-layout #PhoneFrame {
     width: 100%;
     height: 100%;
-    background-color: #FFFCF8;
+    background-color: rgb(255, 252, 248);
     border-radius: 0;
     padding: 0;
 }
@@ -235,8 +230,6 @@
     height: 120px;
 }
 
-/* MOBILE - MESSAGES APP */
-
 .mobile-layout #MessagesScreen {
     padding: 16px;
 }
@@ -268,4 +261,11 @@
 .mobile-layout .reply-choice {
     min-height: 60px;
     font-size: 20px;
+}
+
+.app-icon {
+    width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+    background-size: contain;
 }
