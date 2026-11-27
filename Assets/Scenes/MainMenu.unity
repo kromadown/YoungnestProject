@@ -2095,6 +2095,7 @@ MonoBehaviour:
   confirmCancelButton: {fileID: 1151040530}
   characterSelect: {fileID: 1381247599}
   nameEntry: {fileID: 499603224}
+  askForName: 0
   levelSelect: {fileID: 499603223}
 --- !u!114 &499603219
 MonoBehaviour:
@@ -5487,7 +5488,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Select Level
+  m_text: Levels
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

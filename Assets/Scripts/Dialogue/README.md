@@ -17,7 +17,7 @@ Click the box or press Space/Enter to continue.
    - **Text**: what they say.
 
 Write `{player}` wherever the player's name should appear, in the **Speaker** or the **Text**.
-The game swaps it for the name the player typed after New Game (or "Jessie" if no name is saved yet).
+The game swaps it for the name the player typed after New Game (or "You" if no name is saved yet, e.g. when the name entry is turned off).
 For example, Speaker `{player}`, or Mom saying `{player}? Are you okay?`.
 
 See `Assets/Dialogues/Example_Day1_Coffee` for an example.

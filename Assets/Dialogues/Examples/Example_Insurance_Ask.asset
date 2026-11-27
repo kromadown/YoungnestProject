@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueData
   lines:
   - speaker: Mom
-    text: '{player}, did you look at the home insurance I sent you?'
+    text: Did you look at the home insurance I sent you?
     cue: 
   choicePrompt:
     speaker: '{player}'
