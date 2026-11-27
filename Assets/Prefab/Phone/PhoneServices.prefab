@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36708d557f4d7c4429303657afdd914b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Phone.Messages.MessageManager
-  testSequenceOnStart: {fileID: 11400000, guid: 8d166bcb9ff9e0146930a66cb21350f2, type: 2}
+  testSequenceOnStart: {fileID: 0}
 --- !u!114 &8151833794332794190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,4 +61,4 @@ MonoBehaviour:
   phoneCamera: {fileID: 0}
   detectionLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576

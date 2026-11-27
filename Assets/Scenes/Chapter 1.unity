@@ -274,6 +274,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PhoneUI
       objectReference: {fileID: 0}
+    - target: {fileID: 6943317803083439798, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
+      propertyPath: messageManager
+      value: 
+      objectReference: {fileID: 1591322234}
+    - target: {fileID: 7155824628269442545, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
+      propertyPath: objectiveManager
+      value: 
+      objectReference: {fileID: 1595425217}
     - target: {fileID: 8935278889704327829, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -317,10 +325,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4843985660080331436, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
-      insertIndex: 6
-      addedObject: {fileID: 1551853158}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
 --- !u!1001 &390918481
 PrefabInstance:
@@ -509,51 +514,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &503766966
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 503766968}
-  - component: {fileID: 503766967}
-  m_Layer: 0
-  m_Name: DialogueRouter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &503766967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 503766966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 253033897b90e1343893e52e775a94e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueRouter
-  roomDialogueManager: {fileID: 390918482}
---- !u!4 &503766968
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 503766966}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.36171, y: -2.25941, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &540753880
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -562,10 +522,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2821836483937604781, guid: 5851acc2cb5cb3a4e8fbc1545b2cf1b5, type: 3}
-      propertyPath: testSequenceOnStart
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6825903687111388003, guid: 5851acc2cb5cb3a4e8fbc1545b2cf1b5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 62.44571
@@ -614,10 +570,6 @@ PrefabInstance:
       propertyPath: phoneCamera
       value: 
       objectReference: {fileID: 1749747232}
-    - target: {fileID: 8151833794332794190, guid: 5851acc2cb5cb3a4e8fbc1545b2cf1b5, type: 3}
-      propertyPath: detectionLayer.m_Bits
-      value: 576
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -906,24 +858,28 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5db471e6d4f5a447b81f56e21e5fd84, type: 3}
---- !u!1 &1551853146 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4843985660080331436, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
+--- !u!114 &1551853159 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2892433958259341229, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
   m_PrefabInstance: {fileID: 358873513}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1551853158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1551853146}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9b3f2e791ce15f4eab1d5b7188b70ab, type: 3}
+  m_Script: {fileID: 11500000, guid: 2dcf6e6ddb79b2d419bc1ec7d4c5a402, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Phone.Objectives.PhoneNotesUI
-  objectiveManager: {fileID: 1595425217}
+  m_EditorClassIdentifier: Assembly-CSharp::Phone.PhoneUIController
+--- !u!114 &1551853166 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6943317803083439798, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
+  m_PrefabInstance: {fileID: 358873513}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc46c9348ba8f6c44acc3ad74bdc60cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Phone.Messages.PhoneDialogueController
 --- !u!114 &1591322234 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2821836483937604781, guid: 5851acc2cb5cb3a4e8fbc1545b2cf1b5, type: 3}
@@ -1145,7 +1101,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3609713869524622157, guid: aae763e84b7f3264e91258bce4b974cd, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -3.9997559
+      value: -3.9996948
       objectReference: {fileID: 0}
     - target: {fileID: 5149217628569074364, guid: aae763e84b7f3264e91258bce4b974cd, type: 3}
       propertyPath: m_Pivot.x
@@ -1313,6 +1269,75 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63254715a5924e689f8eedf7c008d53c, type: 3}
+--- !u!1001 &2744207347644340973
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2670930046664013316, guid: 11aef79b8254449478cb6259c95ee75d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.36171
+      objectReference: {fileID: 0}
+    - target: {fileID: 2670930046664013316, guid: 11aef79b8254449478cb6259c95ee75d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.25941
+      objectReference: {fileID: 0}
+    - target: {fileID: 2670930046664013316, guid: 11aef79b8254449478cb6259c95ee75d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2670930046664013316, guid: 11aef79b8254449478cb6259c95ee75d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2670930046664013316, guid: 11aef79b8254449478cb6259c95ee75d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2670930046664013316, guid: 11aef79b8254449478cb6259c95ee75d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2670930046664013316, guid: 11aef79b8254449478cb6259c95ee75d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2670930046664013316, guid: 11aef79b8254449478cb6259c95ee75d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2670930046664013316, guid: 11aef79b8254449478cb6259c95ee75d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2670930046664013316, guid: 11aef79b8254449478cb6259c95ee75d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6744933235649226395, guid: 11aef79b8254449478cb6259c95ee75d, type: 3}
+      propertyPath: m_Name
+      value: DialogueRouter
+      objectReference: {fileID: 0}
+    - target: {fileID: 6938631840521959305, guid: 11aef79b8254449478cb6259c95ee75d, type: 3}
+      propertyPath: phoneUIController
+      value: 
+      objectReference: {fileID: 1551853159}
+    - target: {fileID: 6938631840521959305, guid: 11aef79b8254449478cb6259c95ee75d, type: 3}
+      propertyPath: roomDialogueManager
+      value: 
+      objectReference: {fileID: 390918482}
+    - target: {fileID: 6938631840521959305, guid: 11aef79b8254449478cb6259c95ee75d, type: 3}
+      propertyPath: phoneDialogueController
+      value: 
+      objectReference: {fileID: 1551853166}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 11aef79b8254449478cb6259c95ee75d, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1329,4 +1354,4 @@ SceneRoots:
   - {fileID: 1924953077}
   - {fileID: 1924953190}
   - {fileID: 1595425218}
-  - {fileID: 503766968}
+  - {fileID: 2744207347644340973}
