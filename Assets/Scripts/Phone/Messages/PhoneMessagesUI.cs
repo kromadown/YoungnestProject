@@ -16,14 +16,10 @@ namespace Phone.Messages
         [SerializeField] private VisualTreeAsset messageBubbleTemplate;
         [SerializeField] private PhoneDialogueController phoneDialogueController;
         
-        private VisualElement _homeScreen;
         private VisualElement _messagesScreen;
         private VisualElement _replyArea;
-
-        private Button _messagesButton;
-        private Button _backButton;
+        
         private Label _headerTitle;
-
         private Label _homeUnreadBadge;
 
         private ScrollView _contactsList;
@@ -31,6 +27,7 @@ namespace Phone.Messages
         private ScrollView _replyList;
 
         private PhoneContact _currentContact;
+        
         private bool _isMessagesOpen;
 
         private void OnEnable()
@@ -51,13 +48,10 @@ namespace Phone.Messages
         private bool TryAssignReferences()
         {
             var root = GetComponent<UIDocument>().rootVisualElement;
-
-            _homeScreen = root.Q<VisualElement>("HomeScreen");
+            
             _messagesScreen = root.Q<VisualElement>("MessagesScreen");
             _replyArea = root.Q<VisualElement>("ReplyArea");
-
-            _messagesButton = root.Q<Button>("MessagesButton");
-            _backButton = root.Q<Button>("MessagesBackButton");
+            
             _headerTitle = root.Q<Label>("MessagesHeaderTitle");
 
             _contactsList = root.Q<ScrollView>("ContactsList");
@@ -69,10 +63,7 @@ namespace Phone.Messages
             if (messageManager == null ||
                 contactRowTemplate == null ||
                 messageBubbleTemplate == null ||
-                _homeScreen == null ||
                 _messagesScreen == null ||
-                _messagesButton == null ||
-                _backButton == null ||
                 _headerTitle == null ||
                 _contactsList == null ||
                 _conversationList == null ||
@@ -90,16 +81,6 @@ namespace Phone.Messages
 
         private void SubscribeEvents()
         {
-            if (_messagesButton != null)
-            {
-                _messagesButton.clicked += OpenMessages;
-            }
-
-            if (_backButton != null)
-            {
-                _backButton.clicked += GoBack;
-            }
-
             if (messageManager != null)
             {
                 messageManager.ConversationChanged += OnConversationChanged;
@@ -118,16 +99,6 @@ namespace Phone.Messages
 
         private void UnSubscribeEvents()
         {
-            if (_messagesButton != null)
-            {
-                _messagesButton.clicked -= OpenMessages;
-            }
-
-            if (_backButton != null)
-            {
-                _backButton.clicked -= GoBack;
-            }
-            
             if (messageManager != null)
             {
                 messageManager.ConversationChanged -= OnConversationChanged;
@@ -139,14 +110,23 @@ namespace Phone.Messages
             }
         }
 
-        private void OpenMessages()
+        public void OpenMessages()
         {
             _isMessagesOpen = true;
             
-            _homeScreen.style.display = DisplayStyle.None;
             _messagesScreen.style.display = DisplayStyle.Flex;
 
             ShowContacts();
+        }
+        
+        public void CloseMessages()
+        {
+            _isMessagesOpen = false;
+            _currentContact = null;
+
+            HideReplyOptions();
+
+            _messagesScreen.style.display = DisplayStyle.None;
         }
 
         private void ShowContacts()
@@ -259,17 +239,12 @@ namespace Phone.Messages
             UpdateHomeUnreadBadge();
         }
 
-        private void GoBack()
+        public bool TryGoBack()
         {
-            if (_currentContact != null)
-            {
-                ShowContacts();
-                return;
-            }
-
-            _isMessagesOpen = false;
-            _messagesScreen.style.display = DisplayStyle.None;
-            _homeScreen.style.display = DisplayStyle.Flex;
+            if (_currentContact == null) return false;
+            
+            ShowContacts();
+            return true;
         }
 
         private void UpdateHomeUnreadBadge()

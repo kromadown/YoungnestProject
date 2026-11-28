@@ -18,4 +18,8 @@ MonoBehaviour:
     speaker: 
     text: 
     cue: 
-  choices: []
+  choices:
+  - text: F u mum
+    nextDialogue: {fileID: 0}
+    rememberKey: 
+    rememberValue: 

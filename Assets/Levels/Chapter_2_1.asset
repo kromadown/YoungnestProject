@@ -16,8 +16,8 @@ MonoBehaviour:
   displayName: Interview
   sceneName: 
   screenshot: {fileID: 0}
-  description: '{player} lands an interview for a part-time job. The offer looks
-    good, until {player} reads the fine print.'
+  description: You land an interview for a part-time job. The offer looks good,
+    until you read the fine print.
   learningGoals:
   - Gross vs. net pay
   - Reading a job offer

@@ -26,6 +26,9 @@ namespace MainMenu
         [Tooltip("Shown after New Game, before the name entry. Optional.")]
         [SerializeField] private CharacterSelectScreen characterSelect;
         [SerializeField] private NameEntryScreen nameEntry;
+        [Tooltip("Show the name entry after the character select. Off: the game skips it and calls the " +
+                 "player by the default name (\"You\"). Tick it again to bring the name entry back.")]
+        [SerializeField] private bool askForName = true;
         [SerializeField] private LevelSelectScreen levelSelect;
 
         // Set before loading this scene to open level select instead of the title screen
@@ -109,10 +112,10 @@ namespace MainMenu
             levelSelect.Show();
         }
 
-        // After the character is picked: ask for a name the first time, otherwise go straight on.
+        // After the character is picked: ask for a name the first time (if Ask For Name is on), otherwise go straight on.
         private void ShowNameEntryOrLevelSelect()
         {
-            if (nameEntry == null || PlayerProfile.HasName)
+            if (!askForName || nameEntry == null || PlayerProfile.HasName)
             {
                 ShowLevelSelect();
                 return;
