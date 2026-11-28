@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cea739211259f483da80de929a08eac2, type: 3}
+  m_Name: LearnMoreBook
+  m_EditorClassIdentifier: Assembly-CSharp::LearnMore.LearnMoreBook
+  pages:
+  - title: Home insurance
+    subtitle: "What happens when your stuff gets damaged \u2014 and how insurance
+      saves you."
+    entries:
+    - chapter: 1
+      title: What is it?
+      body: "Home insurance (hemf\xF6rs\xE4kring) covers your personal belongings
+        \u2014 furniture, electronics, clothes and more \u2014 if they are damaged,
+        destroyed or stolen. Without it, replacing everything comes straight out
+        of your own pocket."
+    - chapter: 1
+      title: Damage that IS covered
+      body: "\u2022 Fire, smoke and water damage\n\u2022 Theft and vandalism\n\u2022
+        Accidental damage to electronics (e.g. dropped laptop)\n\u2022 Storm and
+        natural disaster damage\n\u2022 Damage during a move (with moving insurance)"
+    - chapter: 1
+      title: Damage that is NOT covered
+      body: "\u2022 Normal wear and tear\n\u2022 Damage caused on purpose\n\u2022
+        Damage from serious neglect (e.g. leaving a window open in a storm)\n\u2022
+        Items worth more than the policy limit (check your valuables cap)"
+    - chapter: 1
+      title: Your deductible
+      body: "When you make a claim, you pay a small fixed part yourself \u2014 the
+        deductible (sj\xE4lvrisk). The rest is covered by the insurer. Higher deductible
+        = cheaper monthly fee, but more out-of-pocket when something breaks."
+    - chapter: 2
+      title: How to file a claim
+      body: '1. Take photos of the damage right away.
+
+        2. Find receipts or
+        proof of what the item cost.
+
+        3. Report theft or vandalism to the
+        police first.
+
+        4. Contact your insurance company and submit the claim.'
+  - title: "Add-ons (Till\xE4gg)"
+    subtitle: "What happens when the basics aren't enough \u2014 and how extra cover
+      fills the gaps."
+    entries:
+    - chapter: 1
+      title: What is it?
+      body: "Add-ons are optional extras you attach to your basic hemf\xF6rs\xE4kring.
+        The standard policy covers fire, theft and water damage \u2014 but not everyday
+        accidents or high-value items. Add-ons extend the safety net to those gaps.
+        You pick what you need and pay a little more each month."
+    - chapter: 1
+      title: Damage that IS covered
+      body: "\u2022 <b>Drulle / allrisk</b> \u2014 sudden accidents: dropped phone,
+        coffee spilled on laptop, broken glasses\n\u2022 <b>V\xE4rdesakf\xF6rs\xE4kring</b>
+        \u2014 valuables above the standard cap: expensive laptops, jewellery, watches,
+        cameras\n\u2022 <b>Extended travel cover</b> \u2014 trips longer than the
+        standard 45 days\n\u2022 <b>Avbest\xE4llningsskydd</b> \u2014 cancelled or
+        interrupted trips\n\u2022 <b>Bostadsr\xE4ttstill\xE4gg</b> \u2014 interior
+        damage in a co-op flat (floors, kitchen, bathroom)\n\u2022 <b>All-risk outside
+        the home</b> \u2014 accidental damage while travelling or at school"
+    - chapter: 1
+      title: Damage that is NOT covered
+      body: "\u2022 Normal wear and tear\n\u2022 Technical faults or manufacturing
+        defects (that's the manufacturer's warranty)\n\u2022 Carelessness \u2014
+        e.g. leaving your laptop unattended in a caf\xE9\n\u2022 Damage you cause
+        on purpose\n\u2022 Gradual damage, mould or rot\n\u2022 Your deductible \u2014
+        it still applies to every claim"
+    - chapter: 1
+      title: Your deductible
+      body: "Add-ons don't remove your deductible. You still pay the sj\xE4lvrisk
+        (often around 1,000\u20131,500 SEK for accidental damage) each time you claim.
+        A higher deductible lowers your monthly fee, but costs more when something
+        actually breaks."
+    - chapter: 1
+      title: How to add them
+      body: "1. Log in to Mina sidor and check what's already included \u2014 some
+        policies bundle drulle automatically.\n2. Compare the add-ons against what
+        you actually own (a new laptop? an expensive phone?).\n3. Add the extras
+        you need and confirm the new price.\n4. Save your policy document \u2014
+        f\xF6rs\xE4kringsvillkor \u2014 for your records."
