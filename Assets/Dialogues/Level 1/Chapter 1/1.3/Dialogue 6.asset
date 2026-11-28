@@ -14,15 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueData
   lines:
   - speaker: Friend
-    text: "So, you\u2019re an influencer now?"
-    cue: 
-  - speaker: '{player}'
-    text: Haha, no. I just want to record the beautiful things in my life.
-    cue: 
-  - speaker: Friend
-    text: 'Haha, cool. '
-    cue: 
-  - speaker: Friend
     text: "You\u2019ve even got a new computer, looks like things are going well
       for you!"
     cue: 
