@@ -112,9 +112,15 @@ namespace Story
             yield return Play(knock);
             
             ActivateObjective(doorObjective);
+
+            if (door != null) door.SetPulse(true);
             yield return WaitForClick(door);
 
-            if (door != null) CompleteObjective(doorObjective);
+            if (door != null)
+            {
+                door.SetPulse(false);
+                CompleteObjective(doorObjective);
+            }
             
             if (doorRenderer != null && doorOpenSprite != null)
             {

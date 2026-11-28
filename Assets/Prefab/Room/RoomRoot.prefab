@@ -1705,7 +1705,9 @@ GameObject:
   - component: {fileID: 5549450273528371609}
   - component: {fileID: 8691645857100077326}
   - component: {fileID: 7763007586945772256}
-  m_Layer: 0
+  - component: {fileID: 8480039438887251791}
+  - component: {fileID: 6274805586613360489}
+  m_Layer: 9
   m_Name: Chair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4051,3 +4053,99 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room.Movement.PlayerAppearance
   characters: {fileID: 11400000, guid: e4d58cb0c5ad4f32bcbe34c0abab7dbe, type: 2}
+--- !u!114 &8480039438887251791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3970599675889872616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627d02fcd2bf7e143beae637da991cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.Interaction.Interactable
+  data: {fileID: 0}
+  highlightColor: {r: 0.5, g: 1, b: 0.5, a: 1}
+  interactPoint: {fileID: 0}
+  clickText: A simple chair. It squeaks a little when I sit.
+  onClicked:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!60 &6274805586613360489
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3970599675889872616}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.31, y: 7.33}
+    newSize: {x: 5.31, y: 7.33}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -2.655, y: -0.385}
+      - {x: -2.645, y: -0.345}
+      - {x: -2.635, y: -0.325}
+      - {x: -0.005, y: 2.445}
+      - {x: 0.005, y: 2.455}
+      - {x: 0.035, y: 2.475}
+      - {x: 2.395, y: 3.655}
+      - {x: 2.425, y: 3.665}
+      - {x: 2.515, y: 3.665}
+      - {x: 2.555, y: 3.655}
+      - {x: 2.575, y: 3.645}
+      - {x: 2.615, y: 3.615}
+      - {x: 2.635, y: 3.585}
+      - {x: 2.655, y: 3.545}
+      - {x: 2.655, y: 0.305}
+      - {x: 2.505, y: -0.465}
+      - {x: 1.085, y: -3.565}
+      - {x: 1.075, y: -3.585}
+      - {x: 1.045, y: -3.625}
+      - {x: 1.015, y: -3.645}
+      - {x: 0.995, y: -3.655}
+      - {x: 0.965, y: -3.665}
+      - {x: -0.985, y: -3.665}
+      - {x: -1.025, y: -3.645}
+      - {x: -1.055, y: -3.625}
+      - {x: -1.065, y: -3.615}
+      - {x: -1.085, y: -3.585}
+      - {x: -1.105, y: -3.545}
+      - {x: -2.645, y: -0.455}
+      - {x: -2.655, y: -0.425}
+  m_UseDelaunayMesh: 1
