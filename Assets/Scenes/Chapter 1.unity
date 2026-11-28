@@ -268,7 +268,7 @@ PrefabInstance:
       objectReference: {fileID: 1591322234}
     - target: {fileID: 2892433958259341229, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
       propertyPath: previewMobileInEditor
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4830273464749404032, guid: f927002f492b8f94ab2daef198f27e58, type: 3}
       propertyPath: cameraDetector
@@ -786,6 +786,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &961739754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961739749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3140a1b671a84527a0266bde151ff9c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.Rendering.CameraFocus
+  duration: 0.6
 --- !u!1001 &1132738313
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -983,17 +996,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627d02fcd2bf7e143beae637da991cdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room.Interaction.Interactable
---- !u!114 &1900000005 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4237922084991711658, guid: 15aad6e2fad544f5693141b28de56901, type: 3}
-  m_PrefabInstance: {fileID: 766166168}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 766166169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627d02fcd2bf7e143beae637da991cdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Room.Interaction.Interactable
 --- !u!114 &1900000006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1086,6 +1088,8 @@ MonoBehaviour:
   insuredOutcome: {fileID: 11400000, guid: 519bcb9a084393f46b97e6bfff472007, type: 2}
   uninsuredOutcome: {fileID: 11400000, guid: dc81a5bb9b8b54e40825b9cc7b8024b0, type: 2}
   laptopRepairCost: 12000
+  friendCompensation: 1500
+  waitForInsuranceClaim: 0
   friendLeavesCue: friend_leaves
   insuredEnding: {fileID: 11400000, guid: bc1485eab507155449a73f5bb28f2856, type: 2}
   uninsuredEnding: {fileID: 11400000, guid: 9d529878650c4014a955397cbfe7ebe5, type: 2}
@@ -1346,19 +1350,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11aef79b8254449478cb6259c95ee75d, type: 3}
---- !u!114 &961739754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 961739749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3140a1b671a84527a0266bde151ff9c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Room.Rendering.CameraFocus
-  duration: 0.6
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

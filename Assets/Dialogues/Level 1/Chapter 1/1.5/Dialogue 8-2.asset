@@ -14,20 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueData
   lines:
   - speaker: '{player}'
-    text: Noooo, my new computer.
+    text: "Noooo, my new laptop."
     cue: 
   - speaker: Friend
-    text: "I\u2019m sorry, but I have something to do, so I\u2019ll be leaving now."
-    cue: 
-  - speaker: 
-    text: The friend walked away quickly.
-    cue: friend_leaves
-  - speaker: '{player}'
-    text: "How could I be so unlucky? I\u2019m definitely getting home insurance
-      next time."
+    text: "I am very sorry. I will do my best to make amends."
     cue: 
   - speaker: '{player}'
-    text: "This time, I\u2019ll have to buy a new one."
+    text: "How could I be so unlucky? I\u2019m definitely getting home insurance next time."
+    cue: 
+  - speaker: Friend
+    text: "Would SEK 1,500 be okay? That\u2019s all the money I have."
+    cue: 
+  - speaker: '{player}'
+    text: "Are you serious?"
     cue: 
   choicePrompt:
     speaker: 

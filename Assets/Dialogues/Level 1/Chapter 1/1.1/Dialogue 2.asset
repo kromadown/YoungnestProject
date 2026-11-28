@@ -14,15 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueData
   lines:
   - speaker: '{player}'
-    text: My mom reminded me to get insurance for my new computer, but I haven't
-      bought any yet.
+    text: "My mom reminded me to get insurance for my new laptop, but I haven\u2019t bought any yet."
     cue: 
   choicePrompt:
     speaker: '{player}'
     text: 
     cue: 
   choices:
-  - text: Just in case, buy one. (SEK 1,500)
+  - text: Just in case, buy one. (Includes add-ons, SEK 1,500)
     nextDialogue: {fileID: 0}
     rememberKey: insurance
     rememberValue: bought

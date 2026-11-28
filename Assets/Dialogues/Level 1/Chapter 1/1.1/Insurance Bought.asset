@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueData
   lines:
   - speaker: 
-    text: You kept the receipts and took photos of your computer, as required by
+    text: You kept the receipts and took photos of your laptop, as required by
       your home insurance policy.
     cue: 
   choicePrompt:

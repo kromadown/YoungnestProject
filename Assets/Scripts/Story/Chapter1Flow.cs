@@ -59,6 +59,8 @@ namespace Story
         [SerializeField] private DialogueData uninsuredOutcome;
         [Tooltip("Paid from the wallet when the player has no insurance. Shown on the Chapter Complete screen as {laptop_cost}.")]
         [SerializeField, Min(0)] private int laptopRepairCost = 12000;
+        [SerializeField, Min(0)] private int friendCompensation = 1500;
+        [SerializeField] private bool waitForInsuranceClaim;
         [SerializeField] private string friendLeavesCue = "friend_leaves";
 
         [Header("1.5 The Reveal")]
@@ -75,6 +77,7 @@ namespace Story
 
         private bool _insured;
         private bool _momMessageSent;
+        private bool _claimDone;
         private Sprite _doorClosedSprite;
 
         private void Start()
@@ -157,6 +160,7 @@ namespace Story
             DialogueManager.CueFired += OnCue;
             yield return Play(_insured ? insuredOutcome : uninsuredOutcome);
             DialogueManager.CueFired -= OnCue;
+            if (_insured && waitForInsuranceClaim) yield return new WaitUntil(() => _claimDone);
             if (!_insured) PayForLaptop();
             yield return Play(_insured ? insuredEnding : uninsuredEnding);
 
@@ -244,10 +248,17 @@ namespace Story
         // The amount is remembered so the Chapter Complete screen can show it.
         private void PayForLaptop()
         {
-            if (!PlayerProfile.TrySpend(laptopRepairCost))
-                Debug.LogWarning($"Laptop costs {laptopRepairCost} but the wallet has only {PlayerProfile.Money}.", this);
+            int cost = Mathf.Max(0, laptopRepairCost - friendCompensation);
+            if (!PlayerProfile.TrySpend(cost))
+                Debug.LogWarning($"Laptop costs {cost} but the wallet has only {PlayerProfile.Money}.", this);
 
-            StoryChoices.Set("laptop_cost", laptopRepairCost.ToString("N0", CultureInfo.InvariantCulture));
+            StoryChoices.Set("laptop_cost", cost.ToString("N0", CultureInfo.InvariantCulture));
+        }
+
+        [ContextMenu("Complete Insurance Claim")]
+        public void CompleteInsuranceClaim()
+        {
+            _claimDone = true;
         }
 
         private void FriendLeaves()

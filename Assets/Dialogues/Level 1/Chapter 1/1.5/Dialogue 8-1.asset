@@ -13,11 +13,17 @@ MonoBehaviour:
   m_Name: Dialogue 8-1
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueData
   lines:
-  - speaker: '{player}'
-    text: Don't worry, I bought home insurance for my computer.
+  - speaker: Friend
+    text: "I am very sorry. I will do my best to make amends."
+    cue: 
+  - speaker: Friend
+    text: "Would SEK 1,500 be okay? That\u2019s all the money I have."
     cue: 
   - speaker: '{player}'
-    text: I just need to upload my details and documents to receive compensation.
+    text: "Sure, don\u2019t worry, I bought home insurance for my laptop."
+    cue: 
+  - speaker: '{player}'
+    text: "I just need to upload my details and documents to receive compensation."
     cue: 
   choicePrompt:
     speaker: 
