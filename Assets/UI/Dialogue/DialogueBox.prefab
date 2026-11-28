@@ -1298,6 +1298,8 @@ GameObject:
   - component: {fileID: 6216273468729761701}
   - component: {fileID: 6936473827952544672}
   - component: {fileID: 9209424831465874684}
+  - component: {fileID: 5028967935265218492}
+  - component: {fileID: 4809285809835626679}
   m_Layer: 5
   m_Name: DialogueBox
   m_TagString: Untagged
@@ -1563,3 +1565,55 @@ MonoBehaviour:
   m_EffectColor: {r: 0.1843, g: 0.2824, b: 0.3451, a: 1}
   m_EffectDistance: {x: 4, y: -4}
   m_UseGraphicAlpha: 1
+--- !u!114 &5028967935265218492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7535418577370226508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14b2a20302ac47f4829635c6da9f8657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.UI.OrientationCanvasScaler
+  portraitMatch: 0
+--- !u!114 &4809285809835626679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7535418577370226508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b62e35af9b04a3fa0da1720f7370d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.UI.PortraitLayout
+  rects:
+  - target: {fileID: 1189802219399302483}
+    anchorMin: {x: 0, y: 0}
+    anchorMax: {x: 1, y: 0}
+    offsetMin: {x: 24, y: 24}
+    offsetMax: {x: -24, y: 384}
+  - target: {fileID: 3390806720790346018}
+    anchorMin: {x: 0, y: 0}
+    anchorMax: {x: 0, y: 0}
+    offsetMin: {x: 24, y: 404}
+    offsetMax: {x: 344, y: 474}
+  - target: {fileID: 3424273561492294749}
+    anchorMin: {x: 0, y: 0}
+    anchorMax: {x: 1, y: 1}
+    offsetMin: {x: 24, y: 500}
+    offsetMax: {x: -24, y: -200}
+  fonts:
+  - target: {fileID: 7550150923348927908}
+    fontSize: 46
+  - target: {fileID: 1449445406780695704}
+    fontSize: 64
+  - target: {fileID: 2051243001259782308}
+    fontSize: 40
+  - target: {fileID: 5993865068493566831}
+    fontSize: 42
+  - target: {fileID: 1001527701009997875}
+    fontSize: 48

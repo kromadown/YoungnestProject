@@ -2395,6 +2395,7 @@ GameObject:
   - component: {fileID: 1815388993660767911}
   - component: {fileID: 1916084838526441210}
   - component: {fileID: 3040144682136246380}
+  - component: {fileID: 8595704806517747698}
   m_Layer: 5
   m_Name: RoomHUD
   m_TagString: Untagged
@@ -4149,3 +4150,16 @@ PolygonCollider2D:
       - {x: -2.645, y: -0.455}
       - {x: -2.655, y: -0.425}
   m_UseDelaunayMesh: 1
+--- !u!114 &8595704806517747698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6004443138837879642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14b2a20302ac47f4829635c6da9f8657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.UI.OrientationCanvasScaler
+  portraitMatch: 0
