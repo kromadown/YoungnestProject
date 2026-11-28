@@ -3767,6 +3767,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6361804903730874519}
   - component: {fileID: 1188207894875048476}
+  - component: {fileID: 5112660932056873741}
   m_Layer: 0
   m_Name: RoomRoot
   m_TagString: Untagged
@@ -4163,3 +4164,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room.UI.OrientationCanvasScaler
   portraitMatch: 0
+--- !u!114 &5112660932056873741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9022101727097427253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f6151e980a4139ab1f73c1fb936e2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room.Rendering.PortraitCameraFollow
+  cam: {fileID: 0}
+  target: {fileID: 606665933172884911}
+  area: {fileID: 2198910036700407138}
+  smoothTime: 0.25
