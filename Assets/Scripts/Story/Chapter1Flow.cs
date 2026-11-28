@@ -37,6 +37,7 @@ namespace Story
         [SerializeField] private Interactable door;
         [SerializeField] private SpriteRenderer doorRenderer;
         [SerializeField] private Sprite doorOpenSprite;
+        [SerializeField, Min(0.1f)] private float knockFocusSize = 3f;
         [SerializeField] private GameObject friend;
         [SerializeField] private DialogueData friendArrives;
 
@@ -52,6 +53,8 @@ namespace Story
         [SerializeField] private GameObject spilledCoffee;
         [SerializeField] private SpriteRenderer laptopRenderer;
         [SerializeField] private Sprite brokenLaptopSprite;
+        [SerializeField] private CameraFocus cameraFocus;
+        [SerializeField, Min(0.1f)] private float spillFocusSize = 2.5f;
         [SerializeField] private DialogueData insuredOutcome;
         [SerializeField] private DialogueData uninsuredOutcome;
         [Tooltip("Paid from the wallet when the player has no insurance. Shown on the Chapter Complete screen as {laptop_cost}.")]
@@ -109,7 +112,9 @@ namespace Story
             yield return AskInsurance();
 
             yield return new WaitForSeconds(knockDelay);
+            FocusOnDoor();
             yield return Play(knock);
+            if (cameraFocus != null) cameraFocus.Release();
             
             ActivateObjective(doorObjective);
 
@@ -147,6 +152,7 @@ namespace Story
             yield return Play(spill);
             DialogueManager.CueFired -= OnCue;
             BreakLaptop();
+            if (cameraFocus != null) cameraFocus.Release();
 
             DialogueManager.CueFired += OnCue;
             yield return Play(_insured ? insuredOutcome : uninsuredOutcome);
@@ -207,7 +213,11 @@ namespace Story
         private void OnCue(string cue)
         {
             if (cue == momMessageCue) SendMomMessage();
-            else if (cue == spillCue) BreakLaptop();
+            else if (cue == spillCue)
+            {
+                BreakLaptop();
+                FocusOnSpill();
+            }
             else if (cue == friendLeavesCue) FriendLeaves();
         }
 
@@ -244,6 +254,26 @@ namespace Story
         {
             if (friend != null) friend.SetActive(false);
             if (doorRenderer != null && _doorClosedSprite != null) doorRenderer.sprite = _doorClosedSprite;
+        }
+
+        private void FocusOnDoor()
+        {
+            if (cameraFocus == null) return;
+
+            Vector3 point = doorRenderer != null ? doorRenderer.bounds.center
+                : door != null ? door.transform.position
+                : cameraFocus.transform.position;
+            cameraFocus.FocusOn(point, knockFocusSize);
+        }
+
+        private void FocusOnSpill()
+        {
+            if (cameraFocus == null) return;
+
+            Vector3 point = laptopRenderer != null ? laptopRenderer.bounds.center
+                : spilledCoffee != null ? spilledCoffee.transform.position
+                : cameraFocus.transform.position;
+            cameraFocus.FocusOn(point, spillFocusSize);
         }
 
         private void BreakLaptop()

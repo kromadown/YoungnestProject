@@ -10,6 +10,7 @@ namespace Room.Rendering
         [SerializeField, Min(0f)] float smoothTime = 0.25f;
 
         Vector3 landscapePosition;
+        CameraFocus focus;
         float velocity;
         bool wasPortrait;
 
@@ -19,11 +20,13 @@ namespace Room.Rendering
             if (cam == null) return;
 
             landscapePosition = cam.transform.position;
+            focus = cam.GetComponent<CameraFocus>();
         }
 
         void LateUpdate()
         {
             if (cam == null || target == null || area == null) return;
+            if (focus != null && focus.IsFocusing) return;
 
             bool portrait = Screen.height > Screen.width;
             if (!portrait)
